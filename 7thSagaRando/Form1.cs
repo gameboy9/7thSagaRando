@@ -92,7 +92,7 @@ namespace _7thSagaRando
         private void saveRom()
         {
             string options = "";
-            string finalFile = Path.Combine(Path.GetDirectoryName(txtFileName.Text), "DQ12R_" + txtSeed.Text + "_" + txtFlags.Text + ".smc");
+            string finalFile = Path.Combine(Path.GetDirectoryName(txtFileName.Text), "7SR_" + txtSeed.Text + "_" + txtFlags.Text + ".smc");
             File.WriteAllBytes(finalFile, romData);
             lblStatus.Text = "ROM hacking complete!  (" + finalFile + ")";
             txtCompare.Text = finalFile;
@@ -251,6 +251,8 @@ namespace _7thSagaRando
             for (byte lnI = 0; lnI < monsterZoneRanking.Length; lnI++)
             {
                 int byteToUse = 0x58df + (monsterZoneRanking[lnI] * 24);
+                for (byte lnJ = 0; lnJ < 24; lnJ++)
+                    romData[byteToUse + lnJ] = 0x00;
                 for (byte lnJ = 0; lnJ < 8; lnJ++)
                 {
                     byte minMonster = (byte)(lnI < 46 ? 0 : 10 + ((lnI - 46) * 2));
@@ -292,13 +294,14 @@ namespace _7thSagaRando
             for (int lnI = 0; lnI < monsterRanking.Length; lnI++)
             {
                 int byteToUse = 0x72f4 + (monsterRanking[lnI] * 42);
+                if (romData[byteToUse] == 0x46 || romData[byteToUse] == 0x00) continue; // Do not randomize Gorsia or blank monsters.
                 for (int lnJ = 0; lnJ < 16; lnJ++)
                     romData[byteToUse + lnJ + 11] = 0x00;
                 if (r1.Next() % 2 == 0)
                 {
                     int spellTotal = 100;
                     bool duplicate = false;
-                    for (int lnJ = 0; lnJ < 8; lnJ++)
+                    for (int lnJ = 0; lnJ < 7; lnJ++)
                     {
                         romData[byteToUse + lnJ + 11] = legalSpells[lnJ];
                         for (int lnK = 0; lnK < lnJ; lnK++)
@@ -309,9 +312,9 @@ namespace _7thSagaRando
                         if (spellTotal <= 0) break;
                     }
 
-                    int mp = romData[byteToUse + 1] + (romData[byteToUse + 2] * 256);
-                    if (mp < 8) {
-                        mp = r1.Next() % 32;
+                    int mp = romData[byteToUse + 3] + (romData[byteToUse + 4] * 256);
+                    if (mp < 40) {
+                        mp = r1.Next() % 80;
                         romData[byteToUse + 1] = (byte)mp;
                     }
                 }
@@ -328,33 +331,34 @@ namespace _7thSagaRando
                 {
                     writer.WriteLine(lnI == 0 ? "Kamil" : lnI == 1 ? "Olvan" : lnI == 2 ? "Esuna" : lnI == 3 ? "Wilme" : lnI == 4 ? "Lux" : lnI == 5 ? "Valsu" : "Lejes");
                     int byteToUse = 0x623f + (18 * lnI);
-                    romData[byteToUse] = (byte)(r1.Next() % 16 + 12); // Starting HP
-                    romData[byteToUse + 2] = (byte)(r1.Next() % 21 + 0); // Starting MP
-                    romData[byteToUse + 4] = (byte)(r1.Next() % (lnI >= 2 ? 8 : 7) + (lnI == 3 || lnI == 4 ? 3 : 2)); // Starting Power
-                    romData[byteToUse + 5] = (byte)(r1.Next() % (lnI >= 2 ? 8 : 7) + (lnI == 3 || lnI == 4 ? 3 : 2)); // Starting Guard
-                    romData[byteToUse + 6] = (byte)(r1.Next() % 7 + 3); // Starting Magic
-                    romData[byteToUse + 7] = (byte)(r1.Next() % 7 + 3); // Starting Speed
-                    romData[byteToUse + 8] = (byte)(r1.Next() % 7 + 4); // HP Boost
-                    romData[byteToUse + 9] = (byte)(r1.Next() % 6 + 2); // MP Boost
-                    romData[byteToUse + 10] = (byte)(r1.Next() % (lnI >= 2 ? 6 : 5) + (lnI == 3 || lnI == 4 ? 3 : 2)); // Power Boost
-                    romData[byteToUse + 11] = (byte)(r1.Next() % (lnI >= 2 ? 6 : 5) + (lnI == 3 || lnI == 4 ? 3 : 2)); // Guard Boost
-                    romData[byteToUse + 12] = (byte)(r1.Next() % 3 + 3); // Magic Boost
-                    romData[byteToUse + 13] = (byte)(r1.Next() % 3 + 3); // Speed Boost
-                                                                         // 14-16 - Weapon/Armor/Shield
-                    romData[byteToUse + 17] = (byte)(r1.Next() % 100 + 0); // Starting Experience
+                    romData[byteToUse] = (byte)(r1.Next() % 16 + 12); // Starting HP - 12-27
+                    romData[byteToUse + 2] = (byte)(r1.Next() % 21 + 0); // Starting MP - 0-21
+                    romData[byteToUse + 4] = (byte)(r1.Next() % (lnI == 3 || lnI == 4 ? 9 : lnI == 2 || lnI >= 5 ? 8 : 7) + 2); // Starting Power - Kamil/Olvan, 2-8, Esuna/Valsu/Lejes, 2-9, Lux/Wilme, 2-10
+                    romData[byteToUse + 5] = (byte)(r1.Next() % (lnI == 3 || lnI == 4 ? 9 : lnI == 2 || lnI >= 5 ? 8 : 7) + 2); // Starting Guard - Kamil/Olvan, 2-8, Esuna/Valsu/Lejes, 2-9, Lux/Wilme, 2-10
+                    romData[byteToUse + 6] = (byte)(r1.Next() % 7 + 3); // Starting Magic - 3-9
+                    romData[byteToUse + 7] = (byte)(r1.Next() % 7 + 3); // Starting Speed - 3-9
+                    romData[byteToUse + 8] = (byte)(r1.Next() % 7 + 4); // HP Boost - 4-10
+                    romData[byteToUse + 9] = (byte)(r1.Next() % (lnI == 2 || lnI == 5 || lnI == 6 ? 7 : 5) + 2); // MP Boost - Esuna/Valsu/Lejes, 2-8, all others, 2-6
+                    romData[byteToUse + 10] = (byte)(r1.Next() % (lnI == 3 || lnI == 4 ? 7 : lnI == 0 || lnI == 1 ? 6 : 5) + 2); // Power Boost - Lux/Wilme, 2-8, Kamil/Olvan, 2-7, Esuna/Valsu/Lejes, 2-6
+                    romData[byteToUse + 11] = (byte)(r1.Next() % (lnI == 3 || lnI == 4 ? 7 : lnI == 0 || lnI == 1 ? 6 : 5) + 2); // Guard Boost - Lux/Wilme, 2-8, Kamil/Olvan, 2-7, Esuna/Valsu/Lejes, 2-6
+                    romData[byteToUse + 12] = (byte)(r1.Next() % (lnI == 2 || lnI == 5 || lnI == 6 ? 5 : 4) + 2); // Magic Boost - Esuna/Valsu/Lejes, 2-6, all others 2-5
+                    romData[byteToUse + 13] = (byte)(r1.Next() % (lnI == 2 || lnI == 5 || lnI == 6 ? 5 : 4) + 2); // Speed Boost - Esuna/Valsu/Lejes, 2-6, all others 2-5
+                    // 14-16 - Weapon/Armor/Shield
+                    romData[byteToUse + 17] = (byte)(r1.Next() % 100 + 0); // Starting Experience - 0-99
 
                     writer.WriteLine("Start:   HP:  " + romData[byteToUse] + "  MP:  " + romData[byteToUse + 2] + "  PWR:  " + romData[byteToUse + 4] + "  GRD:  " + romData[byteToUse + 5] + "  MAG:  " + romData[byteToUse + 6] + "  SPD:  " + romData[byteToUse + 7]);
                     writer.WriteLine("Growth:  HP:  " + romData[byteToUse + 8] + "  MP:  " + romData[byteToUse + 9] + "  PWR:  " + romData[byteToUse + 10] + "  GRD:  " + romData[byteToUse + 11] + "  MAG:  " + romData[byteToUse + 12] + "  SPD:  " + romData[byteToUse + 13]);
 
                     List<byte> actualSpells = new List<byte>();
                     // Learn spells as long as you don't duplicate another spell.
+                    // Lux/Wilme get one duplicate chance only.  Kamil and Olvan get 10 chances, Lejes gets 50 chances, and Esuna and Valsu get 100 chances. (Lejes gets to equip more stuff than Esuna and Valsu)
+                    int duplicateChances = (lnI == 3 || lnI == 4 ? 1 : lnI == 0 || lnI == 1 ? 10 : lnI == 6 ? 50 : 100);
                     for (int lnJ = 0; lnJ < 16; lnJ++)
                     {
                         actualSpells.Add(legalSpells[r1.Next() % legalSpells.Length]);
-                        bool duplicate = false;
                         for (int lnK = 0; lnK < lnJ; lnK++)
-                            if (actualSpells[lnJ] == actualSpells[lnK]) { duplicate = true; actualSpells.RemoveAt(actualSpells.Count - 1); break; }
-                        if (duplicate) break;
+                            if (actualSpells[lnJ] == actualSpells[lnK]) { duplicateChances--; actualSpells.RemoveAt(actualSpells.Count - 1); lnJ--; break; }
+                        if (duplicateChances <= 0) break;
                     }
 
                     int[] spellLevels = inverted_power_curve(1, 45, actualSpells.Count, 1, r1);
@@ -381,6 +385,47 @@ namespace _7thSagaRando
 
         private void randomizeTreasures(Random r1)
         {
+            for (int lnI = 0; lnI < 0xa6; lnI++)
+            {
+                int byteToUse = 0x8bfd + lnI;
+                // Skip if a key treasure is involved because of trigger setting.
+                if (romData[byteToUse] >= 0x51 && romData[byteToUse] <= 0x63) continue;
+                if (romData[byteToUse] >= 0x03 && romData[byteToUse] <= 0x0a) continue;
+
+                byte[] commonItems = {
+                    0x01, 0x02, 0x0b, 0x0c, 0x0d, 0x11, 0x12, 0x13,
+                    0x14, 0x29, 0x2d, 0x2e, 0x30, 0x32, 0x34, 0x35,
+                    0x38, 0x39, 0x3a, 0x43, 0x44, 0x47, 0x48, 0x49,
+                    0x4a
+                };
+                byte[] rareItems = { 0x15, 0x16, 0x17, 0x18, 0x19, 0x1a, 0x1b, 0x4b, 0x4c, 0x4d };
+                byte[] weapons = {
+                    0x65, 0x66, 0x67, 0x68, 0x69, 0x6a, 0x6b, 0x6c,
+                    0x6d, 0x6e, 0x6f, 0x70, 0x71, 0x72, 0x73, 0x74,
+                    0x77, 0x78, 0x79, 0x7a, 0x7b, 0x7c, 0x7d, 0x7e,
+                    0x7f, 0x80, 0x81, 0x82, 0x83, 0x85, 0x86, 0x87,
+                    0x88, 0x89, 0x8a, 0x8b, 0x8d, 0x8e, 0x8f, 0x90,
+                    0x91, 0x92, 0x93, 0x94, 0x95, 0x96,
+                    0x97, 0x98, 0x99, 0x9a, 0x9b, 0x9c, 0x9d, 0x9e,
+                    0x9f, 0xa0, 0xa1, 0xa2, 0xa3, 0xa4, 0xa5, 0xa6,
+                    0xa7, 0xa8, 0xa9, 0xaa, 0xab, 0xac, 0xad, 0xae,
+                    0xaf, 0xb0, 0xb1, 0xb2, 0xb3, 0xb5, 0xb6, 0xb7,
+                    0xb8, 0xb9, 0xba, 0xbb, 0xbc, 0xbd, 0xbe, 0xbf,
+                    0xc0, 0xc1, 0xc2, 0xc7, 0xc8, 0xc9, 0xca, 0xcb
+                };
+                byte[] monsters = { 0xfb, 0xfc, 0xfd, 0xfe };
+                byte itemGet = (byte)(r1.Next() % 100);
+                if (itemGet < 50)
+                    romData[byteToUse] = commonItems[r1.Next() % commonItems.Length];
+                else if (itemGet < 70)
+                    romData[byteToUse] = rareItems[r1.Next() % rareItems.Length];
+                else if (itemGet < 85)
+                    romData[byteToUse] = rareItems[r1.Next() % rareItems.Length];
+                else if (itemGet < 95)
+                    romData[byteToUse] = monsters[r1.Next() % monsters.Length];
+                else
+                    romData[byteToUse] = 0x00;
+            }
         }
 
         private void randomizeStores(Random r1)
@@ -511,6 +556,7 @@ namespace _7thSagaRando
                 if (r1.Next() % 100 < 10) whoEquip += 0x10;
                 if (r1.Next() % 100 < 35) whoEquip += 0x20;
                 if (r1.Next() % 100 < 50) whoEquip += 0x40;
+                romData[byteToUse + 4] = whoEquip;
             }
             for (int lnI = 0; lnI < armor.Length; lnI++)
             {
@@ -523,6 +569,7 @@ namespace _7thSagaRando
                 if (r1.Next() % 100 < 10) whoEquip += 0x10;
                 if (r1.Next() % 100 < 50) whoEquip += 0x20;
                 if (r1.Next() % 100 < 50) whoEquip += 0x40;
+                romData[byteToUse + 4] = whoEquip;
             }
             for (int lnI = 0; lnI < accessory.Length; lnI++)
             {
@@ -535,6 +582,7 @@ namespace _7thSagaRando
                 if (r1.Next() % 100 < 10) whoEquip += 0x10;
                 if (r1.Next() % 100 < 40) whoEquip += 0x20;
                 if (r1.Next() % 100 < 30) whoEquip += 0x40;
+                romData[byteToUse + 4] = whoEquip;
             }
         }
 

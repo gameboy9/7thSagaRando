@@ -124,7 +124,7 @@
             // trkExperience
             // 
             this.trkExperience.Location = new System.Drawing.Point(224, 298);
-            this.trkExperience.Maximum = 50;
+            this.trkExperience.Maximum = 35;
             this.trkExperience.Minimum = 5;
             this.trkExperience.Name = "trkExperience";
             this.trkExperience.Size = new System.Drawing.Size(156, 45);
@@ -147,7 +147,6 @@
             // chkTreasures
             // 
             this.chkTreasures.AutoSize = true;
-            this.chkTreasures.Enabled = false;
             this.chkTreasures.Location = new System.Drawing.Point(12, 216);
             this.chkTreasures.Name = "chkTreasures";
             this.chkTreasures.Size = new System.Drawing.Size(129, 17);
@@ -271,9 +270,9 @@
             this.lblReqChecksum.AutoSize = true;
             this.lblReqChecksum.Location = new System.Drawing.Point(129, 88);
             this.lblReqChecksum.Name = "lblReqChecksum";
-            this.lblReqChecksum.Size = new System.Drawing.Size(238, 13);
+            this.lblReqChecksum.Size = new System.Drawing.Size(241, 13);
             this.lblReqChecksum.TabIndex = 102;
-            this.lblReqChecksum.Text = "1c0c6d78bf2bc29160adf48b17ebf5a5bc46230e";
+            this.lblReqChecksum.Text = "8d2b8aea636a2239805c99744bf48c0b4df8d96e";
             // 
             // lblRequired
             // 
