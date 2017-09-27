@@ -144,7 +144,7 @@ namespace _7thSagaRando
             int number = (chkMonsterZones.Checked ? 1 : 0) + (chkMonsterPatterns.Checked ? 2 : 0) + (chkHeroStats.Checked ? 4 : 0) +
                 (chkTreasures.Checked ? 8 : 0) + (chkStores.Checked ? 16 : 0) + (chkWhoCanEquip.Checked ? 32 : 0);
             flags += convertIntToChar(number);
-            number = (chkSpeedHacks.Checked ? 1 : 0);
+            number = (chkSpeedHacks.Checked ? 1 : 0) + (chkDoubleWalk.Checked ? 2 : 0);
             flags += convertIntToChar(number);
             flags += convertIntToChar(trkExperience.Value);
             flags += convertIntToChar(trkGoldReq.Value - 10);
@@ -171,6 +171,7 @@ namespace _7thSagaRando
 
             number = convertChartoInt(Convert.ToChar(flags.Substring(1, 1)));
             chkSpeedHacks.Checked = (number % 2 == 1);
+            chkDoubleWalk.Checked = (number % 4 >= 2);
 
             trkExperience.Value = convertChartoInt(Convert.ToChar(flags.Substring(2, 1)));
             trkExperience_Scroll(null, null);
@@ -264,6 +265,7 @@ namespace _7thSagaRando
                 if (chkStores.Checked) randomizeStores(r1);
                 if (chkWhoCanEquip.Checked) randomizeWhoCanEquip(r1);
                 if (chkSpeedHacks.Checked) speedHacks();
+                if (chkDoubleWalk.Checked) doubleWalk();
                 goldRequirements(r1);
                 monsterStats(r1);
                 heroStats(r1);
@@ -319,6 +321,46 @@ namespace _7thSagaRando
             romData[0xa0337] = 0x00;
             romData[0xa048e] = 0x01;
 
+            // Menu wraparound (bottom to top - don't work if the menu requires one "screen" only.  I will work on that...)
+            byte[] romPlugin = { 0x5c, 0x60, 0xf6, 0xc2 };
+            for (int lnI = 0; lnI < romPlugin.Length; lnI++)
+                romData[0x474fa + lnI] = romPlugin[lnI];
+
+            romPlugin = new byte[] { 0xb5, 0x37,
+                0x18,
+                0x75, 0x3d,
+                0xd5, 0x35,
+                0xb0, 0x04,
+                0x5c, 0x03, 0x75, 0xc4,
+                0xa9, 0x00,
+                0x95, 0x36,
+                0x95, 0x37,
+                0x5c, 0x07, 0x75, 0xc4 };
+            for (int lnI = 0; lnI < romPlugin.Length; lnI++)
+                romData[0x2f660 + lnI] = romPlugin[lnI];
+
+            // Menu wraparound (top to bottom)
+            romPlugin = new byte[] { 0x5c, 0x80, 0xf6, 0xc2 };
+            for (int lnI = 0; lnI < romPlugin.Length; lnI++)
+                romData[0x4748e + lnI] = romPlugin[lnI];
+
+            romPlugin = new byte[] { 0xb5, 0x37,
+                0xf0, 0x04,
+                0x5c, 0x92, 0x74, 0xc4,
+                0xb5, 0x35,
+                0x38,
+                0xf5, 0x3d,
+                0x95, 0x37,
+                0xb5, 0x3d,
+                0x3a,
+                0x95, 0x36,
+                0x5c, 0x94, 0x74, 0xc4 };
+            for (int lnI = 0; lnI < romPlugin.Length; lnI++)
+                romData[0x2f680 + lnI] = romPlugin[lnI];
+        }
+
+        private void doubleWalk()
+        {
             // Double walking speed
             for (int lnI = 0x423f7; lnI < 0x42526; lnI++)
             {
@@ -750,6 +792,7 @@ namespace _7thSagaRando
             {
                 int byteToUse = 0x7018 + (12 * lnI);
                 statAdjust(r1, byteToUse + 3, 1, trkSpellCosts.Value / 10, 0.5);
+                statAdjust(r1, byteToUse, 2, trkSpellCosts.Value / 10, 1.0);
             }
         }
 

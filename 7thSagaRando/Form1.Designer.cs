@@ -71,6 +71,7 @@
             this.label4 = new System.Windows.Forms.Label();
             this.lblHeroStats = new System.Windows.Forms.Label();
             this.trkHeroStats = new System.Windows.Forms.TrackBar();
+            this.chkDoubleWalk = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.trkGoldReq)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.trkExperience)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.trkMonsterStats)).BeginInit();
@@ -346,7 +347,7 @@
             // lblStatus
             // 
             this.lblStatus.AutoSize = true;
-            this.lblStatus.Location = new System.Drawing.Point(12, 325);
+            this.lblStatus.Location = new System.Drawing.Point(12, 368);
             this.lblStatus.Name = "lblStatus";
             this.lblStatus.Size = new System.Drawing.Size(0, 13);
             this.lblStatus.TabIndex = 129;
@@ -427,9 +428,9 @@
             this.label2.AutoSize = true;
             this.label2.Location = new System.Drawing.Point(294, 273);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(59, 13);
+            this.label2.Size = new System.Drawing.Size(99, 13);
             this.label2.TabIndex = 139;
-            this.label2.Text = "Spell Costs";
+            this.label2.Text = "Spell Powers/Costs";
             // 
             // lblSpellCosts
             // 
@@ -457,9 +458,9 @@
             this.chkSpeedHacks.AutoSize = true;
             this.chkSpeedHacks.Location = new System.Drawing.Point(12, 285);
             this.chkSpeedHacks.Name = "chkSpeedHacks";
-            this.chkSpeedHacks.Size = new System.Drawing.Size(210, 17);
+            this.chkSpeedHacks.Size = new System.Drawing.Size(192, 17);
             this.chkSpeedHacks.TabIndex = 140;
-            this.chkSpeedHacks.Text = "Speed Hacks (minor graphical glitches)";
+            this.chkSpeedHacks.Text = "Menu wraparound/fast start screen";
             this.chkSpeedHacks.UseVisualStyleBackColor = true;
             this.chkSpeedHacks.CheckedChanged += new System.EventHandler(this.determineFlags);
             // 
@@ -493,11 +494,23 @@
             this.trkHeroStats.Value = 10;
             this.trkHeroStats.Scroll += new System.EventHandler(this.trkHeroStats_Scroll);
             // 
+            // chkDoubleWalk
+            // 
+            this.chkDoubleWalk.AutoSize = true;
+            this.chkDoubleWalk.Location = new System.Drawing.Point(12, 308);
+            this.chkDoubleWalk.Name = "chkDoubleWalk";
+            this.chkDoubleWalk.Size = new System.Drawing.Size(213, 17);
+            this.chkDoubleWalk.TabIndex = 144;
+            this.chkDoubleWalk.Text = "2x walk speed (minor graphical glitches)";
+            this.chkDoubleWalk.UseVisualStyleBackColor = true;
+            this.chkDoubleWalk.CheckedChanged += new System.EventHandler(this.determineFlags);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(633, 368);
+            this.ClientSize = new System.Drawing.Size(633, 409);
+            this.Controls.Add(this.chkDoubleWalk);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.lblHeroStats);
             this.Controls.Add(this.chkSpeedHacks);
@@ -600,6 +613,7 @@
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label lblHeroStats;
         private System.Windows.Forms.TrackBar trkHeroStats;
+        private System.Windows.Forms.CheckBox chkDoubleWalk;
     }
 }
 
