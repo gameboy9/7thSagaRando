@@ -16,8 +16,7 @@ namespace _7thSagaRando
                                       0x51, 0x0e, 0x2e, 0x0f, 0x16, 0x44, 0x1d, 0x49,
                                       0x3e, 0x45, 0x31, 0x4c, 0x56, 0x57, 0x54, 0x46,
                                       0x17, 0x4d, 0x42, 0x52, 0x4f, 0x47, 0x18, 0x53,
-                                      0x48, 0x32, 0x3f, 0x1f, 0x20, 0x23, 0x27, 0x58,
-                                      0x4a, 0x59 }; // 66 monsters total
+                                      0x48, 0x32, 0x3f, 0x1f, 0x20, 0x58, 0x4a }; // 63 monsters total (in random encounters)
         byte[] legalSpells = { 1, 2, 3, 4, 5, 6, 7,
                                 12, 13, 14, 15,
                                 16, 17, 21, 22, 23,
@@ -339,17 +338,39 @@ namespace _7thSagaRando
             for (int lnI = 0; lnI < romPlugin.Length; lnI++)
                 romData[0x2f660 + lnI] = romPlugin[lnI];
 
+            // Menu wraparound (bottom to top - one "screen" only.)
+            romPlugin = new byte[] { 0x5c, 0xb0, 0xf6, 0xc2 };
+            for (int lnI = 0; lnI < romPlugin.Length; lnI++)
+                romData[0x474e3 + lnI] = romPlugin[lnI];
+
+            romPlugin = new byte[] { 0xb5, 0x36,
+                0x1a,
+                0xd5, 0x35,
+                0xb0, 0x04,
+                0x5c, 0xea, 0x74, 0xc4,
+                0xa9, 0x00,
+                0x95, 0x36,
+                0x95, 0x37,
+                0x5c, 0x07, 0x75, 0xc4 };
+            for (int lnI = 0; lnI < romPlugin.Length; lnI++)
+                romData[0x2f6b0 + lnI] = romPlugin[lnI];
+
             // Menu wraparound (top to bottom)
             romPlugin = new byte[] { 0x5c, 0x80, 0xf6, 0xc2 };
             for (int lnI = 0; lnI < romPlugin.Length; lnI++)
                 romData[0x4748e + lnI] = romPlugin[lnI];
 
-            romPlugin = new byte[] { 0xb5, 0x37,
-                0xf0, 0x04,
-                0x5c, 0x92, 0x74, 0xc4,
+            romPlugin = new byte[] { 0xb5, 0x37, // LDA $37,x
+                0xf0, 0x04, // BEQ $04
+                0x5c, 0x92, 0x74, 0xc4, 
+                0xb5, 0x35, // LDA $35,x
+                0x38, // SEC
+                0xf5, 0x3d, // SBC $3D,x
+                0x10, 0x09, // BPL
                 0xb5, 0x35,
-                0x38,
-                0xf5, 0x3d,
+                0x3a,
+                0x95, 0x36,
+                0x5c, 0x94, 0x74, 0xc4,
                 0x95, 0x37,
                 0xb5, 0x3d,
                 0x3a,
@@ -391,7 +412,7 @@ namespace _7thSagaRando
                 for (byte lnJ = 0; lnJ < 8; lnJ++)
                 {
                     byte minMonster = (byte)(lnI < 46 ? 0 : 10 + ((lnI - 46) * 2));
-                    byte maxMonster = (byte)(lnI < 6 ? 5 : lnI < 11 ? 10 : lnI < 18 ? 17 : lnI < 25 ? 26 : 66);
+                    byte maxMonster = (byte)(lnI < 6 ? 5 : lnI < 11 ? 10 : lnI < 18 ? 17 : lnI < 25 ? 26 : 63);
                     byte helpChance = (byte)Math.Min(70, 10 + (lnI * 5));
 
                     byte monster1 = (byte)(r1.Next() % (maxMonster - minMonster) + minMonster);
@@ -536,10 +557,10 @@ namespace _7thSagaRando
                 byte itemGet = (byte)(r1.Next() % 100);
                 if (itemGet < 50)
                     romData[byteToUse] = commonItems[r1.Next() % commonItems.Length];
-                else if (itemGet < 70)
+                else if (itemGet < 75)
                     romData[byteToUse] = rareItems[r1.Next() % rareItems.Length];
                 else if (itemGet < 85)
-                    romData[byteToUse] = rareItems[r1.Next() % rareItems.Length];
+                    romData[byteToUse] = weapons[r1.Next() % weapons.Length];
                 else if (itemGet < 95)
                     romData[byteToUse] = monsters[r1.Next() % monsters.Length];
                 else
