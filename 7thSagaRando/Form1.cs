@@ -286,17 +286,54 @@ namespace _7thSagaRando
                     writer.WriteLine("Start:   HP:  " + romData[byteToUse] + "  MP:  " + romData[byteToUse + 2] + "  PWR:  " + romData[byteToUse + 4] + "  GRD:  " + romData[byteToUse + 5] + "  MAG:  " + romData[byteToUse + 6] + "  SPD:  " + romData[byteToUse + 7]);
                     writer.WriteLine("Growth:  HP:  " + romData[byteToUse + 8] + "  MP:  " + romData[byteToUse + 9] + "  PWR:  " + romData[byteToUse + 10] + "  GRD:  " + romData[byteToUse + 11] + "  MAG:  " + romData[byteToUse + 12] + "  SPD:  " + romData[byteToUse + 13]);
 
-                    writer.WriteLine("Spells:");
-                    byteToUse = 0x62bd + (32 * lnI);
-                    for (int lnJ = 0; lnJ < 16; lnJ++)
+                    writer.WriteLine("");
+                    writer.WriteLine("Weapons: (>= 50 attack)");
+                    for (int lnJ = 1; lnJ < 51; lnJ++)
                     {
-                        int spell = romData[byteToUse + lnJ];
-                        if (spell == 0) break;
-                        writer.WriteLine(romData[byteToUse + lnJ + 16].ToString() + " - " + (spell == 1 ? "FIRE 1" : spell == 2 ? "FIRE 2" : spell == 3 ? "ICE 1" : spell == 4 ? "ICE 2" : spell == 5 ? "LASER 1" : spell == 6 ? "LASER 2" : spell == 7 ? "LASER 3" : spell == 12 ? "F BIRD" : spell == 13 ? "F BALL" :
-                            spell == 14 ? "BLZRD 1" : spell == 15 ? "BLZRD 2" : spell == 16 ? "THNDER1" : spell == 17 ? "THNDER2" : spell == 21 ? "PETRIFY" : spell == 22 ? "DEFNSE1" : spell == 23 ? "DEFNSE2" : spell == 24 ? "HEAL 1" : spell == 25 ? "HEAL 2" : spell == 26 ? "HEAL 3" :
-                            spell == 27 ? "MPCTCHR" : spell == 28 ? "AGILITY" : spell == 29 ? "F SHID" : spell == 30 ? "PROTECT" : spell == 31 ? "EXIT" : spell == 33 ? "POWER" : spell == 34 ? "HPCTCHR" : spell == 35 ? "ELIXIR" : spell == 40 ? "VACUUM1" : spell == 41 ? "VACUUM2" :
-                            spell == 45 ? "PURIFY" : spell == 46 ? "REVIVE1" : "REVIVE2"));
+                        byteToUse = 0x639d + (10 * lnJ);
+                        string name = (lnJ == 1 ? "SW Tranq" : lnJ == 2 ? "SW Psyte" : lnJ == 3 ? "SW Anim" : lnJ == 4 ? "SW Kryn" : lnJ == 5 ? "SW Anger" : lnJ == 6 ? "SW Natr" : lnJ == 7 ? "SW Brill" : lnJ == 8 ? "SW Cour" : lnJ == 9 ? "SW Desp" : lnJ == 10 ? "SW Fear" :
+                            lnJ == 11 ? "SW Fire" : lnJ == 12 ? "SW Insa" : lnJ == 13 ? "SW Vict" : lnJ == 14 ? "SW Ansc" : lnJ == 15 ? "SW Doom" : lnJ == 16 ? "SW Fort" : lnJ == 19 ? "SW Tidal" : lnJ == 20 ? "SW Znte" :
+                            lnJ == 21 ? "SW Mura" : lnJ == 22 ? "KN Lght" : lnJ == 23 ? "SB Saber" : lnJ == 24 ? "KN Fire" : lnJ == 25 ? "Claw" : lnJ == 26 ? "HA Znte" : lnJ == 27 ? "HA Kryn" : lnJ == 28 ? "AX Fire" : lnJ == 29 ? "AX Psyte" : lnJ == 30 ? "AX Anim" :
+                            lnJ == 31 ? "AX Anger" : lnJ == 32 ? "AX Power" : lnJ == 33 ? "AX Desp" : lnJ == 34 ? "AX Kryn" : lnJ == 35 ? "AX Fear" : lnJ == 36 ? "AX Myst" : lnJ == 37 ? "AX Hope" : lnJ == 38 ? "AX Immo" : lnJ == 39 ? "SW Sword" :
+                            lnJ == 41 ? "ST Lght" : lnJ == 42 ? "ST Petr" : lnJ == 43 ? "RD Tide" : lnJ == 44 ? "RD Conf" : lnJ == 45 ? "RD Brill" : lnJ == 46 ? "RD Desp" : lnJ == 47 ? "RD Natr" : lnJ == 48 ? "RD Fear" : lnJ == 49 ? "RD Myst" : "RD Immo");
+
+                        int power = romData[byteToUse] + (romData[byteToUse + 1] * 256);
+                        if (name != "" && romData[byteToUse + 4] % Math.Pow(2, lnI + 1) >= Math.Pow(2, lnI) && power >= 50)
+                            writer.WriteLine(name.PadRight(10) + " - " + power.ToString());
                     }
+
+                    writer.WriteLine("");
+                    writer.WriteLine("Armor: (>= 40 defense)");
+                    for (int lnJ = 0; lnJ < 53; lnJ++)
+                    {
+                        byteToUse = 0x659b + (17 * lnJ);
+                        string name = (lnJ == 0 ? "AR Xtri" : lnJ == 1 ? "AR Psyt" : lnJ == 2 ? "AR Anim" : lnJ == 3 ? "AR Royl" : lnJ == 4 ? "AR Cour" : lnJ == 5 ? "AR Brav" : lnJ == 6 ? "AR Mystc" : lnJ == 7 ? "AR Fort" : 
+                            lnJ == 8 ? "ML Scale" : lnJ == 9 ? "ML Chain" : lnJ == 10 ? "ML Kryn" : lnJ == 11 ? "CK Fire" : lnJ == 12 ? "CK Ice" : lnJ == 13 ? "RB Lght" : lnJ == 14 ? "RB Xtre" : lnJ == 15 ? "Xtri" : 
+                            lnJ == 16 ? "Coat" : lnJ == 17 ? "Blck" : lnJ == 18 ? "RB Cttn" : lnJ == 19 ? "RB Silk" : lnJ == 20 ? "RB Seas" : lnJ == 21 ? "RB Hope" : lnJ == 22 ? "RB Anger" : lnJ == 23 ? "RB Vict" : 
+                            lnJ == 24 ? "RB Desp" : lnJ == 25 ? "RB Conf" : lnJ == 26 ? "RB Myst" : lnJ == 27 ? "RB Immo" : lnJ == 28 ? "Brwn" : lnJ == 30 ? "SH Xtri" : lnJ == 31 ? "SH Kryn" : 
+                            lnJ == 32 ? "SH Cour" : lnJ == 33 ? "SH Brill" : lnJ == 34 ? "SH Just" : lnJ == 35 ? "SH Sound" : lnJ == 36 ? "SH Myst" : lnJ == 37 ? "SH Anger" : lnJ == 38 ? "SH Mystc" : lnJ == 39 ? "SH Frtn" :
+                            lnJ == 40 ? "SH Immo" : lnJ == 41 ? "SH Illus" : lnJ == 42 ? "Amulet" : lnJ == 43 ? "Ring" : lnJ == 46 ? "Horn" : lnJ == 47 ? "Pod" : 
+                            lnJ == 48 ? "HT Xtri" : lnJ == 50 ? "Scarf" : lnJ == 51 ? "MK Mask" : lnJ == 52 ? "MK Kryn" : "CR Brill");
+
+                        int power = romData[byteToUse] + (romData[byteToUse + 1] * 256);
+                        if (name != "" && romData[byteToUse + 4] % Math.Pow(2, lnI + 1) >= Math.Pow(2, lnI) && power >= 40)
+                            writer.WriteLine(name.PadRight(10) + " - " + power.ToString());
+                    }
+
+                    //writer.WriteLine("Spells:");
+                    //byteToUse = 0x62bd + (32 * lnI);
+                    //for (int lnJ = 0; lnJ < 16; lnJ++)
+                    //{
+                    //    int spell = romData[byteToUse + lnJ];
+                    //    if (spell == 0) break;
+                    //    writer.WriteLine(romData[byteToUse + lnJ + 16].ToString() + " - " + (spell == 1 ? "FIRE 1" : spell == 2 ? "FIRE 2" : spell == 3 ? "ICE 1" : spell == 4 ? "ICE 2" : spell == 5 ? "LASER 1" : spell == 6 ? "LASER 2" : spell == 7 ? "LASER 3" : spell == 12 ? "F BIRD" : spell == 13 ? "F BALL" :
+                    //        spell == 14 ? "BLZRD 1" : spell == 15 ? "BLZRD 2" : spell == 16 ? "THNDER1" : spell == 17 ? "THNDER2" : spell == 21 ? "PETRIFY" : spell == 22 ? "DEFNSE1" : spell == 23 ? "DEFNSE2" : spell == 24 ? "HEAL 1" : spell == 25 ? "HEAL 2" : spell == 26 ? "HEAL 3" :
+                    //        spell == 27 ? "MPCTCHR" : spell == 28 ? "AGILITY" : spell == 29 ? "F SHID" : spell == 30 ? "PROTECT" : spell == 31 ? "EXIT" : spell == 33 ? "POWER" : spell == 34 ? "HPCTCHR" : spell == 35 ? "ELIXIR" : spell == 40 ? "VACUUM1" : spell == 41 ? "VACUUM2" :
+                    //        spell == 45 ? "PURIFY" : spell == 46 ? "REVIVE1" : "REVIVE2"));
+                    //}
+                    //writer.WriteLine("Weapons to equip:");
+
+
                     writer.WriteLine("");
                 }
             }
@@ -304,9 +341,27 @@ namespace _7thSagaRando
 
         private void apprenticeFightAdjustment()
         {
-            romData[0xbd61] = 0x7f; // Prevent stat boosts when hero level > 10
+            //romData[0xbd61] = 0x7f; // Prevent stat boosts when hero level > 10.  That's cheating.
+            byte[] romPlugin = { 0x22, 0xd0, 0xf6, 0xc2 };
+            for (int lnI = 0; lnI < romPlugin.Length; lnI++)
+            {
+                romData[0x27872 + lnI] = romPlugin[lnI];
+                romData[0x278ad + lnI] = romPlugin[lnI];
+                romData[0x278e8 + lnI] = romPlugin[lnI];
+                romData[0x27923 + lnI] = romPlugin[lnI];
+                romData[0x2795e + lnI] = romPlugin[lnI];
+                romData[0x2799e + lnI] = romPlugin[lnI];
+            }
+
+            romPlugin = new byte[] { 0xa0, 0x02, 0x00,
+                0x22, 0x5b, 0xbd, 0xc0,
+                0x6b };
+
+            for (int lnI = 0; lnI < romPlugin.Length; lnI++)
+                romData[0x2f6d0 + lnI] = romPlugin[lnI];
+
             romData[0xca59] = 0xe9; // Force apprentice to be your level MINUS 1 instead of your level PLUS 1.
-            romData[0x24852] = 0xea; // None of that doubling of XP either.  Sorry, that's cheating.
+            romData[0x24852] = 0xea; // None of that doubling of MP either.  Sorry, that's cheating.
         }
 
         private void speedHacks()
@@ -800,7 +855,7 @@ namespace _7thSagaRando
                 statAdjust(r1, byteToUse, 2, trkEquipPowers.Value / 10, 1.0);
             }
             // Armor/Accessories
-            for (int lnI = 0; lnI < 51; lnI++)
+            for (int lnI = 0; lnI < 53; lnI++)
             {
                 int byteToUse = 0x659b + (17 * lnI);
                 statAdjust(r1, byteToUse, 2, trkEquipPowers.Value / 10, 1.0);
