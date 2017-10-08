@@ -433,6 +433,123 @@ namespace _7thSagaRando
                 0x5c, 0x94, 0x74, 0xc4 };
             for (int lnI = 0; lnI < romPlugin.Length; lnI++)
                 romData[0x2f680 + lnI] = romPlugin[lnI];
+
+            // Music transition speedups (1st character only)
+            romData[0x4447e] = romData[0x4447f] = romData[0x44480] = romData[0x44481] = romData[0x444df] = romData[0x444e0] = romData[0x444e1] = romData[0x444e2] = 0xea;
+            // Remove stat gain text on level up.
+            romData[0x18cd1] = 0x6b;
+            // Remove delay after levelling up. (1st character only)
+            romData[0x444aa] = 0x01;
+            // Remove delay of getting key item.
+            romData[0x8e24] = 0x01;
+            // Remove fight delay for indoor battles
+            //romData[0x43072] = 0x01;
+            //romData[0x431df] = 0x01;
+
+            // Remove a little fight delay for outdoor battles
+            romData[0x4df6e] = 0x00;
+            romData[0x4df72] = 0x01;
+
+            // Remove item shop text.
+            romPlugin = new byte[] { 0xf6, 0x08 };
+            for (int lnI = 0; lnI < romPlugin.Length; lnI++)
+                romData[0x60006 + lnI] = romPlugin[lnI];
+
+            romPlugin = new byte[] { 0xf7, 0x36 };
+            for (int lnI = 0; lnI < romPlugin.Length; lnI++)
+                romData[0x600e7 + lnI] = romPlugin[lnI];
+
+            romPlugin = new byte[] { 0xf7, 0x36 };
+            for (int lnI = 0; lnI < romPlugin.Length; lnI++)
+                romData[0x60492 + lnI] = romPlugin[lnI];
+
+            romPlugin = new byte[] { 0xfc, 0x00, 0x00, 0x00, 0x00, 0xc6, 0xf7 };
+            for (int lnI = 0; lnI < romPlugin.Length; lnI++)
+                romData[0x60277 + lnI] = romPlugin[lnI];
+
+            romPlugin = new byte[] { 0xf7, 0x36 };
+            for (int lnI = 0; lnI < romPlugin.Length; lnI++)
+                romData[0x6024d + lnI] = romPlugin[lnI];
+
+            romPlugin = new byte[] { 0xfc, 0x00, 0x00, 0x00, 0x00, 0xc6, 0xf7 };
+            for (int lnI = 0; lnI < romPlugin.Length; lnI++)
+                romData[0x6029a + lnI] = romPlugin[lnI];
+
+            romPlugin = new byte[] { 0xf7, 0x33 };
+            for (int lnI = 0; lnI < romPlugin.Length; lnI++)
+                romData[0x604c2 + lnI] = romPlugin[lnI];
+
+            // Remove "King Lemele"'s opening speech.
+            romPlugin = new byte[] { 0xf7, 0xfc };
+            for (int lnI = 0; lnI < romPlugin.Length; lnI++)
+                romData[0x6099e + lnI] = romPlugin[lnI];
+
+            // Weapon store removals
+            romPlugin = new byte[] { 0xf6, 0x07 };
+            for (int lnI = 0; lnI < romPlugin.Length; lnI++)
+                romData[0x60030 + lnI] = romPlugin[lnI];
+
+            romPlugin = new byte[] { 0xf7, 0x36 };
+            for (int lnI = 0; lnI < romPlugin.Length; lnI++)
+                romData[0x600f9 + lnI] = romPlugin[lnI];
+
+            romPlugin = new byte[] { 0x20, 0x33, 0x2a, 0x0d, 0x4e, 0x49, 0x0d, 0x82, 0x8c, 0x82, 0x6a, 0xfc, 0x00, 0x00, 0x00, 0x00, 0xc6, 0xf7 };
+            for (int lnI = 0; lnI < romPlugin.Length; lnI++)
+                romData[0x602d4 + lnI] = romPlugin[lnI];
+
+            romPlugin = new byte[] { 0x33, 0x4b, 0x3a, 0x3d, 0x3e, 0x68, 0x42, 0x47, 0x0d, 0x3c, 0x48, 0x4c, 0x4d, 0x5a, 0x0d, 0x82, 0x8c, 0x82, 0x0d, 0x26, 0xfc, 0x00, 0x00, 0x00, 0x00, 0xc6, 0xf7 };
+            for (int lnI = 0; lnI < romPlugin.Length; lnI++)
+                romData[0x60141 + lnI] = romPlugin[lnI];
+
+            romPlugin = new byte[] { 0xf7, 0xfc };
+            for (int lnI = 0; lnI < romPlugin.Length; lnI++)
+                romData[0x604a7 + lnI] = romPlugin[lnI];
+
+            romPlugin = new byte[] { 0xf7, 0xfc };
+            for (int lnI = 0; lnI < romPlugin.Length; lnI++)
+                romData[0x604db + lnI] = romPlugin[lnI];
+
+            romPlugin = new byte[] { 0x20, 0x33, 0x2a, 0x0d, 0x3d, 0x48, 0x50, 0x47, 0x0d, 0x82, 0x8c, 0x82, 0x6a, 0xfc, 0x00, 0x00, 0x00, 0x00, 0xc6, 0xf7 };
+            for (int lnI = 0; lnI < romPlugin.Length; lnI++)
+                romData[0x60301 + lnI] = romPlugin[lnI];
+
+            romPlugin = new byte[] { 0xfc, 0x00, 0x00, 0x00, 0x00, 0xc6, 0xf7 };
+            for (int lnI = 0; lnI < romPlugin.Length; lnI++)
+                romData[0x602b7 + lnI] = romPlugin[lnI];
+
+            romPlugin = new byte[] { 0x33, 0x4b, 0x3a, 0x3d, 0x3e, 0x68, 0x42, 0x47, 0x0d, 0x4b, 0x3e, 0x3b, 0x3a, 0x4d, 0x3e, 0x5a, 0x0d, 0x82, 0x8c, 0x82, 0x0d, 0x26, 0xfc, 0x00, 0x00, 0x00, 0x00, 0xc6, 0xf7 };
+            for (int lnI = 0; lnI < romPlugin.Length; lnI++)
+                romData[0x601ce + lnI] = romPlugin[lnI];
+
+            // Armor store removals
+            romPlugin = new byte[] { 0xf6, 0x05 };
+            for (int lnI = 0; lnI < romPlugin.Length; lnI++)
+                romData[0x6005d + lnI] = romPlugin[lnI];
+
+            romPlugin = new byte[] { 0x33, 0x4b, 0x3a, 0x3d, 0x3e, 0x68, 0x42, 0x47, 0x0d, 0x3c, 0x48, 0x4c, 0x4d, 0x5a, 0x0d, 0x82, 0x8c, 0x82, 0x0d, 0x26, 0xfc, 0x00, 0x00, 0x00, 0x00, 0xc6, 0xf7 };
+            for (int lnI = 0; lnI < romPlugin.Length; lnI++)
+                romData[0x60110 + lnI] = romPlugin[lnI];
+
+            romPlugin = new byte[] { 0x23, 0x24, 0x25, 0x0d, 0x3d, 0x48, 0x50, 0x47, 0x0d, 0x82, 0x8c, 0x82, 0x6a, 0xfc, 0x00, 0x00, 0x00, 0x00, 0xc6, 0xf7 };
+            for (int lnI = 0; lnI < romPlugin.Length; lnI++)
+                romData[0x60361 + lnI] = romPlugin[lnI];
+
+            romPlugin = new byte[] { 0x23, 0x24, 0x25, 0x0d, 0x4e, 0x49, 0x0d, 0x82, 0x8c, 0x82, 0x6a, 0xfc, 0x00, 0x00, 0x00, 0x00, 0xc6, 0xf7 };
+            for (int lnI = 0; lnI < romPlugin.Length; lnI++)
+                romData[0x60334 + lnI] = romPlugin[lnI];
+
+            romPlugin = new byte[] { 0x2d, 0x48, 0x0d, 0x3c, 0x41, 0x3a, 0x47, 0x40, 0x3e, 0xfc, 0x00, 0x00, 0x00, 0x00, 0xc6, 0xf7 };
+            for (int lnI = 0; lnI < romPlugin.Length; lnI++)
+                romData[0x6039b + lnI] = romPlugin[lnI];
+
+            romPlugin = new byte[] { 0x33, 0x4b, 0x3a, 0x3d, 0x3e, 0x68, 0x42, 0x47, 0x0d, 0x4b, 0x3e, 0x3b, 0x3a, 0x4d, 0x3e, 0x5a, 0x0d, 0x82, 0x8c, 0x82, 0x0d, 0x26, 0xfc, 0x00, 0x00, 0x00, 0x00, 0xc6, 0xf7 };
+            for (int lnI = 0; lnI < romPlugin.Length; lnI++)
+                romData[0x6019d + lnI] = romPlugin[lnI];
+
+            // Inn
+            //romPlugin = new byte[] { 0x28, 0x47, 0x47, 0x5a, 0x0d, 0x82, 0x8c, 0x82, 0x0d, 0x26, 0xfc, 0x00, 0x00, 0x00, 0x00, 0xc6, 0x0d, 0xf9 };
+            //for (int lnI = 0; lnI < romPlugin.Length; lnI++)
+            //    romData[0x6058b + lnI] = romPlugin[lnI];
         }
 
         private void doubleWalk()
