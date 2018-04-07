@@ -72,6 +72,8 @@
             this.lblHeroStats = new System.Windows.Forms.Label();
             this.trkHeroStats = new System.Windows.Forms.TrackBar();
             this.chkDoubleWalk = new System.Windows.Forms.CheckBox();
+            this.chkShowStatGains = new System.Windows.Forms.CheckBox();
+            this.chkNoXPGPRando = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.trkGoldReq)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.trkExperience)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.trkMonsterStats)).BeginInit();
@@ -82,7 +84,7 @@
             // 
             // cmdRandomize
             // 
-            this.cmdRandomize.Location = new System.Drawing.Point(525, 333);
+            this.cmdRandomize.Location = new System.Drawing.Point(525, 354);
             this.cmdRandomize.Name = "cmdRandomize";
             this.cmdRandomize.Size = new System.Drawing.Size(96, 23);
             this.cmdRandomize.TabIndex = 123;
@@ -347,7 +349,7 @@
             // lblStatus
             // 
             this.lblStatus.AutoSize = true;
-            this.lblStatus.Location = new System.Drawing.Point(12, 368);
+            this.lblStatus.Location = new System.Drawing.Point(12, 389);
             this.lblStatus.Name = "lblStatus";
             this.lblStatus.Size = new System.Drawing.Size(0, 13);
             this.lblStatus.TabIndex = 129;
@@ -396,7 +398,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(294, 248);
+            this.label3.Location = new System.Drawing.Point(294, 280);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(95, 13);
             this.label3.TabIndex = 136;
@@ -405,7 +407,7 @@
             // lblEquipPowers
             // 
             this.lblEquipPowers.AutoSize = true;
-            this.lblEquipPowers.Location = new System.Drawing.Point(583, 245);
+            this.lblEquipPowers.Location = new System.Drawing.Point(583, 277);
             this.lblEquipPowers.Name = "lblEquipPowers";
             this.lblEquipPowers.Size = new System.Drawing.Size(33, 13);
             this.lblEquipPowers.TabIndex = 135;
@@ -413,7 +415,7 @@
             // 
             // trkEquipPowers
             // 
-            this.trkEquipPowers.Location = new System.Drawing.Point(420, 244);
+            this.trkEquipPowers.Location = new System.Drawing.Point(420, 276);
             this.trkEquipPowers.Maximum = 70;
             this.trkEquipPowers.Minimum = 10;
             this.trkEquipPowers.Name = "trkEquipPowers";
@@ -426,7 +428,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(294, 273);
+            this.label2.Location = new System.Drawing.Point(294, 305);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(99, 13);
             this.label2.TabIndex = 139;
@@ -435,7 +437,7 @@
             // lblSpellCosts
             // 
             this.lblSpellCosts.AutoSize = true;
-            this.lblSpellCosts.Location = new System.Drawing.Point(583, 270);
+            this.lblSpellCosts.Location = new System.Drawing.Point(583, 302);
             this.lblSpellCosts.Name = "lblSpellCosts";
             this.lblSpellCosts.Size = new System.Drawing.Size(33, 13);
             this.lblSpellCosts.TabIndex = 138;
@@ -443,7 +445,7 @@
             // 
             // trkSpellCosts
             // 
-            this.trkSpellCosts.Location = new System.Drawing.Point(420, 269);
+            this.trkSpellCosts.Location = new System.Drawing.Point(420, 301);
             this.trkSpellCosts.Maximum = 70;
             this.trkSpellCosts.Minimum = 10;
             this.trkSpellCosts.Name = "trkSpellCosts";
@@ -456,11 +458,11 @@
             // chkSpeedHacks
             // 
             this.chkSpeedHacks.AutoSize = true;
-            this.chkSpeedHacks.Location = new System.Drawing.Point(12, 285);
+            this.chkSpeedHacks.Location = new System.Drawing.Point(12, 308);
             this.chkSpeedHacks.Name = "chkSpeedHacks";
-            this.chkSpeedHacks.Size = new System.Drawing.Size(192, 17);
+            this.chkSpeedHacks.Size = new System.Drawing.Size(140, 17);
             this.chkSpeedHacks.TabIndex = 140;
-            this.chkSpeedHacks.Text = "Menu wraparound/fast start screen";
+            this.chkSpeedHacks.Text = "Text/QOL Speed hacks";
             this.chkSpeedHacks.UseVisualStyleBackColor = true;
             this.chkSpeedHacks.CheckedChanged += new System.EventHandler(this.determineFlags);
             // 
@@ -497,7 +499,7 @@
             // chkDoubleWalk
             // 
             this.chkDoubleWalk.AutoSize = true;
-            this.chkDoubleWalk.Location = new System.Drawing.Point(12, 308);
+            this.chkDoubleWalk.Location = new System.Drawing.Point(12, 285);
             this.chkDoubleWalk.Name = "chkDoubleWalk";
             this.chkDoubleWalk.Size = new System.Drawing.Size(213, 17);
             this.chkDoubleWalk.TabIndex = 144;
@@ -505,11 +507,35 @@
             this.chkDoubleWalk.UseVisualStyleBackColor = true;
             this.chkDoubleWalk.CheckedChanged += new System.EventHandler(this.determineFlags);
             // 
+            // chkShowStatGains
+            // 
+            this.chkShowStatGains.AutoSize = true;
+            this.chkShowStatGains.Location = new System.Drawing.Point(12, 331);
+            this.chkShowStatGains.Name = "chkShowStatGains";
+            this.chkShowStatGains.Size = new System.Drawing.Size(224, 17);
+            this.chkShowStatGains.TabIndex = 145;
+            this.chkShowStatGains.Text = "Show stat gains (if speed hacks checked)";
+            this.chkShowStatGains.UseVisualStyleBackColor = true;
+            this.chkShowStatGains.CheckedChanged += new System.EventHandler(this.determineFlags);
+            // 
+            // chkNoXPGPRando
+            // 
+            this.chkNoXPGPRando.AutoSize = true;
+            this.chkNoXPGPRando.Location = new System.Drawing.Point(294, 247);
+            this.chkNoXPGPRando.Name = "chkNoXPGPRando";
+            this.chkNoXPGPRando.Size = new System.Drawing.Size(96, 17);
+            this.chkNoXPGPRando.TabIndex = 146;
+            this.chkNoXPGPRando.Text = "Except XP/GP";
+            this.chkNoXPGPRando.UseVisualStyleBackColor = true;
+            this.chkNoXPGPRando.CheckedChanged += new System.EventHandler(this.determineFlags);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(633, 409);
+            this.ClientSize = new System.Drawing.Size(633, 439);
+            this.Controls.Add(this.chkNoXPGPRando);
+            this.Controls.Add(this.chkShowStatGains);
             this.Controls.Add(this.chkDoubleWalk);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.lblHeroStats);
@@ -614,6 +640,8 @@
         private System.Windows.Forms.Label lblHeroStats;
         private System.Windows.Forms.TrackBar trkHeroStats;
         private System.Windows.Forms.CheckBox chkDoubleWalk;
+        private System.Windows.Forms.CheckBox chkShowStatGains;
+        private System.Windows.Forms.CheckBox chkNoXPGPRando;
     }
 }
 
