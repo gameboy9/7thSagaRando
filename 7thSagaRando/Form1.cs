@@ -17,11 +17,17 @@ namespace _7thSagaRando
                                       0x3e, 0x45, 0x31, 0x4c, 0x56, 0x57, 0x54, 0x46,
                                       0x17, 0x4d, 0x42, 0x52, 0x4f, 0x47, 0x18, 0x53,
                                       0x48, 0x32, 0x3f, 0x1f, 0x20, 0x58, 0x4a }; // 63 monsters total (in random encounters)
+        byte[] monsterLegalSpells = { 1, 2, 3, 4, 5, 6, 7,
+                                12, 13, 14, 15,
+                                16, 17, 21, 22, 23,
+                                24, 25, 26, 27, 28, 29, 30,
+                                33, 34,
+                                40, 41, 46, 47 };
         byte[] legalSpells = { 1, 2, 3, 4, 5, 6, 7,
                                 12, 13, 14, 15,
                                 16, 17, 21, 22, 23,
                                 24, 25, 26, 27, 28, 29, 30, 31,
-                                33, 34, 35,
+                                32, 33, 34, 35,
                                 40, 41, 45, 46, 47 };
 
         bool loading = true;
@@ -90,7 +96,6 @@ namespace _7thSagaRando
 
         private void saveRom()
         {
-            string options = "";
             string finalFile = Path.Combine(Path.GetDirectoryName(txtFileName.Text), "7SR_" + txtSeed.Text + "_" + txtFlags.Text + ".smc");
             File.WriteAllBytes(finalFile, romData);
             lblStatus.Text = "ROM hacking complete!  (" + finalFile + ")";
@@ -143,7 +148,8 @@ namespace _7thSagaRando
             int number = (chkMonsterZones.Checked ? 1 : 0) + (chkMonsterPatterns.Checked ? 2 : 0) + (chkHeroStats.Checked ? 4 : 0) +
                 (chkTreasures.Checked ? 8 : 0) + (chkStores.Checked ? 16 : 0) + (chkWhoCanEquip.Checked ? 32 : 0);
             flags += convertIntToChar(number);
-            number = (chkSpeedHacks.Checked ? 1 : 0) + (chkDoubleWalk.Checked ? 2 : 0) + (chkShowStatGains.Checked ? 4 : 0) + (chkNoXPGPRando.Checked ? 8 : 0);
+            number = (chkSpeedHacks.Checked ? 1 : 0) + (chkDoubleWalk.Checked ? 2 : 0) + (chkShowStatGains.Checked ? 4 : 0) + 
+                (chkNoXPGPRando.Checked ? 8 : 0) + (chkHeroSameStats.Checked ? 16 : 0);
             flags += convertIntToChar(number);
             flags += convertIntToChar(trkExperience.Value);
             flags += convertIntToChar(trkGoldReq.Value - 10);
@@ -733,7 +739,7 @@ namespace _7thSagaRando
                     bool duplicate = false;
                     for (int lnJ = 0; lnJ < 7; lnJ++)
                     {
-                        romData[byteToUse + lnJ + 11] = legalSpells[r1.Next() % legalSpells.Length];
+                        romData[byteToUse + lnJ + 11] = monsterLegalSpells[r1.Next() % monsterLegalSpells.Length];
                         for (int lnK = 0; lnK < lnJ; lnK++)
                             if (romData[byteToUse + lnJ + 11] == romData[byteToUse + lnK + 11]) { romData[byteToUse + lnJ + 11] = 0; duplicate = true; break; }
                         if (duplicate) break;
@@ -775,7 +781,8 @@ namespace _7thSagaRando
                     List<byte> actualSpells = new List<byte>();
                     // Learn spells as long as you don't duplicate another spell.
                     // Lux/Wilme get one duplicate chance only.  Kamil and Olvan get 10 chances, Lejes gets 50 chances, and Esuna and Valsu get 100 chances. (Lejes gets to equip more stuff than Esuna and Valsu)
-                    int duplicateChances = (lnI == 3 || lnI == 4 ? 1 : lnI == 0 || lnI == 1 ? 10 : lnI == 6 ? 50 : 100);
+                    // If same hero stats is checked, then all heroes get 20 chances.
+                    int duplicateChances = (chkHeroSameStats.Checked ? 20 : lnI == 3 || lnI == 4 ? 1 : lnI == 0 || lnI == 1 ? 10 : lnI == 6 ? 50 : 100);
                     for (int lnJ = 0; lnJ < 16; lnJ++)
                     {
                         actualSpells.Add(legalSpells[r1.Next() % legalSpells.Length]);
@@ -955,90 +962,93 @@ namespace _7thSagaRando
                 48, 49, 50, 51, 52
             };
 
-            for (int lnI = 0; lnI < weapons.Length; lnI++)
+            if (chkHeroSameStats.Checked)
             {
-                int byteToUse = 0x639d + (10 * weapons[lnI]);
-                byte whoEquip = 0;
-                if (r1.Next() % 100 < 40) whoEquip += 0x01;
-                if (r1.Next() % 100 < 40) whoEquip += 0x02;
-                if (r1.Next() % 100 < 40) whoEquip += 0x04;
-                if (r1.Next() % 100 < 40) whoEquip += 0x08;
-                if (r1.Next() % 100 < 40) whoEquip += 0x10;
-                if (r1.Next() % 100 < 40) whoEquip += 0x20;
-                if (r1.Next() % 100 < 40) whoEquip += 0x40;
-                romData[byteToUse + 4] = whoEquip;
-            }
-            for (int lnI = 0; lnI < armor.Length; lnI++)
+                for (int lnI = 0; lnI < weapons.Length; lnI++)
+                {
+                    int byteToUse = 0x639d + (10 * weapons[lnI]);
+                    byte whoEquip = 0;
+                    if (r1.Next() % 100 < 40) whoEquip += 0x01;
+                    if (r1.Next() % 100 < 40) whoEquip += 0x02;
+                    if (r1.Next() % 100 < 40) whoEquip += 0x04;
+                    if (r1.Next() % 100 < 40) whoEquip += 0x08;
+                    if (r1.Next() % 100 < 40) whoEquip += 0x10;
+                    if (r1.Next() % 100 < 40) whoEquip += 0x20;
+                    if (r1.Next() % 100 < 40) whoEquip += 0x40;
+                    romData[byteToUse + 4] = whoEquip;
+                }
+                for (int lnI = 0; lnI < armor.Length; lnI++)
+                {
+                    int byteToUse = 0x659b + (17 * armor[lnI]);
+                    byte whoEquip = 0;
+                    if (r1.Next() % 100 < 40) whoEquip += 0x01;
+                    if (r1.Next() % 100 < 40) whoEquip += 0x02;
+                    if (r1.Next() % 100 < 40) whoEquip += 0x04;
+                    if (r1.Next() % 100 < 40) whoEquip += 0x08;
+                    if (r1.Next() % 100 < 40) whoEquip += 0x10;
+                    if (r1.Next() % 100 < 40) whoEquip += 0x20;
+                    if (r1.Next() % 100 < 40) whoEquip += 0x40;
+                    romData[byteToUse + 4] = whoEquip;
+                }
+                for (int lnI = 0; lnI < accessory.Length; lnI++)
+                {
+                    int byteToUse = 0x659b + (17 * accessory[lnI]);
+                    byte whoEquip = 0;
+                    if (r1.Next() % 100 < 40) whoEquip += 0x01;
+                    if (r1.Next() % 100 < 40) whoEquip += 0x02;
+                    if (r1.Next() % 100 < 40) whoEquip += 0x04;
+                    if (r1.Next() % 100 < 40) whoEquip += 0x08;
+                    if (r1.Next() % 100 < 40) whoEquip += 0x10;
+                    if (r1.Next() % 100 < 40) whoEquip += 0x20;
+                    if (r1.Next() % 100 < 40) whoEquip += 0x40;
+                    romData[byteToUse + 4] = whoEquip;
+                }
+            } else
             {
-                int byteToUse = 0x659b + (17 * armor[lnI]);
-                byte whoEquip = 0;
-                if (r1.Next() % 100 < 40) whoEquip += 0x01;
-                if (r1.Next() % 100 < 40) whoEquip += 0x02;
-                if (r1.Next() % 100 < 40) whoEquip += 0x04;
-                if (r1.Next() % 100 < 40) whoEquip += 0x08;
-                if (r1.Next() % 100 < 40) whoEquip += 0x10;
-                if (r1.Next() % 100 < 40) whoEquip += 0x20;
-                if (r1.Next() % 100 < 40) whoEquip += 0x40;
-                romData[byteToUse + 4] = whoEquip;
+                // Chances of equipping weapon:  Kamil, Olvan - 75%, Lejes - 50%, Esuna, Valsu - 35%, Lux, Wilme - 10%
+                // Chances of equipping armor:  Kamil, Olvan - 60%, Esuna, Valsu, Lejes - 50%, Lux, Wilme - 10%
+                // Chances of equipping accessory:  Kamil, Olvan - 75%, Esuna, Valsu - 40%, Lejes - 30%, Lux, Wilme - 10%
+                // Kamil = 0x01, Olvan = 0x02, Esuna = 0x04, Wilme = 0x08, Lux = 0x10, Valsu = 0x20, Lejes = 0x40 - do not use 0x80.
+                for (int lnI = 0; lnI < weapons.Length; lnI++)
+                {
+                    int byteToUse = 0x639d + (10 * weapons[lnI]);
+                    byte whoEquip = 0;
+                    if (r1.Next() % 100 < 75) whoEquip += 0x01;
+                    if (r1.Next() % 100 < 75) whoEquip += 0x02;
+                    if (r1.Next() % 100 < 35) whoEquip += 0x04;
+                    if (r1.Next() % 100 < 10) whoEquip += 0x08;
+                    if (r1.Next() % 100 < 10) whoEquip += 0x10;
+                    if (r1.Next() % 100 < 35) whoEquip += 0x20;
+                    if (r1.Next() % 100 < 50) whoEquip += 0x40;
+                    romData[byteToUse + 4] = whoEquip;
+                }
+                for (int lnI = 0; lnI < armor.Length; lnI++)
+                {
+                    int byteToUse = 0x659b + (17 * armor[lnI]);
+                    byte whoEquip = 0;
+                    if (r1.Next() % 100 < 60) whoEquip += 0x01;
+                    if (r1.Next() % 100 < 60) whoEquip += 0x02;
+                    if (r1.Next() % 100 < 50) whoEquip += 0x04;
+                    if (r1.Next() % 100 < 10) whoEquip += 0x08;
+                    if (r1.Next() % 100 < 10) whoEquip += 0x10;
+                    if (r1.Next() % 100 < 50) whoEquip += 0x20;
+                    if (r1.Next() % 100 < 50) whoEquip += 0x40;
+                    romData[byteToUse + 4] = whoEquip;
+                }
+                for (int lnI = 0; lnI < accessory.Length; lnI++)
+                {
+                    int byteToUse = 0x659b + (17 * accessory[lnI]);
+                    byte whoEquip = 0;
+                    if (r1.Next() % 100 < 75) whoEquip += 0x01;
+                    if (r1.Next() % 100 < 75) whoEquip += 0x02;
+                    if (r1.Next() % 100 < 40) whoEquip += 0x04;
+                    if (r1.Next() % 100 < 10) whoEquip += 0x08;
+                    if (r1.Next() % 100 < 10) whoEquip += 0x10;
+                    if (r1.Next() % 100 < 40) whoEquip += 0x20;
+                    if (r1.Next() % 100 < 30) whoEquip += 0x40;
+                    romData[byteToUse + 4] = whoEquip;
+                }
             }
-            for (int lnI = 0; lnI < accessory.Length; lnI++)
-            {
-                int byteToUse = 0x659b + (17 * accessory[lnI]);
-                byte whoEquip = 0;
-                if (r1.Next() % 100 < 40) whoEquip += 0x01;
-                if (r1.Next() % 100 < 40) whoEquip += 0x02;
-                if (r1.Next() % 100 < 40) whoEquip += 0x04;
-                if (r1.Next() % 100 < 40) whoEquip += 0x08;
-                if (r1.Next() % 100 < 40) whoEquip += 0x10;
-                if (r1.Next() % 100 < 40) whoEquip += 0x20;
-                if (r1.Next() % 100 < 40) whoEquip += 0x40;
-                romData[byteToUse + 4] = whoEquip;
-            }
-
-
-            // Chances of equipping weapon:  Kamil, Olvan - 75%, Lejes - 50%, Esuna, Valsu - 35%, Lux, Wilme - 10%
-            // Chances of equipping armor:  Kamil, Olvan - 60%, Esuna, Valsu, Lejes - 50%, Lux, Wilme - 10%
-            // Chances of equipping accessory:  Kamil, Olvan - 75%, Esuna, Valsu - 40%, Lejes - 30%, Lux, Wilme - 10%
-            // Kamil = 0x01, Olvan = 0x02, Esuna = 0x04, Wilme = 0x08, Lux = 0x10, Valsu = 0x20, Lejes = 0x40 - do not use 0x80.
-            //for (int lnI = 0; lnI < weapons.Length; lnI++)
-            //{
-            //    int byteToUse = 0x639d + (10 * weapons[lnI]);
-            //    byte whoEquip = 0;
-            //    if (r1.Next() % 100 < 75) whoEquip += 0x01;
-            //    if (r1.Next() % 100 < 75) whoEquip += 0x02;
-            //    if (r1.Next() % 100 < 35) whoEquip += 0x04;
-            //    if (r1.Next() % 100 < 10) whoEquip += 0x08;
-            //    if (r1.Next() % 100 < 10) whoEquip += 0x10;
-            //    if (r1.Next() % 100 < 35) whoEquip += 0x20;
-            //    if (r1.Next() % 100 < 50) whoEquip += 0x40;
-            //    romData[byteToUse + 4] = whoEquip;
-            //}
-            //for (int lnI = 0; lnI < armor.Length; lnI++)
-            //{
-            //    int byteToUse = 0x659b + (17 * armor[lnI]);
-            //    byte whoEquip = 0;
-            //    if (r1.Next() % 100 < 60) whoEquip += 0x01;
-            //    if (r1.Next() % 100 < 60) whoEquip += 0x02;
-            //    if (r1.Next() % 100 < 50) whoEquip += 0x04;
-            //    if (r1.Next() % 100 < 10) whoEquip += 0x08;
-            //    if (r1.Next() % 100 < 10) whoEquip += 0x10;
-            //    if (r1.Next() % 100 < 50) whoEquip += 0x20;
-            //    if (r1.Next() % 100 < 50) whoEquip += 0x40;
-            //    romData[byteToUse + 4] = whoEquip;
-            //}
-            //for (int lnI = 0; lnI < accessory.Length; lnI++)
-            //{
-            //    int byteToUse = 0x659b + (17 * accessory[lnI]);
-            //    byte whoEquip = 0;
-            //    if (r1.Next() % 100 < 75) whoEquip += 0x01;
-            //    if (r1.Next() % 100 < 75) whoEquip += 0x02;
-            //    if (r1.Next() % 100 < 40) whoEquip += 0x04;
-            //    if (r1.Next() % 100 < 10) whoEquip += 0x08;
-            //    if (r1.Next() % 100 < 10) whoEquip += 0x10;
-            //    if (r1.Next() % 100 < 40) whoEquip += 0x20;
-            //    if (r1.Next() % 100 < 30) whoEquip += 0x40;
-            //    romData[byteToUse + 4] = whoEquip;
-            //}
         }
 
         private void boostExp()
@@ -1138,32 +1148,37 @@ namespace _7thSagaRando
             for (int lnI = 0; lnI < 7; lnI++)
             {
                 int byteToUse = 0x623f + (18 * lnI);
-                romData[byteToUse] = (byte)(ScaleValue(16.7, trkHeroStats.Value / 10, 1.0, r1)); // Starting HP
-                romData[byteToUse + 2] = (byte)(ScaleValue(6.9, trkHeroStats.Value / 10, 1.0, r1)); // Starting MP
-                romData[byteToUse + 4] = (byte)(ScaleValue(4.1, trkHeroStats.Value / 10, 1.0, r1)); // Starting Power
-                romData[byteToUse + 5] = (byte)(ScaleValue(4.6, trkHeroStats.Value / 10, 1.0, r1)); // Starting Guard
-                romData[byteToUse + 6] = (byte)(ScaleValue(3.1, trkHeroStats.Value / 10, 1.0, r1)); // Starting Magic
-                romData[byteToUse + 7] = (byte)(ScaleValue(3.6, trkHeroStats.Value / 10, 1.0, r1)); // Starting Speed
-                romData[byteToUse + 8] = (byte)(ScaleValue(6, trkHeroStats.Value / 10, 0.5, r1)); // HP Boost
-                romData[byteToUse + 9] = (byte)(ScaleValue(3.1, trkHeroStats.Value / 10, 0.5, r1)); // MP Boost
-                romData[byteToUse + 10] = (byte)(ScaleValue(3, trkHeroStats.Value / 10, 0.5, r1)); // Power Boost
-                romData[byteToUse + 11] = (byte)(ScaleValue(3.4, trkHeroStats.Value / 10, 0.5, r1)); // Guard Boost
-                romData[byteToUse + 12] = (byte)(ScaleValue(3.1, trkHeroStats.Value / 10, 0.5, r1)); // Magic Boost
-                romData[byteToUse + 13] = (byte)(ScaleValue(3.6, trkHeroStats.Value / 10, 0.5, r1)); // Speed Boost
-                romData[byteToUse + 17] = (byte)(ScaleValue(21.3, trkHeroStats.Value / 10, 0.5, r1)); // Starting Experience
-                //statAdjust(r1, byteToUse, 2, trkHeroStats.Value / 10, 1.0); // Starting HP
-                //statAdjust(r1, byteToUse + 2, 2, trkHeroStats.Value / 10, 1.0); // Starting MP
-                //statAdjust(r1, byteToUse + 4, 1, trkHeroStats.Value / 10, 1.0); // Starting Power
-                //statAdjust(r1, byteToUse + 5, 1, trkHeroStats.Value / 10, 1.0); // Starting Guard
-                //statAdjust(r1, byteToUse + 6, 1, trkHeroStats.Value / 10, 1.0); // Starting Magic
-                //statAdjust(r1, byteToUse + 7, 1, trkHeroStats.Value / 10, 1.0); // Starting Speed
-                //statAdjust(r1, byteToUse + 8, 1, trkHeroStats.Value / 10, 0.5); // HP Boost
-                //statAdjust(r1, byteToUse + 9, 1, trkHeroStats.Value / 10, 0.5); // MP Boost
-                //statAdjust(r1, byteToUse + 10, 1, trkHeroStats.Value / 10, 0.5); // Power Boost
-                //statAdjust(r1, byteToUse + 11, 1, trkHeroStats.Value / 10, 0.5); // Guard Boost
-                //statAdjust(r1, byteToUse + 12, 1, trkHeroStats.Value / 10, 0.5); // Magic Boost
-                //statAdjust(r1, byteToUse + 13, 1, trkHeroStats.Value / 10, 0.5); // Speed Boost
-                //statAdjust(r1, byteToUse + 17, 1, trkHeroStats.Value / 10, 1.0); // Starting Experience
+                if (chkHeroSameStats.Checked)
+                {
+                    romData[byteToUse] = (byte)(ScaleValue(16.7, trkHeroStats.Value / 10, 1.0, r1)); // Starting HP
+                    romData[byteToUse + 2] = (byte)(ScaleValue(6.9, trkHeroStats.Value / 10, 1.0, r1)); // Starting MP
+                    romData[byteToUse + 4] = (byte)(ScaleValue(4.1, trkHeroStats.Value / 10, 1.0, r1)); // Starting Power
+                    romData[byteToUse + 5] = (byte)(ScaleValue(4.6, trkHeroStats.Value / 10, 1.0, r1)); // Starting Guard
+                    romData[byteToUse + 6] = (byte)(ScaleValue(3.1, trkHeroStats.Value / 10, 1.0, r1)); // Starting Magic
+                    romData[byteToUse + 7] = (byte)(ScaleValue(3.6, trkHeroStats.Value / 10, 1.0, r1)); // Starting Speed
+                    romData[byteToUse + 8] = (byte)(ScaleValue(6, trkHeroStats.Value / 10, 0.5, r1)); // HP Boost
+                    romData[byteToUse + 9] = (byte)(ScaleValue(3.1, trkHeroStats.Value / 10, 0.5, r1)); // MP Boost
+                    romData[byteToUse + 10] = (byte)(ScaleValue(3, trkHeroStats.Value / 10, 0.5, r1)); // Power Boost
+                    romData[byteToUse + 11] = (byte)(ScaleValue(3.4, trkHeroStats.Value / 10, 0.5, r1)); // Guard Boost
+                    romData[byteToUse + 12] = (byte)(ScaleValue(3.1, trkHeroStats.Value / 10, 0.5, r1)); // Magic Boost
+                    romData[byteToUse + 13] = (byte)(ScaleValue(3.6, trkHeroStats.Value / 10, 0.5, r1)); // Speed Boost
+                    romData[byteToUse + 17] = (byte)(ScaleValue(21.3, trkHeroStats.Value / 10, 0.5, r1)); // Starting Experience
+                } else
+                {
+                    statAdjust(r1, byteToUse, 2, trkHeroStats.Value / 10, 1.0); // Starting HP
+                    statAdjust(r1, byteToUse + 2, 2, trkHeroStats.Value / 10, 1.0); // Starting MP
+                    statAdjust(r1, byteToUse + 4, 1, trkHeroStats.Value / 10, 1.0); // Starting Power
+                    statAdjust(r1, byteToUse + 5, 1, trkHeroStats.Value / 10, 1.0); // Starting Guard
+                    statAdjust(r1, byteToUse + 6, 1, trkHeroStats.Value / 10, 1.0); // Starting Magic
+                    statAdjust(r1, byteToUse + 7, 1, trkHeroStats.Value / 10, 1.0); // Starting Speed
+                    statAdjust(r1, byteToUse + 8, 1, trkHeroStats.Value / 10, 0.5); // HP Boost
+                    statAdjust(r1, byteToUse + 9, 1, trkHeroStats.Value / 10, 0.5); // MP Boost
+                    statAdjust(r1, byteToUse + 10, 1, trkHeroStats.Value / 10, 0.5); // Power Boost
+                    statAdjust(r1, byteToUse + 11, 1, trkHeroStats.Value / 10, 0.5); // Guard Boost
+                    statAdjust(r1, byteToUse + 12, 1, trkHeroStats.Value / 10, 0.5); // Magic Boost
+                    statAdjust(r1, byteToUse + 13, 1, trkHeroStats.Value / 10, 0.5); // Speed Boost
+                    statAdjust(r1, byteToUse + 17, 1, trkHeroStats.Value / 10, 1.0); // Starting Experience
+                }
             }
         }
 

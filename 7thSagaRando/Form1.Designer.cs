@@ -74,6 +74,7 @@
             this.chkDoubleWalk = new System.Windows.Forms.CheckBox();
             this.chkShowStatGains = new System.Windows.Forms.CheckBox();
             this.chkNoXPGPRando = new System.Windows.Forms.CheckBox();
+            this.chkHeroSameStats = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.trkGoldReq)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.trkExperience)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.trkMonsterStats)).BeginInit();
@@ -84,7 +85,7 @@
             // 
             // cmdRandomize
             // 
-            this.cmdRandomize.Location = new System.Drawing.Point(525, 354);
+            this.cmdRandomize.Location = new System.Drawing.Point(525, 435);
             this.cmdRandomize.Name = "cmdRandomize";
             this.cmdRandomize.Size = new System.Drawing.Size(96, 23);
             this.cmdRandomize.TabIndex = 123;
@@ -113,7 +114,7 @@
             // lblGoldReq
             // 
             this.lblGoldReq.AutoSize = true;
-            this.lblGoldReq.Location = new System.Drawing.Point(583, 170);
+            this.lblGoldReq.Location = new System.Drawing.Point(585, 173);
             this.lblGoldReq.Name = "lblGoldReq";
             this.lblGoldReq.Size = new System.Drawing.Size(33, 13);
             this.lblGoldReq.TabIndex = 120;
@@ -122,7 +123,7 @@
             // lblExperience
             // 
             this.lblExperience.AutoSize = true;
-            this.lblExperience.Location = new System.Drawing.Point(583, 148);
+            this.lblExperience.Location = new System.Drawing.Point(585, 147);
             this.lblExperience.Name = "lblExperience";
             this.lblExperience.Size = new System.Drawing.Size(33, 13);
             this.lblExperience.TabIndex = 119;
@@ -134,7 +135,7 @@
             this.trkGoldReq.Maximum = 70;
             this.trkGoldReq.Minimum = 10;
             this.trkGoldReq.Name = "trkGoldReq";
-            this.trkGoldReq.Size = new System.Drawing.Size(156, 45);
+            this.trkGoldReq.Size = new System.Drawing.Size(159, 45);
             this.trkGoldReq.TabIndex = 118;
             this.trkGoldReq.TickStyle = System.Windows.Forms.TickStyle.None;
             this.trkGoldReq.Value = 10;
@@ -146,7 +147,7 @@
             this.trkExperience.Maximum = 35;
             this.trkExperience.Minimum = 5;
             this.trkExperience.Name = "trkExperience";
-            this.trkExperience.Size = new System.Drawing.Size(156, 45);
+            this.trkExperience.Size = new System.Drawing.Size(159, 45);
             this.trkExperience.TabIndex = 117;
             this.trkExperience.TickStyle = System.Windows.Forms.TickStyle.None;
             this.trkExperience.Value = 10;
@@ -349,7 +350,7 @@
             // lblStatus
             // 
             this.lblStatus.AutoSize = true;
-            this.lblStatus.Location = new System.Drawing.Point(12, 389);
+            this.lblStatus.Location = new System.Drawing.Point(12, 470);
             this.lblStatus.Name = "lblStatus";
             this.lblStatus.Size = new System.Drawing.Size(0, 13);
             this.lblStatus.TabIndex = 129;
@@ -368,7 +369,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(294, 223);
+            this.label1.Location = new System.Drawing.Point(294, 249);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(72, 13);
             this.label1.TabIndex = 133;
@@ -377,7 +378,7 @@
             // lblMonsterStats
             // 
             this.lblMonsterStats.AutoSize = true;
-            this.lblMonsterStats.Location = new System.Drawing.Point(583, 220);
+            this.lblMonsterStats.Location = new System.Drawing.Point(585, 249);
             this.lblMonsterStats.Name = "lblMonsterStats";
             this.lblMonsterStats.Size = new System.Drawing.Size(33, 13);
             this.lblMonsterStats.TabIndex = 132;
@@ -385,11 +386,11 @@
             // 
             // trkMonsterStats
             // 
-            this.trkMonsterStats.Location = new System.Drawing.Point(420, 219);
+            this.trkMonsterStats.Location = new System.Drawing.Point(420, 245);
             this.trkMonsterStats.Maximum = 70;
             this.trkMonsterStats.Minimum = 10;
             this.trkMonsterStats.Name = "trkMonsterStats";
-            this.trkMonsterStats.Size = new System.Drawing.Size(156, 45);
+            this.trkMonsterStats.Size = new System.Drawing.Size(159, 45);
             this.trkMonsterStats.TabIndex = 131;
             this.trkMonsterStats.TickStyle = System.Windows.Forms.TickStyle.None;
             this.trkMonsterStats.Value = 10;
@@ -398,7 +399,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(294, 280);
+            this.label3.Location = new System.Drawing.Point(294, 306);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(95, 13);
             this.label3.TabIndex = 136;
@@ -407,7 +408,7 @@
             // lblEquipPowers
             // 
             this.lblEquipPowers.AutoSize = true;
-            this.lblEquipPowers.Location = new System.Drawing.Point(583, 277);
+            this.lblEquipPowers.Location = new System.Drawing.Point(585, 306);
             this.lblEquipPowers.Name = "lblEquipPowers";
             this.lblEquipPowers.Size = new System.Drawing.Size(33, 13);
             this.lblEquipPowers.TabIndex = 135;
@@ -415,11 +416,11 @@
             // 
             // trkEquipPowers
             // 
-            this.trkEquipPowers.Location = new System.Drawing.Point(420, 276);
+            this.trkEquipPowers.Location = new System.Drawing.Point(420, 302);
             this.trkEquipPowers.Maximum = 70;
             this.trkEquipPowers.Minimum = 10;
             this.trkEquipPowers.Name = "trkEquipPowers";
-            this.trkEquipPowers.Size = new System.Drawing.Size(156, 45);
+            this.trkEquipPowers.Size = new System.Drawing.Size(159, 45);
             this.trkEquipPowers.TabIndex = 134;
             this.trkEquipPowers.TickStyle = System.Windows.Forms.TickStyle.None;
             this.trkEquipPowers.Value = 10;
@@ -428,7 +429,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(294, 305);
+            this.label2.Location = new System.Drawing.Point(294, 331);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(99, 13);
             this.label2.TabIndex = 139;
@@ -437,7 +438,7 @@
             // lblSpellCosts
             // 
             this.lblSpellCosts.AutoSize = true;
-            this.lblSpellCosts.Location = new System.Drawing.Point(583, 302);
+            this.lblSpellCosts.Location = new System.Drawing.Point(585, 331);
             this.lblSpellCosts.Name = "lblSpellCosts";
             this.lblSpellCosts.Size = new System.Drawing.Size(33, 13);
             this.lblSpellCosts.TabIndex = 138;
@@ -445,11 +446,11 @@
             // 
             // trkSpellCosts
             // 
-            this.trkSpellCosts.Location = new System.Drawing.Point(420, 301);
+            this.trkSpellCosts.Location = new System.Drawing.Point(420, 327);
             this.trkSpellCosts.Maximum = 70;
             this.trkSpellCosts.Minimum = 10;
             this.trkSpellCosts.Name = "trkSpellCosts";
-            this.trkSpellCosts.Size = new System.Drawing.Size(156, 45);
+            this.trkSpellCosts.Size = new System.Drawing.Size(159, 45);
             this.trkSpellCosts.TabIndex = 137;
             this.trkSpellCosts.TickStyle = System.Windows.Forms.TickStyle.None;
             this.trkSpellCosts.Value = 10;
@@ -478,7 +479,7 @@
             // lblHeroStats
             // 
             this.lblHeroStats.AutoSize = true;
-            this.lblHeroStats.Location = new System.Drawing.Point(583, 195);
+            this.lblHeroStats.Location = new System.Drawing.Point(585, 198);
             this.lblHeroStats.Name = "lblHeroStats";
             this.lblHeroStats.Size = new System.Drawing.Size(33, 13);
             this.lblHeroStats.TabIndex = 142;
@@ -490,7 +491,7 @@
             this.trkHeroStats.Maximum = 70;
             this.trkHeroStats.Minimum = 10;
             this.trkHeroStats.Name = "trkHeroStats";
-            this.trkHeroStats.Size = new System.Drawing.Size(156, 45);
+            this.trkHeroStats.Size = new System.Drawing.Size(159, 45);
             this.trkHeroStats.TabIndex = 141;
             this.trkHeroStats.TickStyle = System.Windows.Forms.TickStyle.None;
             this.trkHeroStats.Value = 10;
@@ -521,7 +522,7 @@
             // chkNoXPGPRando
             // 
             this.chkNoXPGPRando.AutoSize = true;
-            this.chkNoXPGPRando.Location = new System.Drawing.Point(294, 247);
+            this.chkNoXPGPRando.Location = new System.Drawing.Point(294, 273);
             this.chkNoXPGPRando.Name = "chkNoXPGPRando";
             this.chkNoXPGPRando.Size = new System.Drawing.Size(96, 17);
             this.chkNoXPGPRando.TabIndex = 146;
@@ -529,11 +530,23 @@
             this.chkNoXPGPRando.UseVisualStyleBackColor = true;
             this.chkNoXPGPRando.CheckedChanged += new System.EventHandler(this.determineFlags);
             // 
+            // chkHeroSameStats
+            // 
+            this.chkHeroSameStats.AutoSize = true;
+            this.chkHeroSameStats.Location = new System.Drawing.Point(293, 222);
+            this.chkHeroSameStats.Name = "chkHeroSameStats";
+            this.chkHeroSameStats.Size = new System.Drawing.Size(319, 17);
+            this.chkHeroSameStats.TabIndex = 147;
+            this.chkHeroSameStats.Text = "All heroes start with same stats and equal spell/equip chances";
+            this.chkHeroSameStats.UseVisualStyleBackColor = true;
+            this.chkHeroSameStats.CheckedChanged += new System.EventHandler(this.determineFlags);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(633, 439);
+            this.ClientSize = new System.Drawing.Size(647, 517);
+            this.Controls.Add(this.chkHeroSameStats);
             this.Controls.Add(this.chkNoXPGPRando);
             this.Controls.Add(this.chkShowStatGains);
             this.Controls.Add(this.chkDoubleWalk);
@@ -642,6 +655,7 @@
         private System.Windows.Forms.CheckBox chkDoubleWalk;
         private System.Windows.Forms.CheckBox chkShowStatGains;
         private System.Windows.Forms.CheckBox chkNoXPGPRando;
+        private System.Windows.Forms.CheckBox chkHeroSameStats;
     }
 }
 
