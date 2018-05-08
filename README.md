@@ -17,3 +17,4 @@ This randomizer changes the way The 7th Saga is played in numerous ways.  It als
 - Randomize monster stats up to 14-700% of normal.  This means certain monsters can totally wipe out a tank if they roll right.
 - Randomize equipment powers up to 14-700% of normal, making some weapons incredibly strong.
 - Randomize spell powers and costs up to 14-700% of normal.  This means that FIRE 1 can be super strong... and super expensive!
+- Remove "useless triggers", including not needing to get the map to get Brantu in Zellis and not having to continuously talk to the Guntz Sage so you can get Digger Quose.  (In other words, you can pick up Quose immediately)
