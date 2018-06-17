@@ -49,6 +49,9 @@
             this.button1 = new System.Windows.Forms.Button();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.chkNoHeroesJoin = new System.Windows.Forms.CheckBox();
+            this.chkAllHeroesJoin = new System.Windows.Forms.CheckBox();
+            this.chkHeroInteractions = new System.Windows.Forms.CheckBox();
             this.chkNoSeeds = new System.Windows.Forms.CheckBox();
             this.chkPandam = new System.Windows.Forms.CheckBox();
             this.chkWhoCanEquip = new System.Windows.Forms.CheckBox();
@@ -83,13 +86,16 @@
             this.trkExperience = new System.Windows.Forms.TrackBar();
             this.tabPage3 = new System.Windows.Forms.TabPage();
             this.chkRemoveTriggers = new System.Windows.Forms.CheckBox();
-            this.chkFreeIce = new System.Windows.Forms.CheckBox();
+            this.chkSkyRune1 = new System.Windows.Forms.CheckBox();
             this.chkShowStatGains = new System.Windows.Forms.CheckBox();
             this.chkDoubleWalk = new System.Windows.Forms.CheckBox();
             this.chkSpeedHacks = new System.Windows.Forms.CheckBox();
-            this.chkHeroInteractions = new System.Windows.Forms.CheckBox();
-            this.chkAllHeroesJoin = new System.Windows.Forms.CheckBox();
-            this.chkNoHeroesJoin = new System.Windows.Forms.CheckBox();
+            this.cmdGuide = new System.Windows.Forms.Button();
+            this.label5 = new System.Windows.Forms.Label();
+            this.chkSkyRune2 = new System.Windows.Forms.CheckBox();
+            this.chkSkyRune3 = new System.Windows.Forms.CheckBox();
+            this.chkSkyRune4 = new System.Windows.Forms.CheckBox();
+            this.chkSkyRune5 = new System.Windows.Forms.CheckBox();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
@@ -301,6 +307,39 @@
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Randomization";
             this.tabPage1.UseVisualStyleBackColor = true;
+            // 
+            // chkNoHeroesJoin
+            // 
+            this.chkNoHeroesJoin.AutoSize = true;
+            this.chkNoHeroesJoin.Location = new System.Drawing.Point(269, 173);
+            this.chkNoHeroesJoin.Name = "chkNoHeroesJoin";
+            this.chkNoHeroesJoin.Size = new System.Drawing.Size(94, 17);
+            this.chkNoHeroesJoin.TabIndex = 174;
+            this.chkNoHeroesJoin.Text = "No heroes join";
+            this.chkNoHeroesJoin.UseVisualStyleBackColor = true;
+            this.chkNoHeroesJoin.Click += new System.EventHandler(this.chkNoHeroesJoin_Click);
+            // 
+            // chkAllHeroesJoin
+            // 
+            this.chkAllHeroesJoin.AutoSize = true;
+            this.chkAllHeroesJoin.Location = new System.Drawing.Point(172, 173);
+            this.chkAllHeroesJoin.Name = "chkAllHeroesJoin";
+            this.chkAllHeroesJoin.Size = new System.Drawing.Size(91, 17);
+            this.chkAllHeroesJoin.TabIndex = 173;
+            this.chkAllHeroesJoin.Text = "All heroes join";
+            this.chkAllHeroesJoin.UseVisualStyleBackColor = true;
+            this.chkAllHeroesJoin.Click += new System.EventHandler(this.chkAllHeroesJoin_Click);
+            // 
+            // chkHeroInteractions
+            // 
+            this.chkHeroInteractions.AutoSize = true;
+            this.chkHeroInteractions.Location = new System.Drawing.Point(6, 173);
+            this.chkHeroInteractions.Name = "chkHeroInteractions";
+            this.chkHeroInteractions.Size = new System.Drawing.Size(160, 17);
+            this.chkHeroInteractions.TabIndex = 172;
+            this.chkHeroInteractions.Text = "Randomize hero interactions";
+            this.chkHeroInteractions.UseVisualStyleBackColor = true;
+            this.chkHeroInteractions.Click += new System.EventHandler(this.chkHeroInteractions_Click);
             // 
             // chkNoSeeds
             // 
@@ -660,8 +699,13 @@
             // 
             // tabPage3
             // 
+            this.tabPage3.Controls.Add(this.chkSkyRune5);
+            this.tabPage3.Controls.Add(this.chkSkyRune4);
+            this.tabPage3.Controls.Add(this.chkSkyRune3);
+            this.tabPage3.Controls.Add(this.chkSkyRune2);
+            this.tabPage3.Controls.Add(this.label5);
             this.tabPage3.Controls.Add(this.chkRemoveTriggers);
-            this.tabPage3.Controls.Add(this.chkFreeIce);
+            this.tabPage3.Controls.Add(this.chkSkyRune1);
             this.tabPage3.Controls.Add(this.chkShowStatGains);
             this.tabPage3.Controls.Add(this.chkDoubleWalk);
             this.tabPage3.Controls.Add(this.chkSpeedHacks);
@@ -683,16 +727,16 @@
             this.chkRemoveTriggers.UseVisualStyleBackColor = true;
             this.chkRemoveTriggers.CheckedChanged += new System.EventHandler(this.determineFlags);
             // 
-            // chkFreeIce
+            // chkSkyRune1
             // 
-            this.chkFreeIce.AutoSize = true;
-            this.chkFreeIce.Location = new System.Drawing.Point(6, 104);
-            this.chkFreeIce.Name = "chkFreeIce";
-            this.chkFreeIce.Size = new System.Drawing.Size(228, 17);
-            this.chkFreeIce.TabIndex = 149;
-            this.chkFreeIce.Text = "Require no runes to go to the ice continent";
-            this.chkFreeIce.UseVisualStyleBackColor = true;
-            this.chkFreeIce.CheckedChanged += new System.EventHandler(this.determineFlags);
+            this.chkSkyRune1.AutoSize = true;
+            this.chkSkyRune1.Location = new System.Drawing.Point(329, 35);
+            this.chkSkyRune1.Name = "chkSkyRune1";
+            this.chkSkyRune1.Size = new System.Drawing.Size(84, 17);
+            this.chkSkyRune1.TabIndex = 149;
+            this.chkSkyRune1.Text = "Up To Bone";
+            this.chkSkyRune1.UseVisualStyleBackColor = true;
+            this.chkSkyRune1.CheckedChanged += new System.EventHandler(this.determineFlags);
             // 
             // chkShowStatGains
             // 
@@ -727,44 +771,75 @@
             this.chkSpeedHacks.UseVisualStyleBackColor = true;
             this.chkSpeedHacks.CheckedChanged += new System.EventHandler(this.determineFlags);
             // 
-            // chkHeroInteractions
+            // cmdGuide
             // 
-            this.chkHeroInteractions.AutoSize = true;
-            this.chkHeroInteractions.Location = new System.Drawing.Point(6, 173);
-            this.chkHeroInteractions.Name = "chkHeroInteractions";
-            this.chkHeroInteractions.Size = new System.Drawing.Size(160, 17);
-            this.chkHeroInteractions.TabIndex = 172;
-            this.chkHeroInteractions.Text = "Randomize hero interactions";
-            this.chkHeroInteractions.UseVisualStyleBackColor = true;
-            this.chkHeroInteractions.Click += new System.EventHandler(this.chkHeroInteractions_Click);
+            this.cmdGuide.Location = new System.Drawing.Point(525, 429);
+            this.cmdGuide.Name = "cmdGuide";
+            this.cmdGuide.Size = new System.Drawing.Size(96, 23);
+            this.cmdGuide.TabIndex = 150;
+            this.cmdGuide.Text = "Guide";
+            this.cmdGuide.UseVisualStyleBackColor = true;
+            this.cmdGuide.Click += new System.EventHandler(this.cmdGuide_Click);
             // 
-            // chkAllHeroesJoin
+            // label5
             // 
-            this.chkAllHeroesJoin.AutoSize = true;
-            this.chkAllHeroesJoin.Location = new System.Drawing.Point(172, 173);
-            this.chkAllHeroesJoin.Name = "chkAllHeroesJoin";
-            this.chkAllHeroesJoin.Size = new System.Drawing.Size(91, 17);
-            this.chkAllHeroesJoin.TabIndex = 173;
-            this.chkAllHeroesJoin.Text = "All heroes join";
-            this.chkAllHeroesJoin.UseVisualStyleBackColor = true;
-            this.chkAllHeroesJoin.Click += new System.EventHandler(this.chkAllHeroesJoin_Click);
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(326, 12);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(136, 13);
+            this.label5.TabIndex = 151;
+            this.label5.Text = "Sky Rune starting locations";
             // 
-            // chkNoHeroesJoin
+            // chkSkyRune2
             // 
-            this.chkNoHeroesJoin.AutoSize = true;
-            this.chkNoHeroesJoin.Location = new System.Drawing.Point(269, 173);
-            this.chkNoHeroesJoin.Name = "chkNoHeroesJoin";
-            this.chkNoHeroesJoin.Size = new System.Drawing.Size(94, 17);
-            this.chkNoHeroesJoin.TabIndex = 174;
-            this.chkNoHeroesJoin.Text = "No heroes join";
-            this.chkNoHeroesJoin.UseVisualStyleBackColor = true;
-            this.chkNoHeroesJoin.Click += new System.EventHandler(this.chkNoHeroesJoin_Click);
+            this.chkSkyRune2.AutoSize = true;
+            this.chkSkyRune2.Location = new System.Drawing.Point(329, 58);
+            this.chkSkyRune2.Name = "chkSkyRune2";
+            this.chkSkyRune2.Size = new System.Drawing.Size(108, 17);
+            this.chkSkyRune2.TabIndex = 152;
+            this.chkSkyRune2.Text = "Pre-Ice Continent";
+            this.chkSkyRune2.UseVisualStyleBackColor = true;
+            this.chkSkyRune2.CheckedChanged += new System.EventHandler(this.determineFlags);
+            // 
+            // chkSkyRune3
+            // 
+            this.chkSkyRune3.AutoSize = true;
+            this.chkSkyRune3.Location = new System.Drawing.Point(329, 81);
+            this.chkSkyRune3.Name = "chkSkyRune3";
+            this.chkSkyRune3.Size = new System.Drawing.Size(89, 17);
+            this.chkSkyRune3.TabIndex = 153;
+            this.chkSkyRune3.Text = "Ice Continent";
+            this.chkSkyRune3.UseVisualStyleBackColor = true;
+            this.chkSkyRune3.CheckedChanged += new System.EventHandler(this.determineFlags);
+            // 
+            // chkSkyRune4
+            // 
+            this.chkSkyRune4.AutoSize = true;
+            this.chkSkyRune4.Location = new System.Drawing.Point(329, 104);
+            this.chkSkyRune4.Name = "chkSkyRune4";
+            this.chkSkyRune4.Size = new System.Drawing.Size(135, 17);
+            this.chkSkyRune4.TabIndex = 154;
+            this.chkSkyRune4.Text = "Past, Pre-Ice Continent";
+            this.chkSkyRune4.UseVisualStyleBackColor = true;
+            this.chkSkyRune4.CheckedChanged += new System.EventHandler(this.determineFlags);
+            // 
+            // chkSkyRune5
+            // 
+            this.chkSkyRune5.AutoSize = true;
+            this.chkSkyRune5.Location = new System.Drawing.Point(329, 127);
+            this.chkSkyRune5.Name = "chkSkyRune5";
+            this.chkSkyRune5.Size = new System.Drawing.Size(116, 17);
+            this.chkSkyRune5.TabIndex = 155;
+            this.chkSkyRune5.Text = "Past, Ice Continent";
+            this.chkSkyRune5.UseVisualStyleBackColor = true;
+            this.chkSkyRune5.CheckedChanged += new System.EventHandler(this.determineFlags);
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(640, 490);
+            this.Controls.Add(this.cmdGuide);
             this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.lblStatus);
@@ -864,12 +939,18 @@
         private System.Windows.Forms.CheckBox chkHeroSameEquip;
         private System.Windows.Forms.CheckBox chkHeroSameSpell;
         private System.Windows.Forms.CheckBox chkHeroSameStats;
-        private System.Windows.Forms.CheckBox chkFreeIce;
+        private System.Windows.Forms.CheckBox chkSkyRune1;
         private System.Windows.Forms.CheckBox chkRemoveTriggers;
         private System.Windows.Forms.CheckBox chkNoSeeds;
         private System.Windows.Forms.CheckBox chkNoHeroesJoin;
         private System.Windows.Forms.CheckBox chkAllHeroesJoin;
         private System.Windows.Forms.CheckBox chkHeroInteractions;
+        private System.Windows.Forms.Button cmdGuide;
+        private System.Windows.Forms.CheckBox chkSkyRune5;
+        private System.Windows.Forms.CheckBox chkSkyRune4;
+        private System.Windows.Forms.CheckBox chkSkyRune3;
+        private System.Windows.Forms.CheckBox chkSkyRune2;
+        private System.Windows.Forms.Label label5;
     }
 }
 

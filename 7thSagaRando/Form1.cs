@@ -20,9 +20,9 @@ namespace _7thSagaRando
         byte[] monsterLegalSpells = { 1, 2, 3, 4, 5, 6, 7,
                                 12, 13, 14, 15,
                                 16, 17, 21, 22, 23,
-                                24, 25, 26, 27, 28, 29, 30,
+                                24, 25, 26, 27, 28, 30,
                                 33, 34,
-                                40, 41, 46, 47 };
+                                40, 41, 46, 47, 55 };
         byte[] legalSpells = { 1, 2, 3, 4, 5, 6, 7,
                                 12, 13, 14, 15,
                                 16, 17, 21, 22, 23,
@@ -160,9 +160,12 @@ namespace _7thSagaRando
                 (chkNoXPGPRando.Checked ? 8 : 0) + (chkHeroSameStats.Checked ? 16 : 0) + (chkHeroSameSpell.Checked ? 32 : 0);
             flags += convertIntToChar(number);
             number = (chkHeroSameEquip.Checked ? 1 : 0) + (chkPandam.Checked ? 2 : 0) + (chkSameRando.Checked ? 4 : 0) +
-                (chkRemoveTriggers.Checked ? 8 : 0) + (chkFreeIce.Checked ? 16 : 0) + (chkNoSeeds.Checked ? 32 : 0);
+                (chkRemoveTriggers.Checked ? 8 : 0) + (chkNoSeeds.Checked ? 32 : 0);
             flags += convertIntToChar(number);
             number = (chkHeroInteractions.Checked ? 1 : 0) + (chkAllHeroesJoin.Checked ? 2 : 0) + (chkNoHeroesJoin.Checked ? 4 : 0);
+            flags += convertIntToChar(number);
+            number = (chkSkyRune1.Checked ? 1 : 0) + (chkSkyRune2.Checked ? 2 : 0) + (chkSkyRune3.Checked ? 4 : 0) +
+                (chkSkyRune4.Checked ? 8 : 0) + (chkSkyRune5.Checked ? 16 : 0);
             flags += convertIntToChar(number);
             flags += convertIntToChar(trkExperience.Value);
             flags += convertIntToChar(trkGoldReq.Value - 10);
@@ -176,7 +179,7 @@ namespace _7thSagaRando
 
         private void determineChecks(object sender, EventArgs e)
         {
-            if (txtFlags.Text.Length != 10) return;
+            if (txtFlags.Text.Length != 11) return;
             loading = true;
             string flags = txtFlags.Text;
             int number = convertChartoInt(Convert.ToChar(flags.Substring(0, 1)));
@@ -200,7 +203,6 @@ namespace _7thSagaRando
             chkPandam.Checked = (number % 4 >= 2);
             chkSameRando.Checked = (number % 8 >= 4);
             chkRemoveTriggers.Checked = (number % 16 >= 8);
-            chkFreeIce.Checked = (number % 32 >= 16);
             chkNoSeeds.Checked = (number % 64 >= 32);
 
             number = convertChartoInt(Convert.ToChar(flags.Substring(3, 1)));
@@ -208,17 +210,24 @@ namespace _7thSagaRando
             chkAllHeroesJoin.Checked = (number % 4 >= 2);
             chkNoHeroesJoin.Checked = (number % 8 >= 4);
 
-            trkExperience.Value = convertChartoInt(Convert.ToChar(flags.Substring(4, 1)));
+            number = convertChartoInt(Convert.ToChar(flags.Substring(4, 1)));
+            chkSkyRune1.Checked = (number % 2 == 1);
+            chkSkyRune2.Checked = (number % 4 >= 2);
+            chkSkyRune3.Checked = (number % 8 >= 4);
+            chkSkyRune4.Checked = (number % 16 >= 8);
+            chkSkyRune5.Checked = (number % 32 >= 16);
+
+            trkExperience.Value = convertChartoInt(Convert.ToChar(flags.Substring(5, 1)));
             trkExperience_Scroll(null, null);
-            trkGoldReq.Value = convertChartoInt(Convert.ToChar(flags.Substring(5, 1))) + 10;
+            trkGoldReq.Value = convertChartoInt(Convert.ToChar(flags.Substring(6, 1))) + 10;
             trkGoldReq_Scroll(null, null);
-            trkMonsterStats.Value = convertChartoInt(Convert.ToChar(flags.Substring(6, 1))) + 10;
+            trkMonsterStats.Value = convertChartoInt(Convert.ToChar(flags.Substring(7, 1))) + 10;
             trkMonsterStats_Scroll(null, null);
-            trkEquipPowers.Value = convertChartoInt(Convert.ToChar(flags.Substring(7, 1))) + 10;
+            trkEquipPowers.Value = convertChartoInt(Convert.ToChar(flags.Substring(8, 1))) + 10;
             trkEquipPowers_Scroll(null, null);
-            trkSpellCosts.Value = convertChartoInt(Convert.ToChar(flags.Substring(8, 1))) + 10;
+            trkSpellCosts.Value = convertChartoInt(Convert.ToChar(flags.Substring(9, 1))) + 10;
             trkSpellCosts_Scroll(null, null);
-            trkHeroStats.Value = convertChartoInt(Convert.ToChar(flags.Substring(9, 1))) + 10;
+            trkHeroStats.Value = convertChartoInt(Convert.ToChar(flags.Substring(10, 1))) + 10;
             trkHeroStats_Scroll(null, null);
             loading = false;
         }
@@ -285,126 +294,43 @@ namespace _7thSagaRando
             determineFlags(null, null);
         }
 
+        private void randomize()
+        {
+            loadRom();
+            Random r1 = new Random(Convert.ToInt32(txtSeed.Text));
+            apprenticeFightAdjustment();
+            boostExp();
+            if (chkMonsterZones.Checked) randomizeMonsterZones(r1);
+            if (chkMonsterPatterns.Checked) randomizeMonsterPatterns(r1);
+            if (chkHeroStats.Checked) randomizeHeroStats(r1);
+            if (chkTreasures.Checked) randomizeTreasures(r1);
+            if (chkStores.Checked) randomizeStores(r1);
+            if (chkWhoCanEquip.Checked) randomizeWhoCanEquip(r1);
+            heroInteractions(r1);
+            randomizePison(r1);
+            randomizePandam(r1);
+            goldRequirements(r1);
+            monsterStats(r1);
+            heroStats(r1);
+            equipmentStats(r1);
+            spellCosts(r1);
+            if (chkSpeedHacks.Checked) speedHacks();
+            if (chkDoubleWalk.Checked) doubleWalk();
+            if (chkRemoveTriggers.Checked) removeUselessTriggers();
+            if (chkSkyRune1.Checked || chkSkyRune2.Checked || chkSkyRune3.Checked || chkSkyRune4.Checked || chkSkyRune5.Checked) freeIce();
+        }
+
         private void cmdRandomize_Click(object sender, EventArgs e)
         {
-            //try
+            try
             {
-                loadRom();
-                Random r1 = new Random(Convert.ToInt32(txtSeed.Text));
-                apprenticeFightAdjustment();
-                boostExp();
-                if (chkMonsterZones.Checked) randomizeMonsterZones(r1);
-                if (chkMonsterPatterns.Checked) randomizeMonsterPatterns(r1);
-                if (chkHeroStats.Checked) randomizeHeroStats(r1);
-                if (chkTreasures.Checked) randomizeTreasures(r1);
-                if (chkStores.Checked) randomizeStores(r1);
-                if (chkWhoCanEquip.Checked) randomizeWhoCanEquip(r1);
-                heroInteractions(r1);
-                randomizePison(r1);
-                randomizePandam(r1);
-                goldRequirements(r1);
-                monsterStats(r1);
-                heroStats(r1);
-                equipmentStats(r1);
-                spellCosts(r1);
-                if (chkSpeedHacks.Checked) speedHacks();
-                if (chkDoubleWalk.Checked) doubleWalk();
-                if (chkRemoveTriggers.Checked) removeUselessTriggers();
-                if (chkFreeIce.Checked) freeIce();
+                randomize();
                 saveRom();
             }
-            //catch (Exception ex)
-            //{
-            //    MessageBox.Show("Error:  " + ex.Message);
-            //}
-
-            //StreamWriter writer = File.CreateText(Path.Combine(Path.GetDirectoryName(txtFileName.Text), "7thSaga_" + txtSeed.Text + "_" + txtFlags.Text + "_HeroGuide.txt"));
-
-            //writer.WriteLine("".PadRight(20) + "Kamil".PadLeft(10) + "Olvan".PadLeft(10) + "Esuna".PadLeft(10) + "Wilme".PadLeft(10) + "Lux".PadLeft(10) + "Valsu".PadLeft(10) + "Lejes".PadLeft(10));
-            //int byteToUse = 0x623f;
-            //writer = printStats(writer, byteToUse, "Start HP");
-            //writer = printStats(writer, byteToUse + 2, "Start MP");
-            //writer = printStats(writer, byteToUse + 4, "Start PWR");
-            //writer = printStats(writer, byteToUse + 5, "Start GRD");
-            //writer = printStats(writer, byteToUse + 6, "Start MAG");
-            //writer = printStats(writer, byteToUse + 7, "Start SPD");
-
-            //writer = printStats(writer, byteToUse + 8, "Growth HP");
-            //writer = printStats(writer, byteToUse + 9, "Growth MP");
-            //writer = printStats(writer, byteToUse + 10, "Growth PWR");
-            //writer = printStats(writer, byteToUse + 11, "Growth GRD");
-            //writer = printStats(writer, byteToUse + 12, "Growth MAG");
-            //writer = printStats(writer, byteToUse + 13, "Growth SPD");
-
-            //writer.WriteLine();
-            //writer.WriteLine("WEAPONS");
-            //for (int lnJ = 1; lnJ < 51; lnJ++)
-            //    printWeapons(writer, 0x639d + (10 * lnJ), lnJ);
-
-            //writer.WriteLine();
-            //writer.WriteLine("ARMOR");
-            //for (int lnJ = 1; lnJ < 53; lnJ++)
-            //    printArmor(writer, 0x659b + (17 * lnJ), lnJ);
-
-            //for (int lnI = 0; lnI < 7; lnI++)
-            //{
-                //int byteToUse = 0x623f + (18 * lnI);
-                //writer.WriteLine(lnI == 0 ? "Kamil" : lnI == 1 ? "Olvan" : lnI == 2 ? "Esuna" : lnI == 3 ? "Wilme" : lnI == 4 ? "Lux" : lnI == 5 ? "Valsu" : "Lejes");
-                //writer.WriteLine("Start:   HP:  " + romData[byteToUse] + "  MP:  " + romData[byteToUse + 2] + "  PWR:  " + romData[byteToUse + 4] + "  GRD:  " + romData[byteToUse + 5] + "  MAG:  " + romData[byteToUse + 6] + "  SPD:  " + romData[byteToUse + 7]);
-                //writer.WriteLine("Growth:  HP:  " + romData[byteToUse + 8] + "  MP:  " + romData[byteToUse + 9] + "  PWR:  " + romData[byteToUse + 10] + "  GRD:  " + romData[byteToUse + 11] + "  MAG:  " + romData[byteToUse + 12] + "  SPD:  " + romData[byteToUse + 13]);
-
-                //writer.WriteLine("");
-                //writer.WriteLine("Weapons: (>= 50 attack)");
-                //for (int lnJ = 1; lnJ < 51; lnJ++)
-                //{
-                //    byteToUse = 0x639d + (10 * lnJ);
-                //    string name = (lnJ == 1 ? "SW Tranq" : lnJ == 2 ? "SW Psyte" : lnJ == 3 ? "SW Anim" : lnJ == 4 ? "SW Kryn" : lnJ == 5 ? "SW Anger" : lnJ == 6 ? "SW Natr" : lnJ == 7 ? "SW Brill" : lnJ == 8 ? "SW Cour" : lnJ == 9 ? "SW Desp" : lnJ == 10 ? "SW Fear" :
-                //        lnJ == 11 ? "SW Fire" : lnJ == 12 ? "SW Insa" : lnJ == 13 ? "SW Vict" : lnJ == 14 ? "SW Ansc" : lnJ == 15 ? "SW Doom" : lnJ == 16 ? "SW Fort" : lnJ == 19 ? "SW Tidal" : lnJ == 20 ? "SW Znte" :
-                //        lnJ == 21 ? "SW Mura" : lnJ == 22 ? "KN Lght" : lnJ == 23 ? "SB Saber" : lnJ == 24 ? "KN Fire" : lnJ == 25 ? "Claw" : lnJ == 26 ? "HA Znte" : lnJ == 27 ? "HA Kryn" : lnJ == 28 ? "AX Fire" : lnJ == 29 ? "AX Psyte" : lnJ == 30 ? "AX Anim" :
-                //        lnJ == 31 ? "AX Anger" : lnJ == 32 ? "AX Power" : lnJ == 33 ? "AX Desp" : lnJ == 34 ? "AX Kryn" : lnJ == 35 ? "AX Fear" : lnJ == 36 ? "AX Myst" : lnJ == 37 ? "AX Hope" : lnJ == 38 ? "AX Immo" : lnJ == 39 ? "SW Sword" :
-                //        lnJ == 41 ? "ST Lght" : lnJ == 42 ? "ST Petr" : lnJ == 43 ? "RD Tide" : lnJ == 44 ? "RD Conf" : lnJ == 45 ? "RD Brill" : lnJ == 46 ? "RD Desp" : lnJ == 47 ? "RD Natr" : lnJ == 48 ? "RD Fear" : lnJ == 49 ? "RD Myst" : "RD Immo");
-
-                //    int power = romData[byteToUse] + (romData[byteToUse + 1] * 256);
-                //    if (name != "" && romData[byteToUse + 4] % Math.Pow(2, lnI + 1) >= Math.Pow(2, lnI) && power >= 50)
-                //        writer.WriteLine(name.PadRight(10) + " - " + power.ToString());
-                //}
-
-                //writer.WriteLine("");
-                //writer.WriteLine("Armor: (>= 40 defense)");
-                //for (int lnJ = 0; lnJ < 53; lnJ++)
-                //{
-                //    byteToUse = 0x659b + (17 * lnJ);
-                //    string name = (lnJ == 0 ? "AR Xtri" : lnJ == 1 ? "AR Psyt" : lnJ == 2 ? "AR Anim" : lnJ == 3 ? "AR Royl" : lnJ == 4 ? "AR Cour" : lnJ == 5 ? "AR Brav" : lnJ == 6 ? "AR Mystc" : lnJ == 7 ? "AR Fort" : 
-                //        lnJ == 8 ? "ML Scale" : lnJ == 9 ? "ML Chain" : lnJ == 10 ? "ML Kryn" : lnJ == 11 ? "CK Fire" : lnJ == 12 ? "CK Ice" : lnJ == 13 ? "RB Lght" : lnJ == 14 ? "RB Xtre" : lnJ == 15 ? "Xtri" : 
-                //        lnJ == 16 ? "Coat" : lnJ == 17 ? "Blck" : lnJ == 18 ? "RB Cttn" : lnJ == 19 ? "RB Silk" : lnJ == 20 ? "RB Seas" : lnJ == 21 ? "RB Hope" : lnJ == 22 ? "RB Anger" : lnJ == 23 ? "RB Vict" : 
-                //        lnJ == 24 ? "RB Desp" : lnJ == 25 ? "RB Conf" : lnJ == 26 ? "RB Myst" : lnJ == 27 ? "RB Immo" : lnJ == 28 ? "Brwn" : lnJ == 30 ? "SH Xtri" : lnJ == 31 ? "SH Kryn" : 
-                //        lnJ == 32 ? "SH Cour" : lnJ == 33 ? "SH Brill" : lnJ == 34 ? "SH Just" : lnJ == 35 ? "SH Sound" : lnJ == 36 ? "SH Myst" : lnJ == 37 ? "SH Anger" : lnJ == 38 ? "SH Mystc" : lnJ == 39 ? "SH Frtn" :
-                //        lnJ == 40 ? "SH Immo" : lnJ == 41 ? "SH Illus" : lnJ == 42 ? "Amulet" : lnJ == 43 ? "Ring" : lnJ == 46 ? "Horn" : lnJ == 47 ? "Pod" : 
-                //        lnJ == 48 ? "HT Xtri" : lnJ == 50 ? "Scarf" : lnJ == 51 ? "MK Mask" : lnJ == 52 ? "MK Kryn" : "CR Brill");
-
-                //    int power = romData[byteToUse] + (romData[byteToUse + 1] * 256);
-                //    if (name != "" && romData[byteToUse + 4] % Math.Pow(2, lnI + 1) >= Math.Pow(2, lnI) && power >= 40)
-                //        writer.WriteLine(name.PadRight(10) + " - " + power.ToString());
-                //}
-
-                //writer.WriteLine("Spells:");
-                //byteToUse = 0x62bd + (32 * lnI);
-                //for (int lnJ = 0; lnJ < 16; lnJ++)
-                //{
-                //    int spell = romData[byteToUse + lnJ];
-                //    if (spell == 0) break;
-                //    writer.WriteLine(romData[byteToUse + lnJ + 16].ToString() + " - " + (spell == 1 ? "FIRE 1" : spell == 2 ? "FIRE 2" : spell == 3 ? "ICE 1" : spell == 4 ? "ICE 2" : spell == 5 ? "LASER 1" : spell == 6 ? "LASER 2" : spell == 7 ? "LASER 3" : spell == 12 ? "F BIRD" : spell == 13 ? "F BALL" :
-                //        spell == 14 ? "BLZRD 1" : spell == 15 ? "BLZRD 2" : spell == 16 ? "THNDER1" : spell == 17 ? "THNDER2" : spell == 21 ? "PETRIFY" : spell == 22 ? "DEFNSE1" : spell == 23 ? "DEFNSE2" : spell == 24 ? "HEAL 1" : spell == 25 ? "HEAL 2" : spell == 26 ? "HEAL 3" :
-                //        spell == 27 ? "MPCTCHR" : spell == 28 ? "AGILITY" : spell == 29 ? "F SHID" : spell == 30 ? "PROTECT" : spell == 31 ? "EXIT" : spell == 33 ? "POWER" : spell == 34 ? "HPCTCHR" : spell == 35 ? "ELIXIR" : spell == 40 ? "VACUUM1" : spell == 41 ? "VACUUM2" :
-                //        spell == 45 ? "PURIFY" : spell == 46 ? "REVIVE1" : "REVIVE2"));
-                //}
-                //writer.WriteLine("Weapons to equip:");
-
-
-            //    writer.WriteLine("");
-            //}
-            //writer.Close();
-            //writer.Dispose();
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error:  " + ex.Message);
+            }
         }
 
         private void heroInteractions(Random r1)
@@ -579,14 +505,121 @@ namespace _7thSagaRando
         private void freeIce()
         {
             // Eygus Sage
-            romData[0x63ba2] = 0x10; // Change trigger to the defeat of Romus.
-            romData[0x63bd8] = 0x10; // Change trigger to the defeat of Romus.
+            //romData[0x63ba2] = 0x10; // Change trigger to the defeat of Romus.
+            //romData[0x63bd8] = 0x10; // Change trigger to the defeat of Romus.
 
-            // Bone
-            romData[0x655b8] = 0x10;
+            //// Bone
+            //romData[0x655b8] = 0x10;
 
-            // No runes required in Brush
-            romData[0x6a909] = romData[0x6a90f] = romData[0x6a915] = romData[0x6a91b] = romData[0x6a921] = romData[0x6a927] = romData[0x6a92d] = romData[0x6a92d] = 0x10;
+            //// No runes required in Brush
+            //romData[0x6a909] = romData[0x6a90f] = romData[0x6a915] = romData[0x6a91b] = romData[0x6a921] = romData[0x6a927] = romData[0x6a92d] = romData[0x6a92d] = 0x10;
+
+            // "Free Enterprise" the Sky Rune.
+            byte[] romPlugin = { 0x22, 0x00, 0xed, 0xc0, 0xea };
+            for (int lnI = 0; lnI < romPlugin.Length; lnI++)
+                romData[0x49068 + lnI] = romPlugin[lnI];
+
+            int pluginStart = 0xed00;
+            byte returnStart = 0xe0;
+
+            if (chkSkyRune1.Checked)
+            {
+                romPlugin = new byte[] {
+                    0xa9, 0x01, 0x8f, (byte)(returnStart + 0), 0x50, 0x7e,
+                    0xa9, 0x02, 0x8f, (byte)(returnStart + 1), 0x50, 0x7e,
+                    0xa9, 0x03, 0x8f, (byte)(returnStart + 2), 0x50, 0x7e,
+                    0xa9, 0x04, 0x8f, (byte)(returnStart + 3), 0x50, 0x7e,
+                    0xa9, 0x05, 0x8f, (byte)(returnStart + 4), 0x50, 0x7e,
+                    0xa9, 0x06, 0x8f, (byte)(returnStart + 5), 0x50, 0x7e,
+                    0xa9, 0x07, 0x8f, (byte)(returnStart + 6), 0x50, 0x7e,
+                    0xa9, 0x08, 0x8f, (byte)(returnStart + 7), 0x50, 0x7e,
+                    0xa9, 0x09, 0x8f, (byte)(returnStart + 8), 0x50, 0x7e,
+                    0xa9, 0x0a, 0x8f, (byte)(returnStart + 9), 0x50, 0x7e
+                };
+
+                for (int lnI = 0; lnI < romPlugin.Length; lnI++)
+                    romData[pluginStart + lnI] = romPlugin[lnI];
+
+                pluginStart += romPlugin.Length;
+                returnStart += 10;
+            }
+
+            if (chkSkyRune2.Checked)
+            {
+                romPlugin = new byte[] {
+                    0xa9, 0x0b, 0x8f, (byte)(returnStart + 0), 0x50, 0x7e,
+                    0xa9, 0x0c, 0x8f, (byte)(returnStart + 1), 0x50, 0x7e,
+                    0xa9, 0x0d, 0x8f, (byte)(returnStart + 2), 0x50, 0x7e,
+                    0xa9, 0x0e, 0x8f, (byte)(returnStart + 3), 0x50, 0x7e,
+                    0xa9, 0x0f, 0x8f, (byte)(returnStart + 4), 0x50, 0x7e,
+                    0xa9, 0x10, 0x8f, (byte)(returnStart + 5), 0x50, 0x7e,
+                    0xa9, 0x12, 0x8f, (byte)(returnStart + 6), 0x50, 0x7e,
+                    0xa9, 0x13, 0x8f, (byte)(returnStart + 7), 0x50, 0x7e,
+                    0xa9, 0x14, 0x8f, (byte)(returnStart + 8), 0x50, 0x7e,
+                    0xa9, 0x15, 0x8f, (byte)(returnStart + 9), 0x50, 0x7e,
+                    0xa9, 0x16, 0x8f, (byte)(returnStart + 10), 0x50, 0x7e
+                };
+
+                for (int lnI = 0; lnI < romPlugin.Length; lnI++)
+                    romData[pluginStart + lnI] = romPlugin[lnI];
+
+                pluginStart += romPlugin.Length;
+                returnStart += 11;
+            }
+
+            if (chkSkyRune3.Checked)
+            {
+                romPlugin = new byte[] {
+                    0xa9, 0x17, 0x8f, (byte)(returnStart + 0), 0x50, 0x7e,
+                    0xa9, 0x18, 0x8f, (byte)(returnStart + 1), 0x50, 0x7e,
+                    0xa9, 0x1a, 0x8f, (byte)(returnStart + 2), 0x50, 0x7e
+                };
+
+                for (int lnI = 0; lnI < romPlugin.Length; lnI++)
+                    romData[pluginStart + lnI] = romPlugin[lnI];
+
+                pluginStart += romPlugin.Length;
+                returnStart += 3;
+            }
+
+            if (chkSkyRune4.Checked)
+            {
+                romPlugin = new byte[] {
+                    0xa9, 0x1c, 0x8f, (byte)(returnStart + 0), 0x50, 0x7e,
+                    0xa9, 0x1d, 0x8f, (byte)(returnStart + 1), 0x50, 0x7e,
+                    0xa9, 0x1e, 0x8f, (byte)(returnStart + 2), 0x50, 0x7e,
+                    0xa9, 0x20, 0x8f, (byte)(returnStart + 3), 0x50, 0x7e,
+                    0xa9, 0x21, 0x8f, (byte)(returnStart + 4), 0x50, 0x7e
+                };
+
+                for (int lnI = 0; lnI < romPlugin.Length; lnI++)
+                    romData[pluginStart + lnI] = romPlugin[lnI];
+
+                pluginStart += romPlugin.Length;
+                returnStart += 5;
+            }
+
+            if (chkSkyRune5.Checked)
+            {
+                romPlugin = new byte[] {
+                    0xa9, 0x1f, 0x8f, (byte)(returnStart + 0), 0x50, 0x7e,
+                    0xa9, 0x22, 0x8f, (byte)(returnStart + 1), 0x50, 0x7e
+                };
+
+                for (int lnI = 0; lnI < romPlugin.Length; lnI++)
+                    romData[pluginStart + lnI] = romPlugin[lnI];
+
+                pluginStart += romPlugin.Length;
+                returnStart += 2;
+            }
+
+            romPlugin = new byte[] {
+                0xe2, 0x20, // Start the process that we had to skip with the JSL
+                0xad, 0xe7, 0x00,
+                0x6b // RTL
+            };
+            for (int lnI = 0; lnI < romPlugin.Length; lnI++)
+                romData[pluginStart + lnI] = romPlugin[lnI];
         }
 
         private void randomizePison(Random r1)
@@ -595,7 +628,7 @@ namespace _7thSagaRando
             string[] randomCharacters = { "The Dragonlord", "A slime", "The Fun Police", "Chaos", "Malroth", "Necrosaro", "Baramos", "Zoma", "Ganon", "Zelda", "Link", "A wizzrobe", "Wario", "Mario", "Luigi", "Bowser", "A goomba",
                 "An imp", "Zeromus", "Golbez", "DK Cecil", "Kefka", "Kamil", "Valsu", "Lux", "Wilme", "Lejes", "Olvan", "Esuna" };
             int chosen = r1.Next() % randomCharacters.Length;
-            string theChosenOne = randomCharacters[r1.Next() % randomCharacters.Length];
+            string theChosenOne = randomCharacters[chosen];
             textToHex(0x623fb, "*" + theChosenOne + "* asked me to@take half your money away.@Sorry.@", new byte[] { 0xF3, 0xFE, 0x13, 0x00, 0xF6, 0x28 }); // r1.Next() % randomCharacter.Length
 
             // Red Pison
@@ -1031,6 +1064,7 @@ namespace _7thSagaRando
                     romData[byteToUse + lnJ] = 0x00;
                 for (byte lnJ = 0; lnJ < 8; lnJ++)
                 {
+                    // If past is immediately unlocked, immediately go to 63 after zone 11.  Immediately have a big minimum monster after zone 25.
                     byte minMonster = (byte)(lnI < 46 ? 0 : 10 + ((lnI - 46) * 2));
                     byte maxMonster = (byte)(lnI < 6 ? 5 : lnI < 11 ? 10 : lnI < 18 ? 17 : lnI < 25 ? 26 : 63);
                     byte helpChance = (byte)Math.Min(70, 10 + (lnI * 5));
@@ -1465,6 +1499,8 @@ namespace _7thSagaRando
                 statAdjust(r1, byteToUse + 33, 1, trkMonsterStats.Value / 10, 0.5, 99);
                 if (!chkNoXPGPRando.Checked)
                     statAdjust(r1, byteToUse + 34, 2, trkMonsterStats.Value / 10, 1.0);
+                //romData[byteToUse + 34] = 0xff;
+                //romData[byteToUse + 35] = 0xff;
             }
         }
 
@@ -1835,6 +1871,102 @@ namespace _7thSagaRando
             chkHeroInteractions.Checked = false;
             chkAllHeroesJoin.Checked = false;
             determineFlags(null, null);
+        }
+
+        private void cmdGuide_Click(object sender, EventArgs e)
+        {
+            randomize();
+
+            StreamWriter writer = File.CreateText(Path.Combine(Path.GetDirectoryName(txtFileName.Text), "7thSaga_" + txtSeed.Text + "_" + txtFlags.Text + "_HeroGuide.txt"));
+
+            writer.WriteLine("".PadRight(20) + "Kamil".PadLeft(10) + "Olvan".PadLeft(10) + "Esuna".PadLeft(10) + "Wilme".PadLeft(10) + "Lux".PadLeft(10) + "Valsu".PadLeft(10) + "Lejes".PadLeft(10));
+            int byteToUse = 0x623f;
+            writer = printStats(writer, byteToUse, "Start HP");
+            writer = printStats(writer, byteToUse + 2, "Start MP");
+            writer = printStats(writer, byteToUse + 4, "Start PWR");
+            writer = printStats(writer, byteToUse + 5, "Start GRD");
+            writer = printStats(writer, byteToUse + 6, "Start MAG");
+            writer = printStats(writer, byteToUse + 7, "Start SPD");
+
+            writer = printStats(writer, byteToUse + 8, "Growth HP");
+            writer = printStats(writer, byteToUse + 9, "Growth MP");
+            writer = printStats(writer, byteToUse + 10, "Growth PWR");
+            writer = printStats(writer, byteToUse + 11, "Growth GRD");
+            writer = printStats(writer, byteToUse + 12, "Growth MAG");
+            writer = printStats(writer, byteToUse + 13, "Growth SPD");
+
+            writer.WriteLine();
+            writer.WriteLine("WEAPONS");
+            for (int lnJ = 1; lnJ < 51; lnJ++)
+                printWeapons(writer, 0x639d + (10 * lnJ), lnJ);
+
+            writer.WriteLine();
+            writer.WriteLine("ARMOR");
+            for (int lnJ = 1; lnJ < 53; lnJ++)
+                printArmor(writer, 0x659b + (17 * lnJ), lnJ);
+
+            //for (int lnI = 0; lnI < 7; lnI++)
+            //{
+            //    int byteToUse = 0x623f + (18 * lnI);
+            //    writer.WriteLine(lnI == 0 ? "Kamil" : lnI == 1 ? "Olvan" : lnI == 2 ? "Esuna" : lnI == 3 ? "Wilme" : lnI == 4 ? "Lux" : lnI == 5 ? "Valsu" : "Lejes");
+            //    writer.WriteLine("Start:   HP:  " + romData[byteToUse] + "  MP:  " + romData[byteToUse + 2] + "  PWR:  " + romData[byteToUse + 4] + "  GRD:  " + romData[byteToUse + 5] + "  MAG:  " + romData[byteToUse + 6] + "  SPD:  " + romData[byteToUse + 7]);
+            //    writer.WriteLine("Growth:  HP:  " + romData[byteToUse + 8] + "  MP:  " + romData[byteToUse + 9] + "  PWR:  " + romData[byteToUse + 10] + "  GRD:  " + romData[byteToUse + 11] + "  MAG:  " + romData[byteToUse + 12] + "  SPD:  " + romData[byteToUse + 13]);
+
+            //    writer.WriteLine("");
+            //    writer.WriteLine("Weapons: (>= 50 attack)");
+            //    for (int lnJ = 1; lnJ < 51; lnJ++)
+            //    {
+            //        byteToUse = 0x639d + (10 * lnJ);
+            //        string name = (lnJ == 1 ? "SW Tranq" : lnJ == 2 ? "SW Psyte" : lnJ == 3 ? "SW Anim" : lnJ == 4 ? "SW Kryn" : lnJ == 5 ? "SW Anger" : lnJ == 6 ? "SW Natr" : lnJ == 7 ? "SW Brill" : lnJ == 8 ? "SW Cour" : lnJ == 9 ? "SW Desp" : lnJ == 10 ? "SW Fear" :
+            //            lnJ == 11 ? "SW Fire" : lnJ == 12 ? "SW Insa" : lnJ == 13 ? "SW Vict" : lnJ == 14 ? "SW Ansc" : lnJ == 15 ? "SW Doom" : lnJ == 16 ? "SW Fort" : lnJ == 19 ? "SW Tidal" : lnJ == 20 ? "SW Znte" :
+            //            lnJ == 21 ? "SW Mura" : lnJ == 22 ? "KN Lght" : lnJ == 23 ? "SB Saber" : lnJ == 24 ? "KN Fire" : lnJ == 25 ? "Claw" : lnJ == 26 ? "HA Znte" : lnJ == 27 ? "HA Kryn" : lnJ == 28 ? "AX Fire" : lnJ == 29 ? "AX Psyte" : lnJ == 30 ? "AX Anim" :
+            //            lnJ == 31 ? "AX Anger" : lnJ == 32 ? "AX Power" : lnJ == 33 ? "AX Desp" : lnJ == 34 ? "AX Kryn" : lnJ == 35 ? "AX Fear" : lnJ == 36 ? "AX Myst" : lnJ == 37 ? "AX Hope" : lnJ == 38 ? "AX Immo" : lnJ == 39 ? "SW Sword" :
+            //            lnJ == 41 ? "ST Lght" : lnJ == 42 ? "ST Petr" : lnJ == 43 ? "RD Tide" : lnJ == 44 ? "RD Conf" : lnJ == 45 ? "RD Brill" : lnJ == 46 ? "RD Desp" : lnJ == 47 ? "RD Natr" : lnJ == 48 ? "RD Fear" : lnJ == 49 ? "RD Myst" : "RD Immo");
+
+            //        int power = romData[byteToUse] + (romData[byteToUse + 1] * 256);
+            //        if (name != "" && romData[byteToUse + 4] % Math.Pow(2, lnI + 1) >= Math.Pow(2, lnI) && power >= 50)
+            //            writer.WriteLine(name.PadRight(10) + " - " + power.ToString());
+            //    }
+
+            //    writer.WriteLine("");
+            //    writer.WriteLine("Armor: (>= 40 defense)");
+            //    for (int lnJ = 0; lnJ < 53; lnJ++)
+            //    {
+            //        byteToUse = 0x659b + (17 * lnJ);
+            //        string name = (lnJ == 0 ? "AR Xtri" : lnJ == 1 ? "AR Psyt" : lnJ == 2 ? "AR Anim" : lnJ == 3 ? "AR Royl" : lnJ == 4 ? "AR Cour" : lnJ == 5 ? "AR Brav" : lnJ == 6 ? "AR Mystc" : lnJ == 7 ? "AR Fort" :
+            //            lnJ == 8 ? "ML Scale" : lnJ == 9 ? "ML Chain" : lnJ == 10 ? "ML Kryn" : lnJ == 11 ? "CK Fire" : lnJ == 12 ? "CK Ice" : lnJ == 13 ? "RB Lght" : lnJ == 14 ? "RB Xtre" : lnJ == 15 ? "Xtri" :
+            //            lnJ == 16 ? "Coat" : lnJ == 17 ? "Blck" : lnJ == 18 ? "RB Cttn" : lnJ == 19 ? "RB Silk" : lnJ == 20 ? "RB Seas" : lnJ == 21 ? "RB Hope" : lnJ == 22 ? "RB Anger" : lnJ == 23 ? "RB Vict" :
+            //            lnJ == 24 ? "RB Desp" : lnJ == 25 ? "RB Conf" : lnJ == 26 ? "RB Myst" : lnJ == 27 ? "RB Immo" : lnJ == 28 ? "Brwn" : lnJ == 30 ? "SH Xtri" : lnJ == 31 ? "SH Kryn" :
+            //            lnJ == 32 ? "SH Cour" : lnJ == 33 ? "SH Brill" : lnJ == 34 ? "SH Just" : lnJ == 35 ? "SH Sound" : lnJ == 36 ? "SH Myst" : lnJ == 37 ? "SH Anger" : lnJ == 38 ? "SH Mystc" : lnJ == 39 ? "SH Frtn" :
+            //            lnJ == 40 ? "SH Immo" : lnJ == 41 ? "SH Illus" : lnJ == 42 ? "Amulet" : lnJ == 43 ? "Ring" : lnJ == 46 ? "Horn" : lnJ == 47 ? "Pod" :
+            //            lnJ == 48 ? "HT Xtri" : lnJ == 50 ? "Scarf" : lnJ == 51 ? "MK Mask" : lnJ == 52 ? "MK Kryn" : "CR Brill");
+
+            //        int power = romData[byteToUse] + (romData[byteToUse + 1] * 256);
+            //        if (name != "" && romData[byteToUse + 4] % Math.Pow(2, lnI + 1) >= Math.Pow(2, lnI) && power >= 40)
+            //            writer.WriteLine(name.PadRight(10) + " - " + power.ToString());
+            //    }
+
+            //    writer.WriteLine("Spells:");
+            //    byteToUse = 0x62bd + (32 * lnI);
+            //    for (int lnJ = 0; lnJ < 16; lnJ++)
+            //    {
+            //        int spell = romData[byteToUse + lnJ];
+            //        if (spell == 0) break;
+            //        writer.WriteLine(romData[byteToUse + lnJ + 16].ToString() + " - " + (spell == 1 ? "FIRE 1" : spell == 2 ? "FIRE 2" : spell == 3 ? "ICE 1" : spell == 4 ? "ICE 2" : spell == 5 ? "LASER 1" : spell == 6 ? "LASER 2" : spell == 7 ? "LASER 3" : spell == 12 ? "F BIRD" : spell == 13 ? "F BALL" :
+            //            spell == 14 ? "BLZRD 1" : spell == 15 ? "BLZRD 2" : spell == 16 ? "THNDER1" : spell == 17 ? "THNDER2" : spell == 21 ? "PETRIFY" : spell == 22 ? "DEFNSE1" : spell == 23 ? "DEFNSE2" : spell == 24 ? "HEAL 1" : spell == 25 ? "HEAL 2" : spell == 26 ? "HEAL 3" :
+            //            spell == 27 ? "MPCTCHR" : spell == 28 ? "AGILITY" : spell == 29 ? "F SHID" : spell == 30 ? "PROTECT" : spell == 31 ? "EXIT" : spell == 33 ? "POWER" : spell == 34 ? "HPCTCHR" : spell == 35 ? "ELIXIR" : spell == 40 ? "VACUUM1" : spell == 41 ? "VACUUM2" :
+            //            spell == 45 ? "PURIFY" : spell == 46 ? "REVIVE1" : "REVIVE2"));
+            //    }
+            //    writer.WriteLine("Weapons to equip:");
+
+
+            //    writer.WriteLine("");
+            //}
+            writer.Close();
+            writer.Dispose();
+
+            string finalFile = Path.Combine(Path.GetDirectoryName(txtFileName.Text), "7SR_" + txtSeed.Text + "_" + txtFlags.Text + "_HeroGuide.txt");
+            lblStatus.Text = "Guide complete!  (" + finalFile + ")";
         }
     }
 }
