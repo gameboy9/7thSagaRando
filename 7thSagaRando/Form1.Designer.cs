@@ -49,18 +49,34 @@
             this.button1 = new System.Windows.Forms.Button();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.chk9999Defense = new System.Windows.Forms.CheckBox();
+            this.chkLearnNoMagic = new System.Windows.Forms.CheckBox();
+            this.chkSpellLearning = new System.Windows.Forms.CheckBox();
+            this.chkNoStoreItems = new System.Windows.Forms.CheckBox();
+            this.chkMonsterDrops = new System.Windows.Forms.CheckBox();
             this.chkNoHeroesJoin = new System.Windows.Forms.CheckBox();
             this.chkAllHeroesJoin = new System.Windows.Forms.CheckBox();
             this.chkHeroInteractions = new System.Windows.Forms.CheckBox();
             this.chkNoSeeds = new System.Windows.Forms.CheckBox();
-            this.chkPandam = new System.Windows.Forms.CheckBox();
             this.chkWhoCanEquip = new System.Windows.Forms.CheckBox();
             this.chkStores = new System.Windows.Forms.CheckBox();
             this.chkTreasures = new System.Windows.Forms.CheckBox();
-            this.chkHeroStats = new System.Windows.Forms.CheckBox();
+            this.chkHeroSpells = new System.Windows.Forms.CheckBox();
             this.chkMonsterPatterns = new System.Windows.Forms.CheckBox();
             this.chkMonsterZones = new System.Windows.Forms.CheckBox();
+            this.tabPage4 = new System.Windows.Forms.TabPage();
+            this.chkFullXP = new System.Windows.Forms.CheckBox();
+            this.chkPostBoneGrime = new System.Windows.Forms.CheckBox();
+            this.chkPostBoneRemote = new System.Windows.Forms.CheckBox();
+            this.chkPostBonePandam = new System.Windows.Forms.CheckBox();
+            this.label6 = new System.Windows.Forms.Label();
+            this.chkPostBoneRandom = new System.Windows.Forms.CheckBox();
             this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.chkSpellMin = new System.Windows.Forms.CheckBox();
+            this.chkEquipMin = new System.Windows.Forms.CheckBox();
+            this.chkMonsterStatMin = new System.Windows.Forms.CheckBox();
+            this.chkHeroStatMin = new System.Windows.Forms.CheckBox();
+            this.chkGoldMin = new System.Windows.Forms.CheckBox();
             this.chkHeroSameEquip = new System.Windows.Forms.CheckBox();
             this.chkHeroSameSpell = new System.Windows.Forms.CheckBox();
             this.chkHeroSameStats = new System.Windows.Forms.CheckBox();
@@ -81,27 +97,35 @@
             this.lblGoldReq = new System.Windows.Forms.Label();
             this.lblExperience = new System.Windows.Forms.Label();
             this.trkMonsterStats = new System.Windows.Forms.TrackBar();
+            this.chkHeroGrowthMin = new System.Windows.Forms.CheckBox();
+            this.label7 = new System.Windows.Forms.Label();
+            this.lblHeroGrowth = new System.Windows.Forms.Label();
+            this.trkHeroGrowth = new System.Windows.Forms.TrackBar();
             this.trkHeroStats = new System.Windows.Forms.TrackBar();
             this.trkGoldReq = new System.Windows.Forms.TrackBar();
             this.trkExperience = new System.Windows.Forms.TrackBar();
             this.tabPage3 = new System.Windows.Forms.TabPage();
+            this.chkWindRune5 = new System.Windows.Forms.CheckBox();
+            this.chkWindRune4 = new System.Windows.Forms.CheckBox();
+            this.chkWindRune3 = new System.Windows.Forms.CheckBox();
+            this.chkWindRune2 = new System.Windows.Forms.CheckBox();
+            this.label5 = new System.Windows.Forms.Label();
             this.chkRemoveTriggers = new System.Windows.Forms.CheckBox();
-            this.chkSkyRune1 = new System.Windows.Forms.CheckBox();
+            this.chkWindRune1 = new System.Windows.Forms.CheckBox();
             this.chkShowStatGains = new System.Windows.Forms.CheckBox();
             this.chkDoubleWalk = new System.Windows.Forms.CheckBox();
             this.chkSpeedHacks = new System.Windows.Forms.CheckBox();
             this.cmdGuide = new System.Windows.Forms.Button();
-            this.label5 = new System.Windows.Forms.Label();
-            this.chkSkyRune2 = new System.Windows.Forms.CheckBox();
-            this.chkSkyRune3 = new System.Windows.Forms.CheckBox();
-            this.chkSkyRune4 = new System.Windows.Forms.CheckBox();
-            this.chkSkyRune5 = new System.Windows.Forms.CheckBox();
+            this.chkDebuffBoss = new System.Windows.Forms.CheckBox();
+            this.chkVacuumBoss = new System.Windows.Forms.CheckBox();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
+            this.tabPage4.SuspendLayout();
             this.tabPage2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.trkSpellCosts)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.trkEquipPowers)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.trkMonsterStats)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.trkHeroGrowth)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.trkHeroStats)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.trkGoldReq)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.trkExperience)).BeginInit();
@@ -110,7 +134,7 @@
             // 
             // cmdRandomize
             // 
-            this.cmdRandomize.Location = new System.Drawing.Point(525, 394);
+            this.cmdRandomize.Location = new System.Drawing.Point(601, 393);
             this.cmdRandomize.Name = "cmdRandomize";
             this.cmdRandomize.Size = new System.Drawing.Size(96, 23);
             this.cmdRandomize.TabIndex = 123;
@@ -267,7 +291,7 @@
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(348, 393);
+            this.button1.Location = new System.Drawing.Point(520, 393);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(75, 23);
             this.button1.TabIndex = 148;
@@ -279,39 +303,98 @@
             // tabControl1
             // 
             this.tabControl1.Controls.Add(this.tabPage1);
+            this.tabControl1.Controls.Add(this.tabPage4);
             this.tabControl1.Controls.Add(this.tabPage2);
             this.tabControl1.Controls.Add(this.tabPage3);
             this.tabControl1.Location = new System.Drawing.Point(15, 138);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(606, 246);
+            this.tabControl1.Size = new System.Drawing.Size(686, 246);
             this.tabControl1.TabIndex = 149;
             // 
             // tabPage1
             // 
+            this.tabPage1.Controls.Add(this.chk9999Defense);
+            this.tabPage1.Controls.Add(this.chkLearnNoMagic);
+            this.tabPage1.Controls.Add(this.chkSpellLearning);
+            this.tabPage1.Controls.Add(this.chkNoStoreItems);
+            this.tabPage1.Controls.Add(this.chkMonsterDrops);
             this.tabPage1.Controls.Add(this.chkNoHeroesJoin);
             this.tabPage1.Controls.Add(this.chkAllHeroesJoin);
             this.tabPage1.Controls.Add(this.chkHeroInteractions);
             this.tabPage1.Controls.Add(this.chkNoSeeds);
-            this.tabPage1.Controls.Add(this.chkPandam);
             this.tabPage1.Controls.Add(this.chkWhoCanEquip);
             this.tabPage1.Controls.Add(this.chkStores);
             this.tabPage1.Controls.Add(this.chkTreasures);
-            this.tabPage1.Controls.Add(this.chkHeroStats);
+            this.tabPage1.Controls.Add(this.chkHeroSpells);
             this.tabPage1.Controls.Add(this.chkMonsterPatterns);
             this.tabPage1.Controls.Add(this.chkMonsterZones);
             this.tabPage1.Location = new System.Drawing.Point(4, 22);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(598, 220);
+            this.tabPage1.Size = new System.Drawing.Size(678, 220);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Randomization";
             this.tabPage1.UseVisualStyleBackColor = true;
             // 
+            // chk9999Defense
+            // 
+            this.chk9999Defense.AutoSize = true;
+            this.chk9999Defense.Location = new System.Drawing.Point(370, 81);
+            this.chk9999Defense.Name = "chk9999Defense";
+            this.chk9999Defense.Size = new System.Drawing.Size(177, 17);
+            this.chk9999Defense.TabIndex = 179;
+            this.chk9999Defense.Text = "All monsters have 9999 defense";
+            this.chk9999Defense.UseVisualStyleBackColor = true;
+            // 
+            // chkLearnNoMagic
+            // 
+            this.chkLearnNoMagic.AutoSize = true;
+            this.chkLearnNoMagic.Location = new System.Drawing.Point(370, 58);
+            this.chkLearnNoMagic.Name = "chkLearnNoMagic";
+            this.chkLearnNoMagic.Size = new System.Drawing.Size(99, 17);
+            this.chkLearnNoMagic.TabIndex = 178;
+            this.chkLearnNoMagic.Text = "Learn no magic";
+            this.chkLearnNoMagic.UseVisualStyleBackColor = true;
+            this.chkLearnNoMagic.Click += new System.EventHandler(this.chkLearnNoMagic_Click);
+            // 
+            // chkSpellLearning
+            // 
+            this.chkSpellLearning.AutoSize = true;
+            this.chkSpellLearning.Location = new System.Drawing.Point(172, 58);
+            this.chkSpellLearning.Name = "chkSpellLearning";
+            this.chkSpellLearning.Size = new System.Drawing.Size(173, 17);
+            this.chkSpellLearning.TabIndex = 177;
+            this.chkSpellLearning.Text = "Randomize Spell Learning Only";
+            this.chkSpellLearning.UseVisualStyleBackColor = true;
+            this.chkSpellLearning.Click += new System.EventHandler(this.chkSpellLearning_Click);
+            // 
+            // chkNoStoreItems
+            // 
+            this.chkNoStoreItems.AutoSize = true;
+            this.chkNoStoreItems.Location = new System.Drawing.Point(370, 104);
+            this.chkNoStoreItems.Name = "chkNoStoreItems";
+            this.chkNoStoreItems.Size = new System.Drawing.Size(109, 17);
+            this.chkNoStoreItems.TabIndex = 176;
+            this.chkNoStoreItems.Text = "No items in stores";
+            this.chkNoStoreItems.UseVisualStyleBackColor = true;
+            this.chkNoStoreItems.Click += new System.EventHandler(this.chkNoStoreItems_Click);
+            // 
+            // chkMonsterDrops
+            // 
+            this.chkMonsterDrops.AutoSize = true;
+            this.chkMonsterDrops.Location = new System.Drawing.Point(172, 81);
+            this.chkMonsterDrops.Name = "chkMonsterDrops";
+            this.chkMonsterDrops.Size = new System.Drawing.Size(151, 17);
+            this.chkMonsterDrops.TabIndex = 175;
+            this.chkMonsterDrops.Text = "Randomize Monster Drops";
+            this.chkMonsterDrops.UseVisualStyleBackColor = true;
+            this.chkMonsterDrops.CheckedChanged += new System.EventHandler(this.determineFlags);
+            // 
             // chkNoHeroesJoin
             // 
             this.chkNoHeroesJoin.AutoSize = true;
-            this.chkNoHeroesJoin.Location = new System.Drawing.Point(269, 173);
+            this.chkNoHeroesJoin.Location = new System.Drawing.Point(370, 150);
             this.chkNoHeroesJoin.Name = "chkNoHeroesJoin";
             this.chkNoHeroesJoin.Size = new System.Drawing.Size(94, 17);
             this.chkNoHeroesJoin.TabIndex = 174;
@@ -322,7 +405,7 @@
             // chkAllHeroesJoin
             // 
             this.chkAllHeroesJoin.AutoSize = true;
-            this.chkAllHeroesJoin.Location = new System.Drawing.Point(172, 173);
+            this.chkAllHeroesJoin.Location = new System.Drawing.Point(172, 150);
             this.chkAllHeroesJoin.Name = "chkAllHeroesJoin";
             this.chkAllHeroesJoin.Size = new System.Drawing.Size(91, 17);
             this.chkAllHeroesJoin.TabIndex = 173;
@@ -333,7 +416,7 @@
             // chkHeroInteractions
             // 
             this.chkHeroInteractions.AutoSize = true;
-            this.chkHeroInteractions.Location = new System.Drawing.Point(6, 173);
+            this.chkHeroInteractions.Location = new System.Drawing.Point(6, 150);
             this.chkHeroInteractions.Name = "chkHeroInteractions";
             this.chkHeroInteractions.Size = new System.Drawing.Size(160, 17);
             this.chkHeroInteractions.TabIndex = 172;
@@ -344,24 +427,13 @@
             // chkNoSeeds
             // 
             this.chkNoSeeds.AutoSize = true;
-            this.chkNoSeeds.Location = new System.Drawing.Point(275, 104);
+            this.chkNoSeeds.Location = new System.Drawing.Point(172, 104);
             this.chkNoSeeds.Name = "chkNoSeeds";
-            this.chkNoSeeds.Size = new System.Drawing.Size(110, 17);
+            this.chkNoSeeds.Size = new System.Drawing.Size(127, 17);
             this.chkNoSeeds.TabIndex = 171;
-            this.chkNoSeeds.Text = "No seeds allowed";
+            this.chkNoSeeds.Text = "No rare items allowed";
             this.chkNoSeeds.UseVisualStyleBackColor = true;
-            this.chkNoSeeds.CheckedChanged += new System.EventHandler(this.determineFlags);
-            // 
-            // chkPandam
-            // 
-            this.chkPandam.AutoSize = true;
-            this.chkPandam.Location = new System.Drawing.Point(6, 150);
-            this.chkPandam.Name = "chkPandam";
-            this.chkPandam.Size = new System.Drawing.Size(266, 17);
-            this.chkPandam.TabIndex = 149;
-            this.chkPandam.Text = "Randomize who goes to Pandam and Grime Tower";
-            this.chkPandam.UseVisualStyleBackColor = true;
-            this.chkPandam.CheckedChanged += new System.EventHandler(this.determineFlags);
+            this.chkNoSeeds.Click += new System.EventHandler(this.chkNoSeeds_Click);
             // 
             // chkWhoCanEquip
             // 
@@ -383,7 +455,7 @@
             this.chkStores.TabIndex = 135;
             this.chkStores.Text = "Randomize Stores";
             this.chkStores.UseVisualStyleBackColor = true;
-            this.chkStores.CheckedChanged += new System.EventHandler(this.determineFlags);
+            this.chkStores.Click += new System.EventHandler(this.chkStores_Click);
             // 
             // chkTreasures
             // 
@@ -396,16 +468,16 @@
             this.chkTreasures.UseVisualStyleBackColor = true;
             this.chkTreasures.CheckedChanged += new System.EventHandler(this.determineFlags);
             // 
-            // chkHeroStats
+            // chkHeroSpells
             // 
-            this.chkHeroStats.AutoSize = true;
-            this.chkHeroStats.Location = new System.Drawing.Point(6, 58);
-            this.chkHeroStats.Name = "chkHeroStats";
-            this.chkHeroStats.Size = new System.Drawing.Size(136, 17);
-            this.chkHeroStats.TabIndex = 133;
-            this.chkHeroStats.Text = "Randomize Hero Spells";
-            this.chkHeroStats.UseVisualStyleBackColor = true;
-            this.chkHeroStats.CheckedChanged += new System.EventHandler(this.determineFlags);
+            this.chkHeroSpells.AutoSize = true;
+            this.chkHeroSpells.Location = new System.Drawing.Point(6, 58);
+            this.chkHeroSpells.Name = "chkHeroSpells";
+            this.chkHeroSpells.Size = new System.Drawing.Size(136, 17);
+            this.chkHeroSpells.TabIndex = 133;
+            this.chkHeroSpells.Text = "Randomize Hero Spells";
+            this.chkHeroSpells.UseVisualStyleBackColor = true;
+            this.chkHeroSpells.Click += new System.EventHandler(this.chkHeroSpells_Click);
             // 
             // chkMonsterPatterns
             // 
@@ -429,8 +501,94 @@
             this.chkMonsterZones.UseVisualStyleBackColor = true;
             this.chkMonsterZones.CheckedChanged += new System.EventHandler(this.determineFlags);
             // 
+            // tabPage4
+            // 
+            this.tabPage4.Controls.Add(this.chkVacuumBoss);
+            this.tabPage4.Controls.Add(this.chkDebuffBoss);
+            this.tabPage4.Controls.Add(this.chkFullXP);
+            this.tabPage4.Controls.Add(this.chkPostBoneGrime);
+            this.tabPage4.Controls.Add(this.chkPostBoneRemote);
+            this.tabPage4.Controls.Add(this.chkPostBonePandam);
+            this.tabPage4.Controls.Add(this.label6);
+            this.tabPage4.Controls.Add(this.chkPostBoneRandom);
+            this.tabPage4.Location = new System.Drawing.Point(4, 22);
+            this.tabPage4.Name = "tabPage4";
+            this.tabPage4.Size = new System.Drawing.Size(678, 220);
+            this.tabPage4.TabIndex = 3;
+            this.tabPage4.Text = "Adjustments";
+            this.tabPage4.UseVisualStyleBackColor = true;
+            // 
+            // chkFullXP
+            // 
+            this.chkFullXP.AutoSize = true;
+            this.chkFullXP.Location = new System.Drawing.Point(275, 37);
+            this.chkFullXP.Name = "chkFullXP";
+            this.chkFullXP.Size = new System.Drawing.Size(125, 17);
+            this.chkFullXP.TabIndex = 177;
+            this.chkFullXP.Text = "Both allies get full XP";
+            this.chkFullXP.UseVisualStyleBackColor = true;
+            this.chkFullXP.CheckedChanged += new System.EventHandler(this.determineFlags);
+            // 
+            // chkPostBoneGrime
+            // 
+            this.chkPostBoneGrime.AutoSize = true;
+            this.chkPostBoneGrime.Location = new System.Drawing.Point(11, 106);
+            this.chkPostBoneGrime.Name = "chkPostBoneGrime";
+            this.chkPostBoneGrime.Size = new System.Drawing.Size(138, 17);
+            this.chkPostBoneGrime.TabIndex = 154;
+            this.chkPostBoneGrime.Text = "All goes to Grime Tower";
+            this.chkPostBoneGrime.UseVisualStyleBackColor = true;
+            this.chkPostBoneGrime.CheckedChanged += new System.EventHandler(this.determineFlags);
+            // 
+            // chkPostBoneRemote
+            // 
+            this.chkPostBoneRemote.AutoSize = true;
+            this.chkPostBoneRemote.Location = new System.Drawing.Point(11, 83);
+            this.chkPostBoneRemote.Name = "chkPostBoneRemote";
+            this.chkPostBoneRemote.Size = new System.Drawing.Size(136, 17);
+            this.chkPostBoneRemote.TabIndex = 153;
+            this.chkPostBoneRemote.Text = "All gets Remote Control";
+            this.chkPostBoneRemote.UseVisualStyleBackColor = true;
+            this.chkPostBoneRemote.Click += new System.EventHandler(this.chkPostBoneRemote_Click);
+            // 
+            // chkPostBonePandam
+            // 
+            this.chkPostBonePandam.AutoSize = true;
+            this.chkPostBonePandam.Location = new System.Drawing.Point(11, 60);
+            this.chkPostBonePandam.Name = "chkPostBonePandam";
+            this.chkPostBonePandam.Size = new System.Drawing.Size(106, 17);
+            this.chkPostBonePandam.TabIndex = 152;
+            this.chkPostBonePandam.Text = "All go to Pandam";
+            this.chkPostBonePandam.UseVisualStyleBackColor = true;
+            this.chkPostBonePandam.Click += new System.EventHandler(this.chkPostBonePandam_Click);
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(8, 12);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(101, 13);
+            this.label6.TabIndex = 151;
+            this.label6.Text = "Post-Bone locations";
+            // 
+            // chkPostBoneRandom
+            // 
+            this.chkPostBoneRandom.AutoSize = true;
+            this.chkPostBoneRandom.Location = new System.Drawing.Point(11, 37);
+            this.chkPostBoneRandom.Name = "chkPostBoneRandom";
+            this.chkPostBoneRandom.Size = new System.Drawing.Size(160, 17);
+            this.chkPostBoneRandom.TabIndex = 150;
+            this.chkPostBoneRandom.Text = "Randomize who goes where";
+            this.chkPostBoneRandom.UseVisualStyleBackColor = true;
+            this.chkPostBoneRandom.Click += new System.EventHandler(this.chkPostBoneRandom_Click);
+            // 
             // tabPage2
             // 
+            this.tabPage2.Controls.Add(this.chkSpellMin);
+            this.tabPage2.Controls.Add(this.chkEquipMin);
+            this.tabPage2.Controls.Add(this.chkMonsterStatMin);
+            this.tabPage2.Controls.Add(this.chkHeroStatMin);
+            this.tabPage2.Controls.Add(this.chkGoldMin);
             this.tabPage2.Controls.Add(this.chkHeroSameEquip);
             this.tabPage2.Controls.Add(this.chkHeroSameSpell);
             this.tabPage2.Controls.Add(this.chkHeroSameStats);
@@ -451,21 +609,80 @@
             this.tabPage2.Controls.Add(this.lblGoldReq);
             this.tabPage2.Controls.Add(this.lblExperience);
             this.tabPage2.Controls.Add(this.trkMonsterStats);
+            this.tabPage2.Controls.Add(this.chkHeroGrowthMin);
+            this.tabPage2.Controls.Add(this.label7);
+            this.tabPage2.Controls.Add(this.lblHeroGrowth);
+            this.tabPage2.Controls.Add(this.trkHeroGrowth);
             this.tabPage2.Controls.Add(this.trkHeroStats);
             this.tabPage2.Controls.Add(this.trkGoldReq);
             this.tabPage2.Controls.Add(this.trkExperience);
             this.tabPage2.Location = new System.Drawing.Point(4, 22);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(598, 220);
+            this.tabPage2.Size = new System.Drawing.Size(678, 220);
             this.tabPage2.TabIndex = 1;
-            this.tabPage2.Text = "Adjustments";
+            this.tabPage2.Text = "Scaling";
             this.tabPage2.UseVisualStyleBackColor = true;
+            // 
+            // chkSpellMin
+            // 
+            this.chkSpellMin.AutoSize = true;
+            this.chkSpellMin.Location = new System.Drawing.Point(365, 172);
+            this.chkSpellMin.Name = "chkSpellMin";
+            this.chkSpellMin.Size = new System.Drawing.Size(72, 17);
+            this.chkSpellMin.TabIndex = 175;
+            this.chkSpellMin.Text = "Min 100%";
+            this.chkSpellMin.UseVisualStyleBackColor = true;
+            this.chkSpellMin.CheckedChanged += new System.EventHandler(this.determineFlags);
+            // 
+            // chkEquipMin
+            // 
+            this.chkEquipMin.AutoSize = true;
+            this.chkEquipMin.Location = new System.Drawing.Point(365, 146);
+            this.chkEquipMin.Name = "chkEquipMin";
+            this.chkEquipMin.Size = new System.Drawing.Size(72, 17);
+            this.chkEquipMin.TabIndex = 174;
+            this.chkEquipMin.Text = "Min 100%";
+            this.chkEquipMin.UseVisualStyleBackColor = true;
+            this.chkEquipMin.CheckedChanged += new System.EventHandler(this.determineFlags);
+            // 
+            // chkMonsterStatMin
+            // 
+            this.chkMonsterStatMin.AutoSize = true;
+            this.chkMonsterStatMin.Location = new System.Drawing.Point(365, 119);
+            this.chkMonsterStatMin.Name = "chkMonsterStatMin";
+            this.chkMonsterStatMin.Size = new System.Drawing.Size(72, 17);
+            this.chkMonsterStatMin.TabIndex = 173;
+            this.chkMonsterStatMin.Text = "Min 100%";
+            this.chkMonsterStatMin.UseVisualStyleBackColor = true;
+            this.chkMonsterStatMin.CheckedChanged += new System.EventHandler(this.determineFlags);
+            // 
+            // chkHeroStatMin
+            // 
+            this.chkHeroStatMin.AutoSize = true;
+            this.chkHeroStatMin.Location = new System.Drawing.Point(365, 65);
+            this.chkHeroStatMin.Name = "chkHeroStatMin";
+            this.chkHeroStatMin.Size = new System.Drawing.Size(72, 17);
+            this.chkHeroStatMin.TabIndex = 172;
+            this.chkHeroStatMin.Text = "Min 100%";
+            this.chkHeroStatMin.UseVisualStyleBackColor = true;
+            this.chkHeroStatMin.CheckedChanged += new System.EventHandler(this.determineFlags);
+            // 
+            // chkGoldMin
+            // 
+            this.chkGoldMin.AutoSize = true;
+            this.chkGoldMin.Location = new System.Drawing.Point(366, 39);
+            this.chkGoldMin.Name = "chkGoldMin";
+            this.chkGoldMin.Size = new System.Drawing.Size(72, 17);
+            this.chkGoldMin.TabIndex = 171;
+            this.chkGoldMin.Text = "Min 100%";
+            this.chkGoldMin.UseVisualStyleBackColor = true;
+            this.chkGoldMin.CheckedChanged += new System.EventHandler(this.determineFlags);
             // 
             // chkHeroSameEquip
             // 
             this.chkHeroSameEquip.AutoSize = true;
-            this.chkHeroSameEquip.Location = new System.Drawing.Point(352, 83);
+            this.chkHeroSameEquip.Location = new System.Drawing.Point(462, 146);
             this.chkHeroSameEquip.Name = "chkHeroSameEquip";
             this.chkHeroSameEquip.Size = new System.Drawing.Size(209, 17);
             this.chkHeroSameEquip.TabIndex = 169;
@@ -476,18 +693,18 @@
             // chkHeroSameSpell
             // 
             this.chkHeroSameSpell.AutoSize = true;
-            this.chkHeroSameSpell.Location = new System.Drawing.Point(352, 60);
+            this.chkHeroSameSpell.Location = new System.Drawing.Point(462, 170);
             this.chkHeroSameSpell.Name = "chkHeroSameSpell";
-            this.chkHeroSameSpell.Size = new System.Drawing.Size(204, 17);
+            this.chkHeroSameSpell.Size = new System.Drawing.Size(187, 17);
             this.chkHeroSameSpell.TabIndex = 168;
-            this.chkHeroSameSpell.Text = "All heroes get the same spell chances";
+            this.chkHeroSameSpell.Text = "All heroes get the same # of spells";
             this.chkHeroSameSpell.UseVisualStyleBackColor = true;
             this.chkHeroSameSpell.CheckedChanged += new System.EventHandler(this.determineFlags);
             // 
             // chkHeroSameStats
             // 
             this.chkHeroSameStats.AutoSize = true;
-            this.chkHeroSameStats.Location = new System.Drawing.Point(352, 37);
+            this.chkHeroSameStats.Location = new System.Drawing.Point(462, 65);
             this.chkHeroSameStats.Name = "chkHeroSameStats";
             this.chkHeroSameStats.Size = new System.Drawing.Size(199, 17);
             this.chkHeroSameStats.TabIndex = 167;
@@ -498,7 +715,7 @@
             // chkSameRando
             // 
             this.chkSameRando.AutoSize = true;
-            this.chkSameRando.Location = new System.Drawing.Point(352, 14);
+            this.chkSameRando.Location = new System.Drawing.Point(461, 39);
             this.chkSameRando.Name = "chkSameRando";
             this.chkSameRando.Size = new System.Drawing.Size(210, 17);
             this.chkSameRando.TabIndex = 166;
@@ -509,7 +726,7 @@
             // chkNoXPGPRando
             // 
             this.chkNoXPGPRando.AutoSize = true;
-            this.chkNoXPGPRando.Location = new System.Drawing.Point(6, 114);
+            this.chkNoXPGPRando.Location = new System.Drawing.Point(462, 119);
             this.chkNoXPGPRando.Name = "chkNoXPGPRando";
             this.chkNoXPGPRando.Size = new System.Drawing.Size(96, 17);
             this.chkNoXPGPRando.TabIndex = 165;
@@ -522,14 +739,14 @@
             this.label4.AutoSize = true;
             this.label4.Location = new System.Drawing.Point(6, 64);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(57, 13);
+            this.label4.Size = new System.Drawing.Size(96, 13);
             this.label4.TabIndex = 164;
-            this.label4.Text = "Hero Stats";
+            this.label4.Text = "Hero Starting Stats";
             // 
             // lblHeroStats
             // 
             this.lblHeroStats.AutoSize = true;
-            this.lblHeroStats.Location = new System.Drawing.Point(297, 64);
+            this.lblHeroStats.Location = new System.Drawing.Point(297, 65);
             this.lblHeroStats.Name = "lblHeroStats";
             this.lblHeroStats.Size = new System.Drawing.Size(33, 13);
             this.lblHeroStats.TabIndex = 163;
@@ -538,7 +755,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(6, 166);
+            this.label2.Location = new System.Drawing.Point(6, 171);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(99, 13);
             this.label2.TabIndex = 161;
@@ -547,7 +764,7 @@
             // lblSpellCosts
             // 
             this.lblSpellCosts.AutoSize = true;
-            this.lblSpellCosts.Location = new System.Drawing.Point(297, 166);
+            this.lblSpellCosts.Location = new System.Drawing.Point(297, 172);
             this.lblSpellCosts.Name = "lblSpellCosts";
             this.lblSpellCosts.Size = new System.Drawing.Size(33, 13);
             this.lblSpellCosts.TabIndex = 160;
@@ -555,7 +772,7 @@
             // 
             // trkSpellCosts
             // 
-            this.trkSpellCosts.Location = new System.Drawing.Point(132, 162);
+            this.trkSpellCosts.Location = new System.Drawing.Point(132, 167);
             this.trkSpellCosts.Maximum = 70;
             this.trkSpellCosts.Minimum = 10;
             this.trkSpellCosts.Name = "trkSpellCosts";
@@ -568,7 +785,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(6, 141);
+            this.label3.Location = new System.Drawing.Point(6, 146);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(95, 13);
             this.label3.TabIndex = 158;
@@ -577,7 +794,7 @@
             // lblEquipPowers
             // 
             this.lblEquipPowers.AutoSize = true;
-            this.lblEquipPowers.Location = new System.Drawing.Point(297, 141);
+            this.lblEquipPowers.Location = new System.Drawing.Point(297, 146);
             this.lblEquipPowers.Name = "lblEquipPowers";
             this.lblEquipPowers.Size = new System.Drawing.Size(33, 13);
             this.lblEquipPowers.TabIndex = 157;
@@ -585,7 +802,7 @@
             // 
             // trkEquipPowers
             // 
-            this.trkEquipPowers.Location = new System.Drawing.Point(132, 137);
+            this.trkEquipPowers.Location = new System.Drawing.Point(132, 142);
             this.trkEquipPowers.Maximum = 70;
             this.trkEquipPowers.Minimum = 10;
             this.trkEquipPowers.Name = "trkEquipPowers";
@@ -598,7 +815,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(6, 90);
+            this.label1.Location = new System.Drawing.Point(6, 118);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(72, 13);
             this.label1.TabIndex = 155;
@@ -607,7 +824,7 @@
             // lblMonsterStats
             // 
             this.lblMonsterStats.AutoSize = true;
-            this.lblMonsterStats.Location = new System.Drawing.Point(297, 90);
+            this.lblMonsterStats.Location = new System.Drawing.Point(297, 119);
             this.lblMonsterStats.Name = "lblMonsterStats";
             this.lblMonsterStats.Size = new System.Drawing.Size(33, 13);
             this.lblMonsterStats.TabIndex = 154;
@@ -651,7 +868,7 @@
             // 
             // trkMonsterStats
             // 
-            this.trkMonsterStats.Location = new System.Drawing.Point(132, 86);
+            this.trkMonsterStats.Location = new System.Drawing.Point(132, 114);
             this.trkMonsterStats.Maximum = 70;
             this.trkMonsterStats.Minimum = 10;
             this.trkMonsterStats.Name = "trkMonsterStats";
@@ -660,6 +877,47 @@
             this.trkMonsterStats.TickStyle = System.Windows.Forms.TickStyle.None;
             this.trkMonsterStats.Value = 10;
             this.trkMonsterStats.Scroll += new System.EventHandler(this.trkMonsterStats_Scroll);
+            // 
+            // chkHeroGrowthMin
+            // 
+            this.chkHeroGrowthMin.AutoSize = true;
+            this.chkHeroGrowthMin.Location = new System.Drawing.Point(365, 93);
+            this.chkHeroGrowthMin.Name = "chkHeroGrowthMin";
+            this.chkHeroGrowthMin.Size = new System.Drawing.Size(72, 17);
+            this.chkHeroGrowthMin.TabIndex = 179;
+            this.chkHeroGrowthMin.Text = "Min 100%";
+            this.chkHeroGrowthMin.UseVisualStyleBackColor = true;
+            this.chkHeroGrowthMin.CheckedChanged += new System.EventHandler(this.determineFlags);
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(6, 92);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(94, 13);
+            this.label7.TabIndex = 178;
+            this.label7.Text = "Hero Growth Stats";
+            // 
+            // lblHeroGrowth
+            // 
+            this.lblHeroGrowth.AutoSize = true;
+            this.lblHeroGrowth.Location = new System.Drawing.Point(297, 93);
+            this.lblHeroGrowth.Name = "lblHeroGrowth";
+            this.lblHeroGrowth.Size = new System.Drawing.Size(33, 13);
+            this.lblHeroGrowth.TabIndex = 177;
+            this.lblHeroGrowth.Text = "100%";
+            // 
+            // trkHeroGrowth
+            // 
+            this.trkHeroGrowth.Location = new System.Drawing.Point(132, 88);
+            this.trkHeroGrowth.Maximum = 70;
+            this.trkHeroGrowth.Minimum = 10;
+            this.trkHeroGrowth.Name = "trkHeroGrowth";
+            this.trkHeroGrowth.Size = new System.Drawing.Size(159, 45);
+            this.trkHeroGrowth.TabIndex = 176;
+            this.trkHeroGrowth.TickStyle = System.Windows.Forms.TickStyle.None;
+            this.trkHeroGrowth.Value = 10;
+            this.trkHeroGrowth.Scroll += new System.EventHandler(this.trkHeroGrowth_Scroll);
             // 
             // trkHeroStats
             // 
@@ -699,22 +957,75 @@
             // 
             // tabPage3
             // 
-            this.tabPage3.Controls.Add(this.chkSkyRune5);
-            this.tabPage3.Controls.Add(this.chkSkyRune4);
-            this.tabPage3.Controls.Add(this.chkSkyRune3);
-            this.tabPage3.Controls.Add(this.chkSkyRune2);
+            this.tabPage3.Controls.Add(this.chkWindRune5);
+            this.tabPage3.Controls.Add(this.chkWindRune4);
+            this.tabPage3.Controls.Add(this.chkWindRune3);
+            this.tabPage3.Controls.Add(this.chkWindRune2);
             this.tabPage3.Controls.Add(this.label5);
             this.tabPage3.Controls.Add(this.chkRemoveTriggers);
-            this.tabPage3.Controls.Add(this.chkSkyRune1);
+            this.tabPage3.Controls.Add(this.chkWindRune1);
             this.tabPage3.Controls.Add(this.chkShowStatGains);
             this.tabPage3.Controls.Add(this.chkDoubleWalk);
             this.tabPage3.Controls.Add(this.chkSpeedHacks);
             this.tabPage3.Location = new System.Drawing.Point(4, 22);
             this.tabPage3.Name = "tabPage3";
-            this.tabPage3.Size = new System.Drawing.Size(598, 220);
+            this.tabPage3.Size = new System.Drawing.Size(678, 220);
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "Speedups";
             this.tabPage3.UseVisualStyleBackColor = true;
+            // 
+            // chkSkyRune5
+            // 
+            this.chkWindRune5.AutoSize = true;
+            this.chkWindRune5.Location = new System.Drawing.Point(329, 127);
+            this.chkWindRune5.Name = "chkSkyRune5";
+            this.chkWindRune5.Size = new System.Drawing.Size(116, 17);
+            this.chkWindRune5.TabIndex = 155;
+            this.chkWindRune5.Text = "Past, Ice Continent";
+            this.chkWindRune5.UseVisualStyleBackColor = true;
+            this.chkWindRune5.CheckedChanged += new System.EventHandler(this.determineFlags);
+            // 
+            // chkSkyRune4
+            // 
+            this.chkWindRune4.AutoSize = true;
+            this.chkWindRune4.Location = new System.Drawing.Point(329, 104);
+            this.chkWindRune4.Name = "chkSkyRune4";
+            this.chkWindRune4.Size = new System.Drawing.Size(135, 17);
+            this.chkWindRune4.TabIndex = 154;
+            this.chkWindRune4.Text = "Past, Pre-Ice Continent";
+            this.chkWindRune4.UseVisualStyleBackColor = true;
+            this.chkWindRune4.CheckedChanged += new System.EventHandler(this.determineFlags);
+            // 
+            // chkSkyRune3
+            // 
+            this.chkWindRune3.AutoSize = true;
+            this.chkWindRune3.Location = new System.Drawing.Point(329, 81);
+            this.chkWindRune3.Name = "chkSkyRune3";
+            this.chkWindRune3.Size = new System.Drawing.Size(89, 17);
+            this.chkWindRune3.TabIndex = 153;
+            this.chkWindRune3.Text = "Ice Continent";
+            this.chkWindRune3.UseVisualStyleBackColor = true;
+            this.chkWindRune3.CheckedChanged += new System.EventHandler(this.determineFlags);
+            // 
+            // chkSkyRune2
+            // 
+            this.chkWindRune2.AutoSize = true;
+            this.chkWindRune2.Location = new System.Drawing.Point(329, 58);
+            this.chkWindRune2.Name = "chkSkyRune2";
+            this.chkWindRune2.Size = new System.Drawing.Size(108, 17);
+            this.chkWindRune2.TabIndex = 152;
+            this.chkWindRune2.Text = "Pre-Ice Continent";
+            this.chkWindRune2.UseVisualStyleBackColor = true;
+            this.chkWindRune2.CheckedChanged += new System.EventHandler(this.determineFlags);
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(326, 12);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(143, 13);
+            this.label5.TabIndex = 151;
+            this.label5.Text = "Wind Rune starting locations";
             // 
             // chkRemoveTriggers
             // 
@@ -729,23 +1040,23 @@
             // 
             // chkSkyRune1
             // 
-            this.chkSkyRune1.AutoSize = true;
-            this.chkSkyRune1.Location = new System.Drawing.Point(329, 35);
-            this.chkSkyRune1.Name = "chkSkyRune1";
-            this.chkSkyRune1.Size = new System.Drawing.Size(84, 17);
-            this.chkSkyRune1.TabIndex = 149;
-            this.chkSkyRune1.Text = "Up To Bone";
-            this.chkSkyRune1.UseVisualStyleBackColor = true;
-            this.chkSkyRune1.CheckedChanged += new System.EventHandler(this.determineFlags);
+            this.chkWindRune1.AutoSize = true;
+            this.chkWindRune1.Location = new System.Drawing.Point(329, 35);
+            this.chkWindRune1.Name = "chkSkyRune1";
+            this.chkWindRune1.Size = new System.Drawing.Size(84, 17);
+            this.chkWindRune1.TabIndex = 149;
+            this.chkWindRune1.Text = "Up To Bone";
+            this.chkWindRune1.UseVisualStyleBackColor = true;
+            this.chkWindRune1.CheckedChanged += new System.EventHandler(this.determineFlags);
             // 
             // chkShowStatGains
             // 
             this.chkShowStatGains.AutoSize = true;
             this.chkShowStatGains.Location = new System.Drawing.Point(6, 58);
             this.chkShowStatGains.Name = "chkShowStatGains";
-            this.chkShowStatGains.Size = new System.Drawing.Size(224, 17);
+            this.chkShowStatGains.Size = new System.Drawing.Size(189, 17);
             this.chkShowStatGains.TabIndex = 148;
-            this.chkShowStatGains.Text = "Show stat gains (if speed hacks checked)";
+            this.chkShowStatGains.Text = "Do not show stat gains on level up";
             this.chkShowStatGains.UseVisualStyleBackColor = true;
             this.chkShowStatGains.CheckedChanged += new System.EventHandler(this.determineFlags);
             // 
@@ -773,7 +1084,7 @@
             // 
             // cmdGuide
             // 
-            this.cmdGuide.Location = new System.Drawing.Point(525, 429);
+            this.cmdGuide.Location = new System.Drawing.Point(601, 428);
             this.cmdGuide.Name = "cmdGuide";
             this.cmdGuide.Size = new System.Drawing.Size(96, 23);
             this.cmdGuide.TabIndex = 150;
@@ -781,64 +1092,33 @@
             this.cmdGuide.UseVisualStyleBackColor = true;
             this.cmdGuide.Click += new System.EventHandler(this.cmdGuide_Click);
             // 
-            // label5
+            // chkDebuffBoss
             // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(326, 12);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(136, 13);
-            this.label5.TabIndex = 151;
-            this.label5.Text = "Sky Rune starting locations";
+            this.chkDebuffBoss.AutoSize = true;
+            this.chkDebuffBoss.Location = new System.Drawing.Point(275, 60);
+            this.chkDebuffBoss.Name = "chkDebuffBoss";
+            this.chkDebuffBoss.Size = new System.Drawing.Size(315, 17);
+            this.chkDebuffBoss.TabIndex = 178;
+            this.chkDebuffBoss.Text = "DEFENSE2/HP/MPCATCHR/PETRIFY can work on bosses";
+            this.chkDebuffBoss.UseVisualStyleBackColor = true;
+            this.chkDebuffBoss.CheckedChanged += new System.EventHandler(this.determineFlags);
             // 
-            // chkSkyRune2
+            // chkVacuumBoss
             // 
-            this.chkSkyRune2.AutoSize = true;
-            this.chkSkyRune2.Location = new System.Drawing.Point(329, 58);
-            this.chkSkyRune2.Name = "chkSkyRune2";
-            this.chkSkyRune2.Size = new System.Drawing.Size(108, 17);
-            this.chkSkyRune2.TabIndex = 152;
-            this.chkSkyRune2.Text = "Pre-Ice Continent";
-            this.chkSkyRune2.UseVisualStyleBackColor = true;
-            this.chkSkyRune2.CheckedChanged += new System.EventHandler(this.determineFlags);
-            // 
-            // chkSkyRune3
-            // 
-            this.chkSkyRune3.AutoSize = true;
-            this.chkSkyRune3.Location = new System.Drawing.Point(329, 81);
-            this.chkSkyRune3.Name = "chkSkyRune3";
-            this.chkSkyRune3.Size = new System.Drawing.Size(89, 17);
-            this.chkSkyRune3.TabIndex = 153;
-            this.chkSkyRune3.Text = "Ice Continent";
-            this.chkSkyRune3.UseVisualStyleBackColor = true;
-            this.chkSkyRune3.CheckedChanged += new System.EventHandler(this.determineFlags);
-            // 
-            // chkSkyRune4
-            // 
-            this.chkSkyRune4.AutoSize = true;
-            this.chkSkyRune4.Location = new System.Drawing.Point(329, 104);
-            this.chkSkyRune4.Name = "chkSkyRune4";
-            this.chkSkyRune4.Size = new System.Drawing.Size(135, 17);
-            this.chkSkyRune4.TabIndex = 154;
-            this.chkSkyRune4.Text = "Past, Pre-Ice Continent";
-            this.chkSkyRune4.UseVisualStyleBackColor = true;
-            this.chkSkyRune4.CheckedChanged += new System.EventHandler(this.determineFlags);
-            // 
-            // chkSkyRune5
-            // 
-            this.chkSkyRune5.AutoSize = true;
-            this.chkSkyRune5.Location = new System.Drawing.Point(329, 127);
-            this.chkSkyRune5.Name = "chkSkyRune5";
-            this.chkSkyRune5.Size = new System.Drawing.Size(116, 17);
-            this.chkSkyRune5.TabIndex = 155;
-            this.chkSkyRune5.Text = "Past, Ice Continent";
-            this.chkSkyRune5.UseVisualStyleBackColor = true;
-            this.chkSkyRune5.CheckedChanged += new System.EventHandler(this.determineFlags);
+            this.chkVacuumBoss.AutoSize = true;
+            this.chkVacuumBoss.Location = new System.Drawing.Point(275, 83);
+            this.chkVacuumBoss.Name = "chkVacuumBoss";
+            this.chkVacuumBoss.Size = new System.Drawing.Size(187, 17);
+            this.chkVacuumBoss.TabIndex = 179;
+            this.chkVacuumBoss.Text = "VACUUM1/2 can work on bosses";
+            this.chkVacuumBoss.UseVisualStyleBackColor = true;
+            this.chkVacuumBoss.CheckedChanged += new System.EventHandler(this.determineFlags);
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(640, 490);
+            this.ClientSize = new System.Drawing.Size(713, 490);
             this.Controls.Add(this.cmdGuide);
             this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.button1);
@@ -861,17 +1141,20 @@
             this.Controls.Add(this.lblRomImage);
             this.Controls.Add(this.txtFileName);
             this.Name = "Form1";
-            this.Text = "Form1";
+            this.Text = "7th Saga Randomizer";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);
             this.Load += new System.EventHandler(this.Form1_Load);
             this.tabControl1.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
             this.tabPage1.PerformLayout();
+            this.tabPage4.ResumeLayout(false);
+            this.tabPage4.PerformLayout();
             this.tabPage2.ResumeLayout(false);
             this.tabPage2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.trkSpellCosts)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.trkEquipPowers)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.trkMonsterStats)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.trkHeroGrowth)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.trkHeroStats)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.trkGoldReq)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.trkExperience)).EndInit();
@@ -904,11 +1187,10 @@
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.TabControl tabControl1;
         private System.Windows.Forms.TabPage tabPage1;
-        private System.Windows.Forms.CheckBox chkPandam;
         private System.Windows.Forms.CheckBox chkWhoCanEquip;
         private System.Windows.Forms.CheckBox chkStores;
         private System.Windows.Forms.CheckBox chkTreasures;
-        private System.Windows.Forms.CheckBox chkHeroStats;
+        private System.Windows.Forms.CheckBox chkHeroSpells;
         private System.Windows.Forms.CheckBox chkMonsterPatterns;
         private System.Windows.Forms.CheckBox chkMonsterZones;
         private System.Windows.Forms.TabPage tabPage2;
@@ -939,18 +1221,41 @@
         private System.Windows.Forms.CheckBox chkHeroSameEquip;
         private System.Windows.Forms.CheckBox chkHeroSameSpell;
         private System.Windows.Forms.CheckBox chkHeroSameStats;
-        private System.Windows.Forms.CheckBox chkSkyRune1;
+        private System.Windows.Forms.CheckBox chkWindRune1;
         private System.Windows.Forms.CheckBox chkRemoveTriggers;
         private System.Windows.Forms.CheckBox chkNoSeeds;
         private System.Windows.Forms.CheckBox chkNoHeroesJoin;
         private System.Windows.Forms.CheckBox chkAllHeroesJoin;
         private System.Windows.Forms.CheckBox chkHeroInteractions;
         private System.Windows.Forms.Button cmdGuide;
-        private System.Windows.Forms.CheckBox chkSkyRune5;
-        private System.Windows.Forms.CheckBox chkSkyRune4;
-        private System.Windows.Forms.CheckBox chkSkyRune3;
-        private System.Windows.Forms.CheckBox chkSkyRune2;
+        private System.Windows.Forms.CheckBox chkWindRune5;
+        private System.Windows.Forms.CheckBox chkWindRune4;
+        private System.Windows.Forms.CheckBox chkWindRune3;
+        private System.Windows.Forms.CheckBox chkWindRune2;
         private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.TabPage tabPage4;
+        private System.Windows.Forms.CheckBox chkSpellMin;
+        private System.Windows.Forms.CheckBox chkEquipMin;
+        private System.Windows.Forms.CheckBox chkMonsterStatMin;
+        private System.Windows.Forms.CheckBox chkHeroStatMin;
+        private System.Windows.Forms.CheckBox chkGoldMin;
+        private System.Windows.Forms.CheckBox chkPostBoneGrime;
+        private System.Windows.Forms.CheckBox chkPostBoneRemote;
+        private System.Windows.Forms.CheckBox chkPostBonePandam;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.CheckBox chkPostBoneRandom;
+        private System.Windows.Forms.CheckBox chkMonsterDrops;
+        private System.Windows.Forms.CheckBox chkNoStoreItems;
+        private System.Windows.Forms.CheckBox chkLearnNoMagic;
+        private System.Windows.Forms.CheckBox chkSpellLearning;
+        private System.Windows.Forms.CheckBox chkFullXP;
+        private System.Windows.Forms.CheckBox chkHeroGrowthMin;
+        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.Label lblHeroGrowth;
+        private System.Windows.Forms.TrackBar trkHeroGrowth;
+        private System.Windows.Forms.CheckBox chk9999Defense;
+        private System.Windows.Forms.CheckBox chkVacuumBoss;
+        private System.Windows.Forms.CheckBox chkDebuffBoss;
     }
 }
 

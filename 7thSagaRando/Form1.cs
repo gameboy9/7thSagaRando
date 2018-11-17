@@ -20,7 +20,7 @@ namespace _7thSagaRando
         byte[] monsterLegalSpells = { 1, 2, 3, 4, 5, 6, 7,
                                 12, 13, 14, 15,
                                 16, 17, 21, 22, 23,
-                                24, 25, 26, 27, 28, 30,
+                                24, 25, 26, 27, 28, 
                                 33, 34,
                                 40, 41, 46, 47, 55 };
         byte[] legalSpells = { 1, 2, 3, 4, 5, 6, 7,
@@ -117,17 +117,19 @@ namespace _7thSagaRando
             return array;
         }
 
-        private int ScaleValue(double value, double scale, double adjustment, Random r1)
+        private int ScaleValue(double value, double scale, double adjustment, Random r1, bool min100 = false)
         {
-            var exponent = (double)r1.Next() / int.MaxValue * 2.0 - 1.0;
+            double exponent = (double)r1.Next() / int.MaxValue;
+            exponent = (min100 ? exponent : exponent * 2.0 - 1.0);
             var adjustedScale = 1.0 + adjustment * (scale - 1.0);
 
             return (int)Math.Round(Math.Pow(adjustedScale, exponent) * value, MidpointRounding.AwayFromZero);
         }
 
-        private double ScaleValueDouble(double value, double scale, double adjustment, Random r1)
+        private double ScaleValueDouble(double value, double scale, double adjustment, Random r1, bool min100 = false)
         {
-            var exponent = (double)r1.Next() / int.MaxValue * 2.0 - 1.0;
+            double exponent = (double)r1.Next() / int.MaxValue;
+            exponent = (min100 ? exponent : exponent * 2.0 - 1.0);
             var adjustedScale = 1.0 + adjustment * (scale - 1.0);
 
             return Math.Pow(adjustedScale, exponent) * value;
@@ -153,19 +155,26 @@ namespace _7thSagaRando
                 return;
 
             string flags = "";
-            int number = (chkMonsterZones.Checked ? 1 : 0) + (chkMonsterPatterns.Checked ? 2 : 0) + (chkHeroStats.Checked ? 4 : 0) +
+            int number = (chkMonsterZones.Checked ? 1 : 0) + (chkMonsterPatterns.Checked ? 2 : 0) + (chkHeroSpells.Checked ? 4 : 0) +
                 (chkTreasures.Checked ? 8 : 0) + (chkStores.Checked ? 16 : 0) + (chkWhoCanEquip.Checked ? 32 : 0);
             flags += convertIntToChar(number);
             number = (chkSpeedHacks.Checked ? 1 : 0) + (chkDoubleWalk.Checked ? 2 : 0) + (chkShowStatGains.Checked ? 4 : 0) + 
                 (chkNoXPGPRando.Checked ? 8 : 0) + (chkHeroSameStats.Checked ? 16 : 0) + (chkHeroSameSpell.Checked ? 32 : 0);
             flags += convertIntToChar(number);
-            number = (chkHeroSameEquip.Checked ? 1 : 0) + (chkPandam.Checked ? 2 : 0) + (chkSameRando.Checked ? 4 : 0) +
-                (chkRemoveTriggers.Checked ? 8 : 0) + (chkNoSeeds.Checked ? 32 : 0);
+            number = (chkHeroSameEquip.Checked ? 1 : 0) + (chkMonsterDrops.Checked ? 2 : 0) + (chkSameRando.Checked ? 4 : 0) +
+                (chkRemoveTriggers.Checked ? 8 : 0) + (chkNoSeeds.Checked ? 16 : 0) + (chkNoStoreItems.Checked ? 32 : 0);
             flags += convertIntToChar(number);
-            number = (chkHeroInteractions.Checked ? 1 : 0) + (chkAllHeroesJoin.Checked ? 2 : 0) + (chkNoHeroesJoin.Checked ? 4 : 0);
+            number = (chkHeroInteractions.Checked ? 1 : 0) + (chkAllHeroesJoin.Checked ? 2 : 0) + (chkNoHeroesJoin.Checked ? 4 : 0) +
+                (chkSpellLearning.Checked ? 8 : 0) + (chkLearnNoMagic.Checked ? 16 : 0) + (chk9999Defense.Checked ? 32 : 0);
             flags += convertIntToChar(number);
-            number = (chkSkyRune1.Checked ? 1 : 0) + (chkSkyRune2.Checked ? 2 : 0) + (chkSkyRune3.Checked ? 4 : 0) +
-                (chkSkyRune4.Checked ? 8 : 0) + (chkSkyRune5.Checked ? 16 : 0);
+            number = (chkWindRune1.Checked ? 1 : 0) + (chkWindRune2.Checked ? 2 : 0) + (chkWindRune3.Checked ? 4 : 0) +
+                (chkWindRune4.Checked ? 8 : 0) + (chkWindRune5.Checked ? 16 : 0) + (chkDebuffBoss.Checked ? 32 : 0);
+            flags += convertIntToChar(number);
+            number = (chkGoldMin.Checked ? 1 : 0) + (chkHeroStatMin.Checked ? 2 : 0) + (chkMonsterStatMin.Checked ? 4 : 0) +
+                (chkEquipMin.Checked ? 8 : 0) + (chkSpellMin.Checked ? 16 : 0) + (chkHeroGrowthMin.Checked ? 32 : 0);
+            flags += convertIntToChar(number);
+            number = (chkPostBoneRandom.Checked ? 1 : 0) + (chkPostBonePandam.Checked ? 2 : 0) + (chkPostBoneRemote.Checked ? 4 : 0) +
+                (chkPostBoneGrime.Checked ? 8 : 0) + (chkFullXP.Checked ? 16 : 0) + (chkVacuumBoss.Checked ? 32 : 0);
             flags += convertIntToChar(number);
             flags += convertIntToChar(trkExperience.Value);
             flags += convertIntToChar(trkGoldReq.Value - 10);
@@ -173,19 +182,20 @@ namespace _7thSagaRando
             flags += convertIntToChar(trkEquipPowers.Value - 10);
             flags += convertIntToChar(trkSpellCosts.Value - 10);
             flags += convertIntToChar(trkHeroStats.Value - 10);
+            flags += convertIntToChar(trkHeroGrowth.Value - 10);
 
             txtFlags.Text = flags;
         }
 
         private void determineChecks(object sender, EventArgs e)
         {
-            if (txtFlags.Text.Length != 11) return;
+            if (txtFlags.Text.Length != 14) return;
             loading = true;
             string flags = txtFlags.Text;
             int number = convertChartoInt(Convert.ToChar(flags.Substring(0, 1)));
             chkMonsterZones.Checked = (number % 2 == 1);
             chkMonsterPatterns.Checked = (number % 4 >= 2);
-            chkHeroStats.Checked = (number % 8 >= 4);
+            chkHeroSpells.Checked = (number % 8 >= 4);
             chkTreasures.Checked = (number % 16 >= 8);
             chkStores.Checked = (number % 32 >= 16);
             chkWhoCanEquip.Checked = (number % 64 >= 32);
@@ -200,35 +210,58 @@ namespace _7thSagaRando
 
             number = convertChartoInt(Convert.ToChar(flags.Substring(2, 1)));
             chkHeroSameEquip.Checked = (number % 2 == 1);
-            chkPandam.Checked = (number % 4 >= 2);
+            chkMonsterDrops.Checked = (number % 4 == 2);
             chkSameRando.Checked = (number % 8 >= 4);
             chkRemoveTriggers.Checked = (number % 16 >= 8);
-            chkNoSeeds.Checked = (number % 64 >= 32);
+            chkNoSeeds.Checked = (number % 32 >= 16);
+            chkNoStoreItems.Checked = (number % 64 >= 32);
 
             number = convertChartoInt(Convert.ToChar(flags.Substring(3, 1)));
             chkHeroInteractions.Checked = (number % 2 == 1);
             chkAllHeroesJoin.Checked = (number % 4 >= 2);
             chkNoHeroesJoin.Checked = (number % 8 >= 4);
+            chkSpellLearning.Checked = (number % 16 >= 8);
+            chkLearnNoMagic.Checked = (number % 32 >= 16);
+            chk9999Defense.Checked = (number % 64 >= 32);
 
             number = convertChartoInt(Convert.ToChar(flags.Substring(4, 1)));
-            chkSkyRune1.Checked = (number % 2 == 1);
-            chkSkyRune2.Checked = (number % 4 >= 2);
-            chkSkyRune3.Checked = (number % 8 >= 4);
-            chkSkyRune4.Checked = (number % 16 >= 8);
-            chkSkyRune5.Checked = (number % 32 >= 16);
+            chkWindRune1.Checked = (number % 2 == 1);
+            chkWindRune2.Checked = (number % 4 >= 2);
+            chkWindRune3.Checked = (number % 8 >= 4);
+            chkWindRune4.Checked = (number % 16 >= 8);
+            chkWindRune5.Checked = (number % 32 >= 16);
+            chkDebuffBoss.Checked = (number % 64 >= 32);
 
-            trkExperience.Value = convertChartoInt(Convert.ToChar(flags.Substring(5, 1)));
+            number = convertChartoInt(Convert.ToChar(flags.Substring(5, 1)));
+            chkGoldMin.Checked = (number % 2 == 1);
+            chkHeroStatMin.Checked = (number % 4 >= 2);
+            chkMonsterStatMin.Checked = (number % 8 >= 4);
+            chkEquipMin.Checked = (number % 16 >= 8);
+            chkSpellMin.Checked = (number % 32 >= 16);
+            chkHeroGrowthMin.Checked = (number % 64 >= 32);
+
+            number = convertChartoInt(Convert.ToChar(flags.Substring(6, 1)));
+            chkPostBoneRandom.Checked = (number % 2 == 1);
+            chkPostBonePandam.Checked = (number % 4 >= 2);
+            chkPostBoneRemote.Checked = (number % 8 >= 4);
+            chkPostBoneGrime.Checked = (number % 16 >= 8);
+            chkFullXP.Checked = (number % 32 >= 16);
+            chkVacuumBoss.Checked = (number % 64 >= 32);
+
+            trkExperience.Value = convertChartoInt(Convert.ToChar(flags.Substring(7, 1)));
             trkExperience_Scroll(null, null);
-            trkGoldReq.Value = convertChartoInt(Convert.ToChar(flags.Substring(6, 1))) + 10;
+            trkGoldReq.Value = convertChartoInt(Convert.ToChar(flags.Substring(8, 1))) + 10;
             trkGoldReq_Scroll(null, null);
-            trkMonsterStats.Value = convertChartoInt(Convert.ToChar(flags.Substring(7, 1))) + 10;
+            trkMonsterStats.Value = convertChartoInt(Convert.ToChar(flags.Substring(9, 1))) + 10;
             trkMonsterStats_Scroll(null, null);
-            trkEquipPowers.Value = convertChartoInt(Convert.ToChar(flags.Substring(8, 1))) + 10;
+            trkEquipPowers.Value = convertChartoInt(Convert.ToChar(flags.Substring(10, 1))) + 10;
             trkEquipPowers_Scroll(null, null);
-            trkSpellCosts.Value = convertChartoInt(Convert.ToChar(flags.Substring(9, 1))) + 10;
+            trkSpellCosts.Value = convertChartoInt(Convert.ToChar(flags.Substring(11, 1))) + 10;
             trkSpellCosts_Scroll(null, null);
-            trkHeroStats.Value = convertChartoInt(Convert.ToChar(flags.Substring(10, 1))) + 10;
+            trkHeroStats.Value = convertChartoInt(Convert.ToChar(flags.Substring(12, 1))) + 10;
             trkHeroStats_Scroll(null, null);
+            trkHeroGrowth.Value = convertChartoInt(Convert.ToChar(flags.Substring(13, 1))) + 10;
+            trkHeroGrowth_Scroll(null, null);
             loading = false;
         }
 
@@ -266,31 +299,37 @@ namespace _7thSagaRando
 
         private void trkGoldReq_Scroll(object sender, EventArgs e)
         {
-            lblGoldReq.Text = (trkGoldReq.Value == 10 ? "100%" : (1000 / trkGoldReq.Value) + "-" + (trkGoldReq.Value * 10).ToString() + "%");
+            lblGoldReq.Text = (trkGoldReq.Value == 10 ? "100%" : (chkGoldMin.Checked ? 100 : (1000 / trkGoldReq.Value)) + "-" + (trkGoldReq.Value * 10).ToString() + "%");
             determineFlags(null, null);
         }
 
         private void trkMonsterStats_Scroll(object sender, EventArgs e)
         {
-            lblMonsterStats.Text = (trkMonsterStats.Value == 10 ? "100%" : (1000 / trkMonsterStats.Value) + "-" + (trkMonsterStats.Value * 10).ToString() + "%");
+            lblMonsterStats.Text = (trkMonsterStats.Value == 10 ? "100%" : (chkMonsterStatMin.Checked ? 100 : (1000 / trkMonsterStats.Value)) + "-" + (trkMonsterStats.Value * 10).ToString() + "%");
             determineFlags(null, null);
         }
 
         private void trkEquipPowers_Scroll(object sender, EventArgs e)
         {
-            lblEquipPowers.Text = (trkEquipPowers.Value == 10 ? "100%" : (1000 / trkEquipPowers.Value) + "-" + (trkEquipPowers.Value * 10).ToString() + "%");
+            lblEquipPowers.Text = (trkEquipPowers.Value == 10 ? "100%" : (chkEquipMin.Checked ? 100 : (1000 / trkEquipPowers.Value)) + "-" + (trkEquipPowers.Value * 10).ToString() + "%");
             determineFlags(null, null);
         }
 
         private void trkSpellCosts_Scroll(object sender, EventArgs e)
         {
-            lblSpellCosts.Text = (trkSpellCosts.Value == 10 ? "100%" : (1000 / trkSpellCosts.Value) + "-" + (trkSpellCosts.Value * 10).ToString() + "%");
+            lblSpellCosts.Text = (trkSpellCosts.Value == 10 ? "100%" : (chkSpellMin.Checked ? 100 : (1000 / trkSpellCosts.Value)) + "-" + (trkSpellCosts.Value * 10).ToString() + "%");
             determineFlags(null, null);
         }
 
         private void trkHeroStats_Scroll(object sender, EventArgs e)
         {
-            lblHeroStats.Text = (trkHeroStats.Value == 10 ? "100%" : (1000 / trkHeroStats.Value) + "-" + (trkHeroStats.Value * 10).ToString() + "%");
+            lblHeroStats.Text = (trkHeroStats.Value == 10 ? "100%" : (chkHeroStatMin.Checked ? 100 : (1000 / trkHeroStats.Value)) + "-" + (trkHeroStats.Value * 10).ToString() + "%");
+            determineFlags(null, null);
+        }
+
+        private void trkHeroGrowth_Scroll(object sender, EventArgs e)
+        {
+            lblHeroGrowth.Text = (trkHeroGrowth.Value == 10 ? "100%" : (chkHeroStatMin.Checked ? 100 : (1000 / trkHeroGrowth.Value)) + "-" + (trkHeroGrowth.Value * 10).ToString() + "%");
             determineFlags(null, null);
         }
 
@@ -298,14 +337,17 @@ namespace _7thSagaRando
         {
             loadRom();
             Random r1 = new Random(Convert.ToInt32(txtSeed.Text));
-            apprenticeFightAdjustment();
+            apprenticeFightAdjustment(r1);
             boostExp();
             if (chkMonsterZones.Checked) randomizeMonsterZones(r1);
             if (chkMonsterPatterns.Checked) randomizeMonsterPatterns(r1);
-            if (chkHeroStats.Checked) randomizeHeroStats(r1);
+            if (chkMonsterDrops.Checked) randomizeMonsterDrops(r1);
+            if (chkHeroSpells.Checked) randomizeHeroSpells(r1);
             if (chkTreasures.Checked) randomizeTreasures(r1);
             if (chkStores.Checked) randomizeStores(r1);
+            if (chkNoStoreItems.Checked) noStoreItems();
             if (chkWhoCanEquip.Checked) randomizeWhoCanEquip(r1);
+            if (chkFullXP.Checked) noXPSplitting();
             heroInteractions(r1);
             randomizePison(r1);
             randomizePandam(r1);
@@ -315,9 +357,15 @@ namespace _7thSagaRando
             equipmentStats(r1);
             spellCosts(r1);
             if (chkSpeedHacks.Checked) speedHacks();
+            // Remove stat gain text on level up.
+            if (!chkShowStatGains.Checked) romData[0x18cd1] = 0x6b;
+            // Enable debuffs and vacuums on bosses by replacing BEQ with BRA
+            if (chkDebuffBoss.Checked) romData[0x4bf6a] = 0x80;
+            if (chkVacuumBoss.Checked) romData[0x4be60] = 0x80;
+
             if (chkDoubleWalk.Checked) doubleWalk();
             if (chkRemoveTriggers.Checked) removeUselessTriggers();
-            if (chkSkyRune1.Checked || chkSkyRune2.Checked || chkSkyRune3.Checked || chkSkyRune4.Checked || chkSkyRune5.Checked) freeIce();
+            if (chkWindRune1.Checked || chkWindRune2.Checked || chkWindRune3.Checked || chkWindRune4.Checked || chkWindRune5.Checked) freeIce();
         }
 
         private void cmdRandomize_Click(object sender, EventArgs e)
@@ -453,7 +501,12 @@ namespace _7thSagaRando
             return writer;
         }
 
-        private void apprenticeFightAdjustment()
+        private void noXPSplitting()
+        {
+            romData[0x281d2] = romData[0x281d3] = romData[0x281bf] = romData[0x281c0] = romData[0x281c1] = romData[0x281c2] = 0xea;
+        }
+
+        private void apprenticeFightAdjustment(Random r1)
         {
             //romData[0xbd61] = 0x7f; // Prevent stat boosts when hero level > 10.  That's cheating.
             byte[] romPlugin = { 0x22, 0xd0, 0xf6, 0xc2 };
@@ -476,17 +529,30 @@ namespace _7thSagaRando
 
             romData[0xca59] = 0xe9; // Force apprentice to be your level MINUS 1 instead of your level PLUS 1.
             romData[0x24852] = 0xea; // None of that doubling of MP either.  Sorry, that's cheating.
+
+            // Randomize Patrof apprentice to be 1-10 levels better than you... unless you have free rune on, then make it 1-20 levels better than you.
+            romData[0xc020] = (byte)(1 + r1.Next() % (chkWindRune1.Checked || chkWindRune2.Checked || chkWindRune3.Checked || chkWindRune4.Checked || chkWindRune5.Checked ? 20 : 10));
         }
 
         private void randomizePandam(Random r1)
         {
-            if (chkPandam.Checked)
+            if (chkPostBoneRandom.Checked)
             {
                 // Randomize who gets to go to the Grime Tower.
                 romData[0x6532f] = (byte)((r1.Next() % 7) + 1);
                 // Randomize who gets to go to Pandam.  It can be one or two characters.
                 romData[0x6566f] = (byte)((r1.Next() % 7) + 1);
                 romData[0x65675] = (byte)((r1.Next() % 7) + 1);
+            } else if (chkPostBonePandam.Checked)
+            {
+                textToHex(0x6566e, "", new byte[] { 0xf3, 0xe3, 0x57, 0xc6 });
+            } else if (chkPostBoneRemote.Checked)
+            {
+                textToHex(0x6566e, "", new byte[] { 0xf3, 0x21, 0x57, 0xc6 });
+            }
+            if (chkPostBoneGrime.Checked)
+            {
+                textToHex(0x6532e, "", new byte[] { 0xff, 0x35, 0x53, 0xc6 });
             }
         }
 
@@ -499,7 +565,10 @@ namespace _7thSagaRando
             romData[0x6300d] = 0x10; // Change trigger to the defeat of Romus.
 
             // Digger Quose
-            romData[0x63dd3] = 0x10;
+            romData[0x63dd3] = 0x10; // Change trigger to the defeat of Romus.
+
+            // Immediately talk to DR. FAIL by changing trigger to the defeat of Romus.
+            romData[0x6e3c0] = romData[0x6e3c6] = romData[0x6e3cc] = romData[0x6e3d2] = romData[0x6e3d8] = romData[0x6e3de] = romData[0x6e3e4] = 0x10;
         }
 
         private void freeIce()
@@ -514,7 +583,10 @@ namespace _7thSagaRando
             //// No runes required in Brush
             //romData[0x6a909] = romData[0x6a90f] = romData[0x6a915] = romData[0x6a91b] = romData[0x6a921] = romData[0x6a927] = romData[0x6a92d] = romData[0x6a92d] = 0x10;
 
-            // "Free Enterprise" the Sky Rune.
+            // Skip Eygus part... hopefully.
+            textToHex(0x623ae, "*Romus* uncursed!", new byte[] { 0xfe, 0x7e, 0x00, 0xf3, 0xf6, 0x22, 0xf3, 0xff, 0xcb, 0x23, 0xc6 });
+
+            // "Free Enterprise" the Wind Rune.
             byte[] romPlugin = { 0x22, 0x00, 0xed, 0xc0, 0xea };
             for (int lnI = 0; lnI < romPlugin.Length; lnI++)
                 romData[0x49068 + lnI] = romPlugin[lnI];
@@ -522,7 +594,7 @@ namespace _7thSagaRando
             int pluginStart = 0xed00;
             byte returnStart = 0xe0;
 
-            if (chkSkyRune1.Checked)
+            if (chkWindRune1.Checked)
             {
                 romPlugin = new byte[] {
                     0xa9, 0x01, 0x8f, (byte)(returnStart + 0), 0x50, 0x7e,
@@ -544,7 +616,7 @@ namespace _7thSagaRando
                 returnStart += 10;
             }
 
-            if (chkSkyRune2.Checked)
+            if (chkWindRune2.Checked)
             {
                 romPlugin = new byte[] {
                     0xa9, 0x0b, 0x8f, (byte)(returnStart + 0), 0x50, 0x7e,
@@ -567,7 +639,7 @@ namespace _7thSagaRando
                 returnStart += 11;
             }
 
-            if (chkSkyRune3.Checked)
+            if (chkWindRune3.Checked)
             {
                 romPlugin = new byte[] {
                     0xa9, 0x17, 0x8f, (byte)(returnStart + 0), 0x50, 0x7e,
@@ -582,7 +654,7 @@ namespace _7thSagaRando
                 returnStart += 3;
             }
 
-            if (chkSkyRune4.Checked)
+            if (chkWindRune4.Checked)
             {
                 romPlugin = new byte[] {
                     0xa9, 0x1c, 0x8f, (byte)(returnStart + 0), 0x50, 0x7e,
@@ -599,7 +671,7 @@ namespace _7thSagaRando
                 returnStart += 5;
             }
 
-            if (chkSkyRune5.Checked)
+            if (chkWindRune5.Checked)
             {
                 romPlugin = new byte[] {
                     0xa9, 0x1f, 0x8f, (byte)(returnStart + 0), 0x50, 0x7e,
@@ -629,6 +701,7 @@ namespace _7thSagaRando
                 "An imp", "Zeromus", "Golbez", "DK Cecil", "Kefka", "Kamil", "Valsu", "Lux", "Wilme", "Lejes", "Olvan", "Esuna" };
             int chosen = r1.Next() % randomCharacters.Length;
             string theChosenOne = randomCharacters[chosen];
+
             textToHex(0x623fb, "*" + theChosenOne + "* asked me to@take half your money away.@Sorry.@", new byte[] { 0xF3, 0xFE, 0x13, 0x00, 0xF6, 0x28 }); // r1.Next() % randomCharacter.Length
 
             // Red Pison
@@ -811,11 +884,14 @@ namespace _7thSagaRando
 
             // Music transition speedups (1st character only)
             romData[0x4447e] = romData[0x4447f] = romData[0x44480] = romData[0x44481] = romData[0x444df] = romData[0x444e0] = romData[0x444e1] = romData[0x444e2] = 0xea;
-            // Remove stat gain text on level up.
-            if (!chkShowStatGains.Checked)
-                romData[0x18cd1] = 0x6b;
             // Remove delay after levelling up. (1st character only)
             romData[0x444aa] = 0x01;
+
+            // Music transition speedups (2nd character only)
+            romData[0x4454a] = romData[0x4454b] = romData[0x4454c] = romData[0x4454d] = romData[0x445ab] = romData[0x445ac] = romData[0x445ad] = romData[0x445ae] = 0xea;
+            // Remove delay after levelling up. (2nd character only)
+            romData[0x44576] = 0x01;
+
             // Remove delay of getting key item.
             romData[0x8e24] = 0x01;
             // Remove fight delay for indoor battles
@@ -840,18 +916,12 @@ namespace _7thSagaRando
                 romData[0x60492 + lnI] = romPlugin[lnI];
 
             textToHex(0x60277, "%");
-            //romPlugin = new byte[] { 0xfc, 0x00, 0x00, 0x00, 0x00, 0xc6, 0xf7 };
-            //for (int lnI = 0; lnI < romPlugin.Length; lnI++)
-            //    romData[0x60277 + lnI] = romPlugin[lnI];
 
             romPlugin = new byte[] { 0xf7, 0x36 };
             for (int lnI = 0; lnI < romPlugin.Length; lnI++)
                 romData[0x6024d + lnI] = romPlugin[lnI];
 
             textToHex(0x6029a, "%");
-            //romPlugin = new byte[] { 0xfc, 0x00, 0x00, 0x00, 0x00, 0xc6, 0xf7 };
-            //for (int lnI = 0; lnI < romPlugin.Length; lnI++)
-            //    romData[0x6029a + lnI] = romPlugin[lnI];
 
             romPlugin = new byte[] { 0xf7, 0x33 };
             for (int lnI = 0; lnI < romPlugin.Length; lnI++)
@@ -872,14 +942,8 @@ namespace _7thSagaRando
                 romData[0x600f9 + lnI] = romPlugin[lnI];
 
             textToHex(0x602d4, "ATK up *$*%");
-            //romPlugin = new byte[] { 0x20, 0x33, 0x2a, 0x0d, 0x4e, 0x49, 0x0d, 0x82, 0x8c, 0x82, 0x6a, 0xfc, 0x00, 0x00, 0x00, 0x00, 0xc6, 0xf7 };
-            //for (int lnI = 0; lnI < romPlugin.Length; lnI++)
-            //    romData[0x602d4 + lnI] = romPlugin[lnI];
 
             textToHex(0x60141, "Trade-in cost: *$*%");
-            //romPlugin = new byte[] { 0x33, 0x4b, 0x3a, 0x3d, 0x3e, 0x68, 0x42, 0x47, 0x0d, 0x3c, 0x48, 0x4c, 0x4d, 0x5a, 0x0d, 0x82, 0x8c, 0x82, 0x0d, 0x26, 0xfc, 0x00, 0x00, 0x00, 0x00, 0xc6, 0xf7 };
-            //for (int lnI = 0; lnI < romPlugin.Length; lnI++)
-            //    romData[0x60141 + lnI] = romPlugin[lnI];
 
             romPlugin = new byte[] { 0xf7, 0xfc };
             for (int lnI = 0; lnI < romPlugin.Length; lnI++)
@@ -890,19 +954,10 @@ namespace _7thSagaRando
                 romData[0x604db + lnI] = romPlugin[lnI];
 
             textToHex(0x60301, "ATK down *$*%");
-            //romPlugin = new byte[] { 0x20, 0x33, 0x2a, 0x0d, 0x3d, 0x48, 0x50, 0x47, 0x0d, 0x82, 0x8c, 0x82, 0x6a, 0xfc, 0x00, 0x00, 0x00, 0x00, 0xc6, 0xf7 };
-            //for (int lnI = 0; lnI < romPlugin.Length; lnI++)
-            //    romData[0x60301 + lnI] = romPlugin[lnI];
 
             textToHex(0x602b7, "%");
-            //romPlugin = new byte[] { 0xfc, 0x00, 0x00, 0x00, 0x00, 0xc6, 0xf7 };
-            //for (int lnI = 0; lnI < romPlugin.Length; lnI++)
-            //    romData[0x602b7 + lnI] = romPlugin[lnI];
 
             textToHex(0x601ce, "Trade-in rebate: *$* G%");
-            //romPlugin = new byte[] { 0x33, 0x4b, 0x3a, 0x3d, 0x3e, 0x68, 0x42, 0x47, 0x0d, 0x4b, 0x3e, 0x3b, 0x3a, 0x4d, 0x3e, 0x5a, 0x0d, 0x82, 0x8c, 0x82, 0x0d, 0x26, 0xfc, 0x00, 0x00, 0x00, 0x00, 0xc6, 0xf7 };
-            //for (int lnI = 0; lnI < romPlugin.Length; lnI++)
-            //    romData[0x601ce + lnI] = romPlugin[lnI];
 
             textToHex(0x603c1, "No change%");
 
@@ -913,29 +968,14 @@ namespace _7thSagaRando
 
             textToHex(0x60110, "Trade-in rebate: *$* G%");
             textToHex(0x60361, "Trade-in cost: *$* G%");
-            //romPlugin = new byte[] { 0x33, 0x4b, 0x3a, 0x3d, 0x3e, 0x68, 0x42, 0x47, 0x0d, 0x3c, 0x48, 0x4c, 0x4d, 0x5a, 0x0d, 0x82, 0x8c, 0x82, 0x0d, 0x26, 0xfc, 0x00, 0x00, 0x00, 0x00, 0xc6, 0xf7 };
-            //for (int lnI = 0; lnI < romPlugin.Length; lnI++)
-            //    romData[0x60110 + lnI] = romPlugin[lnI];
 
             textToHex(0x60361, "DEF down *$*.%");
-            //romPlugin = new byte[] { 0x23, 0x24, 0x25, 0x0d, 0x3d, 0x48, 0x50, 0x47, 0x0d, 0x82, 0x8c, 0x82, 0x6a, 0xfc, 0x00, 0x00, 0x00, 0x00, 0xc6, 0xf7 };
-            //for (int lnI = 0; lnI < romPlugin.Length; lnI++)
-            //    romData[0x60361 + lnI] = romPlugin[lnI];
 
             textToHex(0x60334, "DEF up *$*.%");
-            //romPlugin = new byte[] { 0x23, 0x24, 0x25, 0x0d, 0x4e, 0x49, 0x0d, 0x82, 0x8c, 0x82, 0x6a, 0xfc, 0x00, 0x00, 0x00, 0x00, 0xc6, 0xf7 };
-            //for (int lnI = 0; lnI < romPlugin.Length; lnI++)
-            //    romData[0x60334 + lnI] = romPlugin[lnI];
 
             textToHex(0x6039b, "No change%");
-            //romPlugin = new byte[] { 0x2d, 0x48, 0x0d, 0x3c, 0x41, 0x3a, 0x47, 0x40, 0x3e, 0xfc, 0x00, 0x00, 0x00, 0x00, 0xc6, 0xf7 };
-            //for (int lnI = 0; lnI < romPlugin.Length; lnI++)
-            //    romData[0x6039b + lnI] = romPlugin[lnI];
 
             textToHex(0x6019d, "Trade-in rebate: *$* G%");
-            //romPlugin = new byte[] { 0x33, 0x4b, 0x3a, 0x3d, 0x3e, 0x68, 0x42, 0x47, 0x0d, 0x4b, 0x3e, 0x3b, 0x3a, 0x4d, 0x3e, 0x5a, 0x0d, 0x82, 0x8c, 0x82, 0x0d, 0x26, 0xfc, 0x00, 0x00, 0x00, 0x00, 0xc6, 0xf7 };
-            //for (int lnI = 0; lnI < romPlugin.Length; lnI++)
-            //    romData[0x6019d + lnI] = romPlugin[lnI];
 
             // Whistle Part 1
             //textToHex(0x6209d, "Have you been to @the castle?@#Go outside to get the@*Whistle*.");
@@ -943,8 +983,36 @@ namespace _7thSagaRando
             // Whistle Part 2
             textToHex(0x62286, "Here is the *Whistle*.@", new byte[] { 0xF3, 0xFF, 0x2E, 0x23, 0xC6 });
 
+            // Brantu part 1
+            textToHex(0x63012, "I'm *Brantu*.  Let's go@to *Melenam*!", new byte[] { 0xf3, 0xff, 0x78, 0x31, 0xc6 });
+
+            // Post Water-Rune
+            textToHex(0x64665, "Now go east for another@*rune*!", new byte[] { 0xfc, 0x1e, 0x00, 0x19, 0x47, 0xc6, 0xfc, 0x1c, 0x00, 0x02, 0x00, 0xc6, 0xfe, 0x1c, 0x00, 0xf6, 0x5b });
+
             // Remote Control Cave
-            textToHex(0x65A9B, "Let's go!@", new byte[] { 0xF3, 0xFC, 0x7D, 0x00, 0xF3, 0x5C, 0xC6, 0xFE, 0x7D, 0x00, 0xF6, 0x4E, 0xF6, 0x4F, 0xF7, 0xF6, 0x4F, 0xF7 });
+            textToHex(0x65A9B, "Let's go!@", new byte[] { 0xF3, 0xFC, 0x7D, 0x00, 0xF3, 0x5C, 0xC6, 0xFE, 0x7D, 0x00, 0xF6, 0x4E, 0xF6, 0x4F, 0xF7, 0xF6, 0x4F });
+
+            // Serpent released - remove happy song.
+            textToHex(0x68e27, "The power of *Serpent*@is gone.", new byte[] { 0xfc, 0x2d, 0x00, 0x4e, 0x8e, 0xc6, 0xfe, 0x71, 0x00, 0xfe, 0x72, 0x00 });
+
+            // Alter curse
+            textToHex(0x6b7c7, "Thou art cursed!");
+
+            // Post-Metal Pison
+            textToHex(0x6c216, "You won this round!@But I'll still@be around!");
+
+            // Remove curse
+            textToHex(0x6bc29, "I was wrong.@The curse is gone.", new byte[] { 0xf3, 0xff, 0xfc, 0xbc, 0xc6 });
+            textToHex(0x6bd21, "", new byte[] { 0xfd, 0x3a, 0x00, 0xfd, 0x3c, 0x00, 0xf3, 0xff, 0x21, 0xbd, 0xc6 });
+
+            // Shorten post-curse
+            textToHex(0x6bd36, "Now go east to get@ the *Wizard Rune*!");
+
+            // Shorten Sage speech
+            textToHex(0x6cfa6, "Yes you are from@the future.  Continue your@quest on the airship!");
+
+            // Shorten SARO speech
+            textToHex(0x6f646, "Good job!  *GORSIA's*@ curse on the *Runes*@ is lifted.", new byte[] { 0xf6, 0x01, 0xf6, 0x03, 0xf6, 0x01, 0xf6, 0x6a });
 
             // Inn
             //romPlugin = new byte[] { 0x28, 0x47, 0x47, 0x5a, 0x0d, 0x82, 0x8c, 0x82, 0x0d, 0x26, 0xfc, 0x00, 0x00, 0x00, 0x00, 0xc6, 0x0d, 0xf9 };
@@ -1129,53 +1197,164 @@ namespace _7thSagaRando
                     }
                 }
             }
-
         }
 
-        private void randomizeHeroStats(Random r1)
+        private void randomizeMonsterDrops(Random r1)
         {
-                for (int lnI = 0; lnI < 7; lnI++)
+            byte[] commonItems = { 0x01, 0x02, 0x0b, 0x0c, 0x0d, 0x11, 0x12, 0x13, 0x14, 0x29, 0x2d, 0x2e, 0x30, 0x32, 0x34, 0x35, 0x38, 0x39, 0x3a, 0x43, 0x44 };
+            byte[] rareItems = { 0x15, 0x16, 0x17, 0x18, 0x19, 0x1a, 0x1b };
+            byte[] jewelItems = { 0x47, 0x48, 0x49, 0x4a, 0x4b, 0x4c, 0x4d };
+            byte[] equipItems = { 0x65, 0x66, 0x67, 0x68, 0x69, 0x6a, 0x6b, 0x6c,
+                                0x6d, 0x6e, 0x6f, 0x70, 0x71, 0x72, 0x73, 0x74,
+                                0x77, 0x78, 0x79, 0x7a, 0x7b, 0x7c, 0x7d, 0x7e,
+                                0x7f, 0x80, 0x81, 0x82, 0x83, 0x85, 0x86, 0x87,
+                                0x88, 0x89, 0x8a, 0x8b, 0x8d, 0x8e, 0x8f, 0x90,
+                                0x91, 0x92, 0x93, 0x94, 0x95, 0x96,
+                                0x97, 0x98, 0x99, 0x9a, 0x9b, 0x9c, 0x9d, 0x9e,
+                                0x9f, 0xa0, 0xa1, 0xa2, 0xa3, 0xa4, 0xa5, 0xa6,
+                                0xa7, 0xa8, 0xa9, 0xaa, 0xab, 0xac, 0xad, 0xae,
+                                0xaf, 0xb0, 0xb1, 0xb2, 0xb3, 0xb5, 0xb6, 0xb7,
+                                0xb8, 0xb9, 0xba, 0xbb, 0xbc, 0xbd, 0xbe, 0xbf,
+                                0xc0, 0xc1, 0xc2, 0xc7, 0xc8, 0xc9, 0xca, 0xcb };
+            // First, let's randomize the actual drops
+            // The first one is fixed; no drop.  The second four are for the tricks.  The rest are random.
+            for (int lnI = 0; lnI < 30; lnI++)
+            {
+                int byteToUse = 0x8a18 + (lnI * 16);
+                for (int lnJ = 0; lnJ < 16; lnJ++)
                 {
-                    int byteToUse = 0x623f + (18 * lnI);
-                    //romData[byteToUse] = (byte)(r1.Next() % 16 + 12); // Starting HP - 12-27
-                    //romData[byteToUse + 2] = (byte)(r1.Next() % 21 + 0); // Starting MP - 0-21
-                    //romData[byteToUse + 4] = (byte)(r1.Next() % (lnI == 3 || lnI == 4 ? 9 : lnI == 2 || lnI >= 5 ? 8 : 7) + 2); // Starting Power - Kamil/Olvan, 2-8, Esuna/Valsu/Lejes, 2-9, Lux/Wilme, 2-10
-                    //romData[byteToUse + 5] = (byte)(r1.Next() % (lnI == 3 || lnI == 4 ? 9 : lnI == 2 || lnI >= 5 ? 8 : 7) + 2); // Starting Guard - Kamil/Olvan, 2-8, Esuna/Valsu/Lejes, 2-9, Lux/Wilme, 2-10
-                    //romData[byteToUse + 6] = (byte)(r1.Next() % 7 + 3); // Starting Magic - 3-9
-                    //romData[byteToUse + 7] = (byte)(r1.Next() % 7 + 3); // Starting Speed - 3-9
-                    //romData[byteToUse + 8] = (byte)(r1.Next() % 7 + 4); // HP Boost - 4-10
-                    //romData[byteToUse + 9] = (byte)(r1.Next() % (lnI == 2 || lnI == 5 || lnI == 6 ? 7 : 5) + 2); // MP Boost - Esuna/Valsu/Lejes, 2-8, all others, 2-6
-                    //romData[byteToUse + 10] = (byte)(r1.Next() % (lnI == 3 || lnI == 4 ? 7 : lnI == 0 || lnI == 1 ? 6 : 5) + 2); // Power Boost - Lux/Wilme, 2-8, Kamil/Olvan, 2-7, Esuna/Valsu/Lejes, 2-6
-                    //romData[byteToUse + 11] = (byte)(r1.Next() % (lnI == 3 || lnI == 4 ? 7 : lnI == 0 || lnI == 1 ? 6 : 5) + 2); // Guard Boost - Lux/Wilme, 2-8, Kamil/Olvan, 2-7, Esuna/Valsu/Lejes, 2-6
-                    //romData[byteToUse + 12] = (byte)(r1.Next() % (lnI == 2 || lnI == 5 || lnI == 6 ? 5 : 4) + 2); // Magic Boost - Esuna/Valsu/Lejes, 2-6, all others 2-5
-                    //romData[byteToUse + 13] = (byte)(r1.Next() % (lnI == 2 || lnI == 5 || lnI == 6 ? 5 : 4) + 2); // Speed Boost - Esuna/Valsu/Lejes, 2-6, all others 2-5
-                    //// 14-16 - Weapon/Armor/Shield
-                    //romData[byteToUse + 17] = (byte)(r1.Next() % 100 + 0); // Starting Experience - 0-99
-
-                    List<byte> actualSpells = new List<byte>();
-                    // Learn spells as long as you don't duplicate another spell.
-                    // Lux/Wilme get one duplicate chance only.  Kamil and Olvan get 10 chances, Lejes gets 50 chances, and Esuna and Valsu get 100 chances. (Lejes gets to equip more stuff than Esuna and Valsu)
-                    // If same hero stats is checked, then all heroes get 20 chances.
-                    int duplicateChances = (chkHeroSameSpell.Checked ? 20 : lnI == 3 || lnI == 4 ? 1 : lnI == 0 || lnI == 1 ? 10 : lnI == 6 ? 50 : 100);
-                    for (int lnJ = 0; lnJ < 16; lnJ++)
+                    if (lnI == 0)
+                        romData[byteToUse + lnJ] = 0x00;
+                    else if (lnI == 1)
                     {
-                        actualSpells.Add(legalSpells[r1.Next() % legalSpells.Length]);
-                        for (int lnK = 0; lnK < lnJ; lnK++)
-                            if (actualSpells[lnJ] == actualSpells[lnK]) { duplicateChances--; actualSpells.RemoveAt(actualSpells.Count - 1); lnJ--; break; }
-                        if (duplicateChances <= 0) break;
+                        romData[byteToUse + lnJ] = (commonItems[r1.Next() % commonItems.Length]);
                     }
-
-                    int[] spellLevels = inverted_power_curve(1, 45, actualSpells.Count, 1, r1);
-
-                    byteToUse = 0x62bd + (32 * lnI);
-                    for (int lnJ = 0; lnJ < 32; lnJ++)
-                        romData[byteToUse + lnJ] = 0;
-                    for (int lnJ = 0; lnJ < actualSpells.Count; lnJ++)
+                    else if (lnI == 2)
                     {
-                        romData[byteToUse + lnJ] = actualSpells[lnJ];
-                        romData[byteToUse + lnJ + 16] = (byte)spellLevels[lnJ];
+                        romData[byteToUse + lnJ] = (rareItems[r1.Next() % rareItems.Length]);
+                    }
+                    else if (lnI == 3)
+                    {
+                        romData[byteToUse + lnJ] = (jewelItems[r1.Next() % jewelItems.Length]);
+                    }
+                    else if (lnI == 4)
+                    {
+                        romData[byteToUse + lnJ] = (equipItems[r1.Next() % equipItems.Length]);
+                    }
+                    else
+                    {
+                        if (lnJ == 0 || r1.Next() % 2 == 0)
+                        {
+                            int itemToUse = r1.Next() % 16;
+                            if (itemToUse < 8)
+                                romData[byteToUse + lnJ] = (commonItems[r1.Next() % commonItems.Length]);
+                            else if (itemToUse < 12)
+                                romData[byteToUse + lnJ] = (jewelItems[r1.Next() % jewelItems.Length]);
+                            else if (itemToUse < 14)
+                                romData[byteToUse + lnJ] = (rareItems[r1.Next() % rareItems.Length]);
+                            else
+                                romData[byteToUse + lnJ] = (equipItems[r1.Next() % equipItems.Length]);
+                        }
+                        else
+                            break;
                     }
                 }
+            }
+
+            for (int lnI = 0; lnI < monsterRanking.Length; lnI++)
+            {
+                int byteToUse = 0x72f4 + (monsterRanking[lnI] * 42);
+                if (romData[byteToUse] == 0x46 || romData[byteToUse] == 0x00) continue; // Do not randomize Gorsia or blank monsters.
+                if (monsterRanking[lnI] == 0x03)
+                    romData[byteToUse + 36] = 0x01;
+                else if (monsterRanking[lnI] == 0x43)
+                    romData[byteToUse + 36] = 0x02;
+                else if (monsterRanking[lnI] == 0x44)
+                    romData[byteToUse + 36] = 0x03;
+                else if (monsterRanking[lnI] == 0x45)
+                    romData[byteToUse + 36] = 0x04;
+                else if (r1.Next() % 3 == 0)
+                {
+                    romData[byteToUse + 36] = (byte)(0x05 + (r1.Next() % 25));
+                }
+            }
+        }
+
+        private void randomizeHeroSpells(Random r1)
+        {
+            for (int lnI = 0; lnI < 7; lnI++)
+            {
+                int byteToUse = 0x62bd + (32 * lnI);
+
+                List<byte> actualSpells = new List<byte>();
+                if (!chkLearnNoMagic.Checked)
+                {
+                    int maxSpells = (lnI == 0 ? 12 : lnI == 1 ? 10 : lnI == 2 ? 16 : lnI == 3 ? 7 : lnI == 4 ? 5 : lnI == 5 ? 16 : 16);
+                    List<byte> actualLegalSpells = new List<byte>();
+                    if (chkSpellLearning.Checked)
+                    {
+                        switch (lnI)
+                        {
+                            case 0:
+                                actualLegalSpells = new List<byte>() { 0x01, 0x18, 0x2D, 0x0C, 0x19, 0x03, 0x15, 0x02, 0x28, 0x2E, 0x1A, 0x0D };
+                                break;
+                            case 1:
+                                actualLegalSpells = new List<byte>() { 0x18, 0x01, 0x15, 0x16, 0x02, 0x19, 0x2D, 0x1B, 0x1A, 0x2E };
+                                break;
+                            case 2:
+                                actualLegalSpells = new List<byte>() { 0x03, 0x22, 0x1B, 0x18, 0x2D, 0x04, 0x0E, 0x15, 0x21, 0x28, 0x16, 0x0F, 0x1E, 0x2E, 0x1A, 0x29 };
+                                break;
+                            case 3:
+                                actualLegalSpells = new List<byte>() { 0x01, 0x22, 0x0C, 0x02, 0x1B, 0x0D, 0x28 };
+                                break;
+                            case 4:
+                                actualLegalSpells = new List<byte>() { 0x05, 0x06, 0x10, 0x07, 0x11 };
+                                break;
+                            case 5:
+                                actualLegalSpells = new List<byte>() { 0x18, 0x03, 0x16, 0x2D, 0x15, 0x19, 0x2E, 0x21, 0x1C, 0x1D, 0x1B, 0x1A, 0x1F, 0x1E, 0x2F, 0x23 };
+                                break;
+                            case 6:
+                                actualLegalSpells = new List<byte>() { 0x01, 0x22, 0x03, 0x15, 0x0C, 0x02, 0x17, 0x0E, 0x04, 0x28, 0x1B, 0x1D, 0x0D, 0x0F, 0x1E, 0x29 };
+                                break;
+                        }
+                    }
+                    for (int lnJ = 0; lnJ < maxSpells; lnJ++)
+                    {
+                        if (chkSpellLearning.Checked)
+                        {
+                            int spellLoc = r1.Next() % actualLegalSpells.Count;
+                            actualSpells.Add(legalSpells[spellLoc]);
+                            actualLegalSpells.RemoveAt(spellLoc);
+                        }
+                        else
+                        {
+                            actualSpells.Add(legalSpells[r1.Next() % legalSpells.Length]);
+                            for (int lnK = 0; lnK < lnJ; lnK++)
+                                if (actualSpells[lnJ] == actualSpells[lnK]) { actualSpells.RemoveAt(actualSpells.Count - 1); lnJ--; break; }
+                        }
+                    }
+                }
+
+                int[] spellLevels = inverted_power_curve(1, 45, actualSpells.Count, 1, r1);
+
+                if (!chkSpellLearning.Checked)
+                {
+                    for (int lnJ = 0; lnJ < 32; lnJ++)
+                        romData[byteToUse + lnJ] = 0;
+                }
+                for (int lnJ = 0; lnJ < actualSpells.Count; lnJ++)
+                {
+                    if (!chkSpellLearning.Checked)
+                        romData[byteToUse + lnJ] = actualSpells[lnJ];
+                    romData[byteToUse + lnJ + 16] = (byte)spellLevels[lnJ];
+                }
+            }
+
+            // OLD METHOD:
+            // Learn spells as long as you don't duplicate another spell.
+            // Lux/Wilme get one duplicate chance only.  Kamil and Olvan get 10 chances, Lejes gets 50 chances, and Esuna and Valsu get 100 chances. (Lejes gets to equip more stuff than Esuna and Valsu)
+            // If same hero stats is checked, then all heroes get 20 chances.
+            //int duplicateChances = (chkHeroSameSpell.Checked ? 20 : lnI == 3 || lnI == 4 ? 1 : lnI == 0 || lnI == 1 ? 10 : lnI == 6 ? 50 : 100);
         }
 
         private void randomizeTreasures(Random r1)
@@ -1223,8 +1402,35 @@ namespace _7thSagaRando
             }
         }
 
+        private void noStoreItems()
+        {
+            for (int lnI = 0; lnI < 40; lnI++)
+            {
+                int byteToUse = 0x8308 + (lnI * 27);
+                
+                for (int lnJ = 0; lnJ < 5; lnJ++)
+                    romData[byteToUse + lnJ] = 0;
+
+                for (int lnJ = 6; lnJ < 13; lnJ++)
+                    romData[byteToUse + lnJ] = 0;
+
+                for (int lnJ = 13; lnJ < 21; lnJ++)
+                    romData[byteToUse + lnJ] = 0;
+            }
+        }
+
+        private byte[] shuffle(byte[] items, Random r1)
+        {
+            for (int lnI = 0; lnI <= items.Length * 7; lnI++)
+            {
+                int temp = items[r1.Next() % items.Length];
+            }
+            return items;
+        }
+
         private void randomizeStores(Random r1)
         {
+            // 46 weapons
             byte[] weapons = {
                 0x65, 0x66, 0x67, 0x68, 0x69, 0x6a, 0x6b, 0x6c,
                 0x6d, 0x6e, 0x6f, 0x70, 0x71, 0x72, 0x73, 0x74,
@@ -1233,6 +1439,7 @@ namespace _7thSagaRando
                 0x88, 0x89, 0x8a, 0x8b, 0x8d, 0x8e, 0x8f, 0x90,
                 0x91, 0x92, 0x93, 0x94, 0x95, 0x96
             };
+            // 48 armor
             byte[] armor = {
                 0x97, 0x98, 0x99, 0x9a, 0x9b, 0x9c, 0x9d, 0x9e,
                 0x9f, 0xa0, 0xa1, 0xa2, 0xa3, 0xa4, 0xa5, 0xa6,
@@ -1242,10 +1449,14 @@ namespace _7thSagaRando
                 0xc0, 0xc1, 0xc2, 0xc7, 0xc8, 0xc9, 0xca, 0xcb
             };
 
+            byte[] commonItems = { 0x0b, 0x0c, 0x0d };
+            byte[] magicItems = { 0x01, 0x02, 0x11, 0x12, 0x13, 0x14, 0x29, 0x2d, 0x2e, 0x30, 0x32, 0x34, 0x35, 0x38, 0x39, 0x3a, 0x43, 0x44 };
+            byte[] jewelItems = { 0x47, 0x48, 0x49, 0x4a, 0x4b, 0x4c, 0x4d };
+            byte[] rareItems = { 0x15, 0x16, 0x17, 0x18, 0x19, 0x1a, 0x1b };
+
             byte[] items = {
                 0x01, 0x02, 0x0b, 0x0c, 0x0d, 0x11, 0x12, 0x13,
                 0x14, 0x15, 0x16, 0x17, 0x18, 0x19, 0x1a, 0x1b,
-                0x29, 0x2d, 0x2e, 0x30, 0x32, 0x34, 0x35, 0x38,
                 0x29, 0x2d, 0x2e, 0x30, 0x32, 0x34, 0x35, 0x38,
                 0x39, 0x3a, 0x43, 0x44, 0x47, 0x48, 0x49, 0x4a,
                 0x4b, 0x4c, 0x4d
@@ -1254,71 +1465,169 @@ namespace _7thSagaRando
             {
                 items = new byte[] {
                     0x01, 0x02, 0x0b, 0x0c, 0x0d, 0x11, 0x12, 0x13,
-                    0x14, 0x15, 
+                    0x14, 
                     0x29, 0x2d, 0x2e, 0x30, 0x32, 0x34, 0x35, 0x38,
                     0x39, 0x3a, 0x43, 0x44, 0x47, 0x48, 0x49, 0x4a,
                     0x4b, 0x4c, 0x4d
                 };
             }
+
+            int weaponMarker = 0;
+            int armorMarker = 0;
+            int magicMarker = 0;
+            int jewelMarker = 0;
+            int rareMarker = 0;
+
+            // 26 stores in total.
+            // Shuffle weapons, armor, magic items, jewel items, and rare items like a deck of cards.
+            weapons = shuffle(weapons, r1);
+            armor = shuffle(armor, r1);
+            magicItems = shuffle(magicItems, r1);
+            jewelItems = shuffle(jewelItems, r1);
+            rareItems = shuffle(rareItems, r1);
+
             for (int lnI = 0; lnI < 40; lnI++)
             {
+                if (lnI == 0x04 || lnI == 0x05 || lnI == 0x07 || lnI == 0x0d ||
+                    lnI == 0x10 || lnI == 0x18 || lnI == 0x1a || lnI == 0x1e ||
+                    lnI == 0x22 || lnI == 0x23 || lnI == 0x24 || lnI == 0x25 || lnI == 0x26 || lnI == 0x27)
+                    return;
+
                 List<byte> cityWeapons = new List<byte>();
                 int byteToUse = 0x8308 + (lnI * 27);
                 // Weapons at bytes 0-4, armor at bytes 5-12, items at bytes 13-21.  I reserve the right to place weapons in armor stores and vice versa.
-                for (int lnJ = 0; lnJ < 5; lnJ++)
+                for (int lnJ = 0; lnJ < 2 + (r1.Next() % 3); lnJ++)
                 {
-                    bool duplicate = true;
-                    byte currentWeapon = 0;
-                    while (duplicate)
+                    //bool duplicate = true;
+                    //byte currentWeapon = 0;
+
+                    //while (duplicate)
+                    //{
+                    //    currentWeapon = weapons[r1.Next() % weapons.Length];
+                    //    duplicate = false;
+                    //    for (int lnK = 0; lnK < cityWeapons.Count; lnK++)
+                    //        if (currentWeapon == cityWeapons[lnK]) { duplicate = true; break; }
+                    //}
+                    //cityWeapons.Sort();
+                    cityWeapons.Add(weapons[weaponMarker]);
+                    weaponMarker++;
+                    if (weaponMarker == weapons.Length)
                     {
-                        currentWeapon = weapons[r1.Next() % weapons.Length];
-                        duplicate = false;
-                        for (int lnK = 0; lnK < cityWeapons.Count; lnK++)
-                            if (currentWeapon == cityWeapons[lnK]) { duplicate = true; break; }
+                        weapons = shuffle(weapons, r1);
+                        weaponMarker = 0;
                     }
-                    cityWeapons.Sort();
-                    cityWeapons.Add(currentWeapon);
                 }
+                cityWeapons.Sort();
                 for (int lnJ = 0; lnJ < 5; lnJ++)
-                    romData[byteToUse + lnJ] = cityWeapons[lnJ];
+                    romData[byteToUse + lnJ] = (byte)(lnJ < cityWeapons.Count ? cityWeapons[lnJ] : 0);
 
                 List<byte> cityArmor = new List<byte>();
-                for (int lnJ = 6; lnJ < 13; lnJ++)
+                for (int lnJ = 6; lnJ < 8 + (r1.Next() % 4); lnJ++)
                 {
-                    bool duplicate = true;
-                    byte currentWeapon = 0;
-                    while (duplicate)
+                    //bool duplicate = true;
+                    //byte currentWeapon = 0;
+                    //while (duplicate)
+                    //{
+                    //    currentWeapon = armor[r1.Next() % armor.Length];
+                    //    duplicate = false;
+                    //    for (int lnK = 0; lnK < cityArmor.Count; lnK++)
+                    //        if (currentWeapon == cityArmor[lnK]) { duplicate = true; break; }
+                    //}
+                    //cityArmor.Sort();
+                    //cityArmor.Add(currentWeapon);
+                    cityArmor.Add(armor[armorMarker]);
+                    armorMarker++;
+                    if (armorMarker == armor.Length)
                     {
-                        currentWeapon = armor[r1.Next() % armor.Length];
-                        duplicate = false;
-                        for (int lnK = 0; lnK < cityArmor.Count; lnK++)
-                            if (currentWeapon == cityArmor[lnK]) { duplicate = true; break; }
+                        armor = shuffle(armor, r1);
+                        armorMarker = 0;
                     }
-                    cityArmor.Sort();
-                    cityArmor.Add(currentWeapon);
                 }
-                for (int lnJ = 6; lnJ < 13; lnJ++)
-                    romData[byteToUse + lnJ] = cityArmor[lnJ - 6];
+                for (int lnJ = 0; lnJ < 8; lnJ++)
+                    romData[byteToUse + 6 + lnJ] = (byte)(lnJ < cityArmor.Count ? cityArmor[lnJ] : 0);
+
+                romData[byteToUse + 13] = commonItems[r1.Next() % commonItems.Length];
 
                 List<byte> cityItems = new List<byte>();
-                for (int lnJ = 13; lnJ < 22; lnJ++)
+                for (int lnJ = 14; lnJ < 18; lnJ++)
                 {
-                    bool duplicate = true;
-                    byte currentItem = 0;
-                    while (duplicate)
+                    //bool duplicate = true;
+                    //byte currentItem = 0;
+                    //while (duplicate)
+                    //{
+                    //    currentItem = items[r1.Next() % items.Length];
+                    //    duplicate = false;
+                    //    for (int lnK = 0; lnK < cityItems.Count; lnK++)
+                    //        if (currentItem == cityItems[lnK]) { duplicate = true; break; }
+                    //}
+                    //cityItems.Sort();
+                    //cityItems.Add(currentItem);
+                    cityItems.Add(magicItems[magicMarker]);
+                    magicMarker++;
+                    if (magicMarker == magicItems.Length)
                     {
-                        currentItem = items[r1.Next() % items.Length];
-                        duplicate = false;
-                        for (int lnK = 0; lnK < cityItems.Count; lnK++)
+                        magicItems = shuffle(magicItems, r1);
+                        magicMarker = 0;
+                    }
+                }
+                for (int lnJ = 0; lnJ < 4; lnJ++)
+                    romData[byteToUse + 14 + lnJ] = (byte)(lnJ < cityItems.Count ? cityItems[lnJ] : 0);
+
+                cityItems = new List<byte>();
+                for (int lnJ = 18; lnJ < 20; lnJ++)
+                {
+                    //bool duplicate = true;
+                    //byte currentItem = 0;
+                    //while (duplicate)
+                    //{
+                    //    currentItem = items[r1.Next() % items.Length];
+                    //    duplicate = false;
+                    //    for (int lnK = 0; lnK < cityItems.Count; lnK++)
+                    //        if (currentItem == cityItems[lnK]) { duplicate = true; break; }
+                    //}
+                    //cityItems.Sort();
+                    //cityItems.Add(currentItem);
+                    cityItems.Add(jewelItems[jewelMarker]);
+                    jewelMarker++;
+                    if (jewelMarker == jewelItems.Length)
+                    {
+                        jewelItems = shuffle(jewelItems, r1);
+                        jewelMarker = 0;
+                    }
+                }
+                for (int lnJ = 0; lnJ < 2; lnJ++)
+                    romData[byteToUse + 18 + lnJ] = (byte)(lnJ < cityItems.Count ? cityItems[lnJ] : 0);
+
+                if (!chkNoSeeds.Checked)
+                {
+                    cityItems = new List<byte>();
+                    for (int lnJ = 20; lnJ < 21; lnJ++)
+                    {
+                        //bool duplicate = true;
+                        //byte currentItem = 0;
+                        //while (duplicate)
+                        //{
+                        //    currentItem = items[r1.Next() % items.Length];
+                        //    duplicate = false;
+                        //    for (int lnK = 0; lnK < cityItems.Count; lnK++)
+                        //        if (currentItem == cityItems[lnK]) { duplicate = true; break; }
+                        //}
+                        //cityItems.Sort();
+                        //cityItems.Add(currentItem);
+                        cityItems.Add(rareItems[rareMarker]);
+                        rareMarker++;
+                        if (rareMarker == rareItems.Length)
                         {
-                            if (currentItem == cityItems[lnK]) { duplicate = true; break; }
+                            rareItems = shuffle(rareItems, r1);
+                            rareMarker = 0;
                         }
                     }
-                    cityItems.Sort();
-                    cityItems.Add(currentItem);
+                    for (int lnJ = 0; lnJ < 1; lnJ++)
+                        romData[byteToUse + 20 + lnJ] = (byte)(lnJ < cityItems.Count ? cityItems[lnJ] : 0);
+                } else
+                {
+                    romData[byteToUse + 20] = 0x00;
                 }
-                for (int lnJ = 13; lnJ < 21; lnJ++)
-                    romData[byteToUse + lnJ] = cityItems[lnJ - 13];
             }
         }
 
@@ -1446,6 +1755,12 @@ namespace _7thSagaRando
                 romData[byteToUse + 34] = (byte)(xp % 256);
                 romData[byteToUse + 35] = (byte)(xp / 256);
             }
+
+            // Also adjust apprentice fight XP rewards
+            int xpChar = romData[0x280c2] + (256 * romData[0x280c3]);
+            xpChar *= (trkExperience.Value * 20 / 100);
+            romData[0x280c2] = (byte)(xpChar % 256);
+            romData[0x280c3] = (byte)(xpChar / 256);
         }
 
         private void goldRequirements(Random r1)
@@ -1454,26 +1769,26 @@ namespace _7thSagaRando
             for (int lnI = 0; lnI < 51; lnI++)
             {
                 int byteToUse = 0x639d + (10 * lnI);
-                statAdjust(r1, byteToUse + 2, 2, trkGoldReq.Value / 10, 1.0);
+                statAdjust(r1, byteToUse + 2, 2, trkGoldReq.Value / 10, 1.0, chkGoldMin.Checked);
             }
             // Armor/Accessories
             for (int lnI = 0; lnI < 51; lnI++)
             {
                 int byteToUse = 0x659b + (17 * lnI);
-                statAdjust(r1, byteToUse + 2, 2, trkGoldReq.Value / 10, 1.0);
+                statAdjust(r1, byteToUse + 2, 2, trkGoldReq.Value / 10, 1.0, chkGoldMin.Checked);
             }
             // Items
             for (int lnI = 0; lnI < 100; lnI++)
             {
                 int byteToUse = 0x6c94 + (9 * lnI);
-                statAdjust(r1, byteToUse + 2, 2, trkGoldReq.Value / 10, 1.0);
+                statAdjust(r1, byteToUse + 2, 2, trkGoldReq.Value / 10, 1.0, chkGoldMin.Checked);
             }
             // Inns
             for (int lnI = 0; lnI < 38; lnI++)
             {
                 int byteToUse = 0x8308 + (27 * lnI);
                 if (romData[byteToUse + 22] == 0) continue;
-                statAdjust(r1, byteToUse + 22, 2, trkGoldReq.Value / 10, 1.0);
+                statAdjust(r1, byteToUse + 22, 2, trkGoldReq.Value / 10, 1.0, chkGoldMin.Checked);
             }
         }
 
@@ -1484,24 +1799,35 @@ namespace _7thSagaRando
                 int byteToUse = 0x72f4 + (42 * lnI);
                 if (romData[byteToUse] == 0x46 || romData[byteToUse] == 0x00) continue; // Do not randomize Gorsia or blank monsters.
 
-                statAdjust(r1, byteToUse + 1, 2, trkMonsterStats.Value / 10, 1.0);
-                statAdjust(r1, byteToUse + 3, 2, trkMonsterStats.Value / 10, 1.0);
-                statAdjust(r1, byteToUse + 5, 2, trkMonsterStats.Value / 10, 0.5);
-                statAdjust(r1, byteToUse + 7, 2, trkMonsterStats.Value / 10, 0.5);
-                statAdjust(r1, byteToUse + 9, 1, trkMonsterStats.Value / 10, 0.25);
-                statAdjust(r1, byteToUse + 10, 1, trkMonsterStats.Value / 10, 0.25);
-                statAdjust(r1, byteToUse + 27, 1, trkMonsterStats.Value / 10, 0.5, 99);
-                statAdjust(r1, byteToUse + 28, 1, trkMonsterStats.Value / 10, 0.5, 99);
-                statAdjust(r1, byteToUse + 29, 1, trkMonsterStats.Value / 10, 0.5, 99);
-                statAdjust(r1, byteToUse + 30, 1, trkMonsterStats.Value / 10, 0.5, 99);
-                statAdjust(r1, byteToUse + 31, 1, trkMonsterStats.Value / 10, 0.5, 99);
-                statAdjust(r1, byteToUse + 32, 1, trkMonsterStats.Value / 10, 0.5, 99);
-                statAdjust(r1, byteToUse + 33, 1, trkMonsterStats.Value / 10, 0.5, 99);
+                statAdjust(r1, byteToUse + 1, 2, trkMonsterStats.Value / 10, 1.0, chkMonsterStatMin.Checked);
+                statAdjust(r1, byteToUse + 3, 2, trkMonsterStats.Value / 10, 1.0, chkMonsterStatMin.Checked);
+                statAdjust(r1, byteToUse + 5, 2, trkMonsterStats.Value / 10, 0.5, chkMonsterStatMin.Checked);
+                statAdjust(r1, byteToUse + 7, 2, trkMonsterStats.Value / 10, 0.5, chkMonsterStatMin.Checked);
+                statAdjust(r1, byteToUse + 9, 1, trkMonsterStats.Value / 10, 0.25, chkMonsterStatMin.Checked);
+                statAdjust(r1, byteToUse + 10, 1, trkMonsterStats.Value / 10, 0.25, chkMonsterStatMin.Checked);
+                statAdjust(r1, byteToUse + 27, 1, trkMonsterStats.Value / 10, 0.5, chkMonsterStatMin.Checked, 99);
+                statAdjust(r1, byteToUse + 28, 1, trkMonsterStats.Value / 10, 0.5, chkMonsterStatMin.Checked, 99);
+                statAdjust(r1, byteToUse + 29, 1, trkMonsterStats.Value / 10, 0.5, chkMonsterStatMin.Checked, 99);
+                statAdjust(r1, byteToUse + 30, 1, trkMonsterStats.Value / 10, 0.5, chkMonsterStatMin.Checked, 99);
+                statAdjust(r1, byteToUse + 31, 1, trkMonsterStats.Value / 10, 0.5, chkMonsterStatMin.Checked, 99);
+                statAdjust(r1, byteToUse + 32, 1, trkMonsterStats.Value / 10, 0.5, chkMonsterStatMin.Checked, 99);
+                statAdjust(r1, byteToUse + 33, 1, trkMonsterStats.Value / 10, 0.5, chkMonsterStatMin.Checked, 99);
                 if (!chkNoXPGPRando.Checked)
-                    statAdjust(r1, byteToUse + 34, 2, trkMonsterStats.Value / 10, 1.0);
+                    statAdjust(r1, byteToUse + 34, 2, trkMonsterStats.Value / 10, 1.0, chkMonsterStatMin.Checked);
+                if (chk9999Defense.Checked)
+                {
+                    romData[byteToUse + 8] = 0x27;
+                    romData[byteToUse + 7] = 0x0f;
+                }
+                if (romData[byteToUse + 8] >= 0x03)
+                    romData[byteToUse + 9] = (byte)(romData[byteToUse + 9] > 150 ? 150 : romData[byteToUse + 9]);
                 //romData[byteToUse + 34] = 0xff;
                 //romData[byteToUse + 35] = 0xff;
             }
+
+            // Also adjust apprentice fight XP rewards
+            statAdjust(r1, 0x280c2, 2, trkMonsterStats.Value / 10, 1.0, chkMonsterStatMin.Checked, 800);
+
         }
 
         private void equipmentStats(Random r1)
@@ -1510,13 +1836,13 @@ namespace _7thSagaRando
             for (int lnI = 0; lnI < 51; lnI++)
             {
                 int byteToUse = 0x639d + (10 * lnI);
-                statAdjust(r1, byteToUse, 2, trkEquipPowers.Value / 10, 1.0);
+                statAdjust(r1, byteToUse, 2, trkEquipPowers.Value / 10, 1.0, chkEquipMin.Checked);
             }
             // Armor/Accessories
             for (int lnI = 0; lnI < 53; lnI++)
             {
                 int byteToUse = 0x659b + (17 * lnI);
-                statAdjust(r1, byteToUse, 2, trkEquipPowers.Value / 10, 1.0);
+                statAdjust(r1, byteToUse, 2, trkEquipPowers.Value / 10, 1.0, chkEquipMin.Checked);
             }
         }
 
@@ -1525,27 +1851,27 @@ namespace _7thSagaRando
             for (int lnI = 0; lnI < 61; lnI++)
             {
                 int byteToUse = 0x7018 + (12 * lnI);
-                statAdjust(r1, byteToUse + 3, 1, trkSpellCosts.Value / 10, 0.5);
-                statAdjust(r1, byteToUse, 2, trkSpellCosts.Value / 10, 1.0);
+                statAdjust(r1, byteToUse + 3, 1, trkSpellCosts.Value / 10, 0.5, chkSpellMin.Checked);
+                statAdjust(r1, byteToUse, 2, trkSpellCosts.Value / 10, 1.0, chkSpellMin.Checked);
             }
         }
 
         private void heroStats(Random r1)
         {
-            double hp = ScaleValueDouble(1, trkHeroStats.Value / 10, 1.0, r1);
-            double mp = ScaleValueDouble(1, trkHeroStats.Value / 10, 1.0, r1);
-            double power = ScaleValueDouble(1, trkHeroStats.Value / 10, 1.0, r1);
-            double guard = ScaleValueDouble(1, trkHeroStats.Value / 10, 1.0, r1);
-            double magic = ScaleValueDouble(1, trkHeroStats.Value / 10, 1.0, r1);
-            double speed = ScaleValueDouble(1, trkHeroStats.Value / 10, 1.0, r1);
-            double xp = ScaleValueDouble(1, trkHeroStats.Value / 10, 0.5, r1);
+            double hp = ScaleValueDouble(1, trkHeroStats.Value / 10, 1.0, r1, chkHeroStatMin.Checked);
+            double mp = ScaleValueDouble(1, trkHeroStats.Value / 10, 1.0, r1, chkHeroStatMin.Checked);
+            double power = ScaleValueDouble(1, trkHeroStats.Value / 10, 1.0, r1, chkHeroStatMin.Checked);
+            double guard = ScaleValueDouble(1, trkHeroStats.Value / 10, 1.0, r1, chkHeroStatMin.Checked);
+            double magic = ScaleValueDouble(1, trkHeroStats.Value / 10, 1.0, r1, chkHeroStatMin.Checked);
+            double speed = ScaleValueDouble(1, trkHeroStats.Value / 10, 1.0, r1, chkHeroStatMin.Checked);
+            double xp = ScaleValueDouble(1, trkHeroStats.Value / 10, 0.5, r1, chkHeroStatMin.Checked);
 
-            double hp2 = ScaleValueDouble(1, trkHeroStats.Value / 10, 0.5, r1);
-            double mp2 = ScaleValueDouble(1, trkHeroStats.Value / 10, 0.5, r1);
-            double power2 = ScaleValueDouble(1, trkHeroStats.Value / 10, 0.5, r1);
-            double guard2 = ScaleValueDouble(1, trkHeroStats.Value / 10, 0.5, r1);
-            double magic2 = ScaleValueDouble(1, trkHeroStats.Value / 10, 0.5, r1);
-            double speed2 = ScaleValueDouble(1, trkHeroStats.Value / 10, 0.5, r1);
+            double hp2 = ScaleValueDouble(1, trkHeroGrowth.Value / 10, 0.5, r1, chkHeroGrowthMin.Checked);
+            double mp2 = ScaleValueDouble(1, trkHeroGrowth.Value / 10, 0.5, r1, chkHeroGrowthMin.Checked);
+            double power2 = ScaleValueDouble(1, trkHeroGrowth.Value / 10, 0.5, r1, chkHeroGrowthMin.Checked);
+            double guard2 = ScaleValueDouble(1, trkHeroGrowth.Value / 10, 0.5, r1, chkHeroGrowthMin.Checked);
+            double magic2 = ScaleValueDouble(1, trkHeroGrowth.Value / 10, 0.5, r1, chkHeroGrowthMin.Checked);
+            double speed2 = ScaleValueDouble(1, trkHeroGrowth.Value / 10, 0.5, r1, chkHeroGrowthMin.Checked);
 
             for (int lnI = 0; lnI < 7; lnI++)
             {
@@ -1589,48 +1915,82 @@ namespace _7thSagaRando
                 {
                     if (chkHeroSameStats.Checked)
                     {
-                        romData[byteToUse] = (byte)(ScaleValue(16.7, trkHeroStats.Value / 10, 1.0, r1)); // Starting HP
-                        romData[byteToUse + 2] = (byte)(ScaleValue(6.9, trkHeroStats.Value / 10, 1.0, r1)); // Starting MP
-                        romData[byteToUse + 4] = (byte)(ScaleValue(4.1, trkHeroStats.Value / 10, 1.0, r1)); // Starting Power
-                        romData[byteToUse + 5] = (byte)(ScaleValue(4.6, trkHeroStats.Value / 10, 1.0, r1)); // Starting Guard
-                        romData[byteToUse + 6] = (byte)(ScaleValue(3.1, trkHeroStats.Value / 10, 1.0, r1)); // Starting Magic
-                        romData[byteToUse + 7] = (byte)(ScaleValue(3.6, trkHeroStats.Value / 10, 1.0, r1)); // Starting Speed
-                        romData[byteToUse + 8] = (byte)(ScaleValue(6, trkHeroStats.Value / 10, 0.5, r1)); // HP Boost
-                        romData[byteToUse + 9] = (byte)(ScaleValue(3.1, trkHeroStats.Value / 10, 0.5, r1)); // MP Boost
-                        romData[byteToUse + 10] = (byte)(ScaleValue(3, trkHeroStats.Value / 10, 0.5, r1)); // Power Boost
-                        romData[byteToUse + 11] = (byte)(ScaleValue(3.4, trkHeroStats.Value / 10, 0.5, r1)); // Guard Boost
-                        romData[byteToUse + 12] = (byte)(ScaleValue(3.1, trkHeroStats.Value / 10, 0.5, r1)); // Magic Boost
-                        romData[byteToUse + 13] = (byte)(ScaleValue(3.6, trkHeroStats.Value / 10, 0.5, r1)); // Speed Boost
-                        romData[byteToUse + 17] = (byte)(ScaleValue(21.3, trkHeroStats.Value / 10, 0.5, r1)); // Starting Experience
+                        romData[byteToUse] = (byte)(ScaleValue(16.7, trkHeroStats.Value / 10, 1.0, r1, chkHeroStatMin.Checked)); // Starting HP
+                        romData[byteToUse + 2] = (byte)(ScaleValue(6.9, trkHeroStats.Value / 10, 1.0, r1, chkHeroStatMin.Checked)); // Starting MP
+                        romData[byteToUse + 4] = (byte)(ScaleValue(4.1, trkHeroStats.Value / 10, 1.0, r1, chkHeroStatMin.Checked)); // Starting Power
+                        romData[byteToUse + 5] = (byte)(ScaleValue(4.6, trkHeroStats.Value / 10, 1.0, r1, chkHeroStatMin.Checked)); // Starting Guard
+                        romData[byteToUse + 6] = (byte)(ScaleValue(3.1, trkHeroStats.Value / 10, 1.0, r1, chkHeroStatMin.Checked)); // Starting Magic
+                        romData[byteToUse + 7] = (byte)(ScaleValue(3.6, trkHeroStats.Value / 10, 1.0, r1, chkHeroStatMin.Checked)); // Starting Speed
+                        romData[byteToUse + 8] = (byte)(ScaleValue(6, trkHeroGrowth.Value / 10, 0.5, r1, chkHeroGrowthMin.Checked)); // HP Boost
+                        romData[byteToUse + 9] = (byte)(ScaleValue(3.1, trkHeroGrowth.Value / 10, 0.5, r1, chkHeroGrowthMin.Checked)); // MP Boost
+                        romData[byteToUse + 10] = (byte)(ScaleValue(3, trkHeroGrowth.Value / 10, 0.5, r1, chkHeroGrowthMin.Checked)); // Power Boost
+                        romData[byteToUse + 11] = (byte)(ScaleValue(3.4, trkHeroGrowth.Value / 10, 0.5, r1, chkHeroGrowthMin.Checked)); // Guard Boost
+                        romData[byteToUse + 12] = (byte)(ScaleValue(3.1, trkHeroGrowth.Value / 10, 0.5, r1, chkHeroGrowthMin.Checked)); // Magic Boost
+                        romData[byteToUse + 13] = (byte)(ScaleValue(3.6, trkHeroGrowth.Value / 10, 0.5, r1, chkHeroGrowthMin.Checked)); // Speed Boost
+                        romData[byteToUse + 17] = (byte)(ScaleValue(21.3, trkHeroGrowth.Value / 10, 0.5, r1, chkHeroGrowthMin.Checked)); // Starting Experience
                     }
                     else
                     {
-                        statAdjust(r1, byteToUse, 2, trkHeroStats.Value / 10, 1.0); // Starting HP
-                        statAdjust(r1, byteToUse + 2, 2, trkHeroStats.Value / 10, 1.0); // Starting MP
-                        statAdjust(r1, byteToUse + 4, 1, trkHeroStats.Value / 10, 1.0); // Starting Power
-                        statAdjust(r1, byteToUse + 5, 1, trkHeroStats.Value / 10, 1.0); // Starting Guard
-                        statAdjust(r1, byteToUse + 6, 1, trkHeroStats.Value / 10, 1.0); // Starting Magic
-                        statAdjust(r1, byteToUse + 7, 1, trkHeroStats.Value / 10, 1.0); // Starting Speed
-                        statAdjust(r1, byteToUse + 8, 1, trkHeroStats.Value / 10, 0.5); // HP Boost
-                        statAdjust(r1, byteToUse + 9, 1, trkHeroStats.Value / 10, 0.5); // MP Boost
-                        statAdjust(r1, byteToUse + 10, 1, trkHeroStats.Value / 10, 0.5); // Power Boost
-                        statAdjust(r1, byteToUse + 11, 1, trkHeroStats.Value / 10, 0.5); // Guard Boost
-                        statAdjust(r1, byteToUse + 12, 1, trkHeroStats.Value / 10, 0.5); // Magic Boost
-                        statAdjust(r1, byteToUse + 13, 1, trkHeroStats.Value / 10, 0.5); // Speed Boost
-                        statAdjust(r1, byteToUse + 17, 1, trkHeroStats.Value / 10, 1.0); // Starting Experience
+                        statAdjust(r1, byteToUse, 2, trkHeroStats.Value / 10, 1.0, chkHeroStatMin.Checked); // Starting HP
+                        statAdjust(r1, byteToUse + 2, 2, trkHeroStats.Value / 10, 1.0, chkHeroStatMin.Checked); // Starting MP
+                        statAdjust(r1, byteToUse + 4, 1, trkHeroStats.Value / 10, 1.0, chkHeroStatMin.Checked); // Starting Power
+                        statAdjust(r1, byteToUse + 5, 1, trkHeroStats.Value / 10, 1.0, chkHeroStatMin.Checked); // Starting Guard
+                        statAdjust(r1, byteToUse + 6, 1, trkHeroStats.Value / 10, 1.0, chkHeroStatMin.Checked); // Starting Magic
+                        statAdjust(r1, byteToUse + 7, 1, trkHeroStats.Value / 10, 1.0, chkHeroStatMin.Checked); // Starting Speed
+                        statAdjust(r1, byteToUse + 8, 1, trkHeroGrowth.Value / 10, 0.5, chkHeroGrowthMin.Checked); // HP Boost
+                        statAdjust(r1, byteToUse + 9, 1, trkHeroGrowth.Value / 10, 0.5, chkHeroGrowthMin.Checked); // MP Boost
+                        statAdjust(r1, byteToUse + 10, 1, trkHeroGrowth.Value / 10, 0.5, chkHeroGrowthMin.Checked); // Power Boost
+                        statAdjust(r1, byteToUse + 11, 1, trkHeroGrowth.Value / 10, 0.5, chkHeroGrowthMin.Checked); // Guard Boost
+                        statAdjust(r1, byteToUse + 12, 1, trkHeroGrowth.Value / 10, 0.5, chkHeroGrowthMin.Checked); // Magic Boost
+                        statAdjust(r1, byteToUse + 13, 1, trkHeroGrowth.Value / 10, 0.5, chkHeroGrowthMin.Checked); // Speed Boost
+                        statAdjust(r1, byteToUse + 17, 1, trkHeroGrowth.Value / 10, 1.0, chkHeroGrowthMin.Checked); // Starting Experience
                     }
                 }
             }
+
+            // Print stat gains
+            textToHex(0x73795, "Pwr");
+            textToHex(0x7379b, "Grd");
+            textToHex(0x737a1, "Mgc");
+            textToHex(0x737a7, "Spd");
+            textToHex(0x1e643, "", new byte[] { 0x22, 0xc0, 0xfb, 0xc1, 0xea }, false);
+            textToHex(0x1fbc0, "", new byte[] { 0xc2, 0x20, 0xa0, 0x08, 0x00, 0xb7, 0x53, 0x29, 0xff, 0x00, 0x85, 0x40, 0x22, 0x9f, 0x9c, 0xc1, 0xe2, 0x20, 0xa9, 0x5a, 0x8d, 0x0a, 0x03, 0xa5, 0x44, 0x8d, 0x0b, 0x03, 0xa5, 0x47, 0x8d, 0x0c, 0x03,
+                                                0xc2, 0x20, 0xa0, 0x09, 0x00, 0xb7, 0x53, 0x29, 0xff, 0x00, 0x85, 0x40, 0x22, 0x9f, 0x9c, 0xc1, 0xe2, 0x20, 0xa9, 0x5a, 0x8d, 0x1a, 0x03, 0xa5, 0x44, 0x8d, 0x1b, 0x03, 0xa5, 0x47, 0x8d, 0x1c, 0x03,
+                                                0xc2, 0x20, 0xa0, 0x0a, 0x00, 0xb7, 0x53, 0x29, 0xff, 0x00, 0x85, 0x40, 0x22, 0x9f, 0x9c, 0xc1, 0xe2, 0x20, 0xa9, 0x5a, 0x8d, 0x2a, 0x03, 0xa5, 0x44, 0x8d, 0x2b, 0x03, 0xa5, 0x47, 0x8d, 0x2c, 0x03,
+                                                0xc2, 0x20, 0xa0, 0x0b, 0x00, 0xb7, 0x53, 0x29, 0xff, 0x00, 0x85, 0x40, 0x22, 0x9f, 0x9c, 0xc1, 0xe2, 0x20, 0xa9, 0x5a, 0x8d, 0x3a, 0x03, 0xa5, 0x44, 0x8d, 0x3b, 0x03, 0xa5, 0x47, 0x8d, 0x3c, 0x03,
+                                                0xc2, 0x20, 0xa0, 0x0c, 0x00, 0xb7, 0x53, 0x29, 0xff, 0x00, 0x85, 0x40, 0x22, 0x9f, 0x9c, 0xc1, 0xe2, 0x20, 0xa9, 0x5a, 0x8d, 0x4a, 0x03, 0xa5, 0x44, 0x8d, 0x4b, 0x03, 0xa5, 0x47, 0x8d, 0x4c, 0x03,
+                                                0xc2, 0x20, 0xa0, 0x0d, 0x00, 0xb7, 0x53, 0x29, 0xff, 0x00, 0x85, 0x40, 0x22, 0x9f, 0x9c, 0xc1, 0xe2, 0x20, 0xa9, 0x5a, 0x8d, 0x5a, 0x03, 0xa5, 0x44, 0x8d, 0x5b, 0x03, 0xa5, 0x47, 0x8d, 0x5c, 0x03,
+                                                0xc2, 0x20, 0xa0, 0x0e, 0x00, 0xb7, 0x53, 0x6b }, false);
+
+            romData[0x1e593] = 0x07;
+            romData[0x1e598] = 0x08;
+            romData[0x1e59d] = 0x09;
+            romData[0x1e5b1] = 0x17;
+            romData[0x1e5b6] = 0x18;
+            romData[0x1e5bb] = 0x19;
+            romData[0x1e5d2] = 0x27;
+            romData[0x1e5d7] = 0x28;
+            romData[0x1e5dc] = 0x29;
+            romData[0x1e5f3] = 0x37;
+            romData[0x1e5f8] = 0x38;
+            romData[0x1e5fd] = 0x39;
+            romData[0x1e614] = 0x47;
+            romData[0x1e619] = 0x48;
+            romData[0x1e61e] = 0x49;
+            romData[0x1e635] = 0x57;
+            romData[0x1e63a] = 0x58;
+            romData[0x1e63f] = 0x59;
+
         }
 
-        private void statAdjust(Random r1, int byteToUse, int bytes, double scale, double adjustment, int max = 0)
+        private void statAdjust(Random r1, int byteToUse, int bytes, double scale, double adjustment, bool min100 = false, int max = 0)
         {
             if (max == 0) max = (bytes == 2 ? 65500 : 255);
             if (bytes == 2)
             {
                 int stat = romData[byteToUse] + (256 * romData[byteToUse + 1]);
                 if (stat != 0)
-                    stat = ScaleValue(stat, scale, adjustment, r1);
+                    stat = ScaleValue(stat, scale, adjustment, r1, min100);
                 if (stat > max) stat = max;
                 romData[byteToUse] = (byte)(stat % 256);
                 romData[byteToUse + 1] = (byte)(stat / 256);
@@ -1638,7 +1998,7 @@ namespace _7thSagaRando
             {
                 int stat = romData[byteToUse];
                 if (stat != 0)
-                    stat = ScaleValue(stat, scale, adjustment, r1);
+                    stat = ScaleValue(stat, scale, adjustment, r1, min100);
                 if (stat > max) stat = max;
                 romData[byteToUse] = (byte)(stat);
             }
@@ -1687,6 +2047,7 @@ namespace _7thSagaRando
                 {
                     if (startLine)
                     {
+                        writer.WriteLine("------------------------------");
                         writer.WriteLine(lnI.ToString("X5"));
                         str = "";
                         startLine = false;
@@ -1842,35 +2203,105 @@ namespace _7thSagaRando
                         str += "in";
                     else if (ch == 0xef)
                         str += " <B>";
+                    else if (ch == 0xf3)
+                    {
+                        str = "F3";
+                        writer.WriteLine(str); str = "";
+                    }
+                    else if (ch == 0xf6)
+                    {
+                        str = "SUB ROUTINE: ";
+                        lnI++;
+                        ch = romData[lnI];
+                        str += string.Format("{0:x2} ", ch);
+                        writer.WriteLine(str); str = "";
+                    }
                     else if (ch == 0xf7)
                         { writer.WriteLine(str); startLine = true; }
                     else if (ch == 0xf9)
                         { writer.WriteLine(str); str = ""; }
                     else if (ch == 0xfa)
                         { writer.WriteLine(str + ">>>"); str = ""; }
+                    else if (ch == 0xfb)
+                    {
+                        str = "(FB) TRIG-IF: ";
+                        lnI++;
+                        ch = romData[lnI];
+                        str += string.Format("{0:x2} ", ch);
+                        lnI++;
+                        ch = romData[lnI];
+                        str += string.Format("{0:x2} ", ch);
+                        str += "GOTO ";
+                        lnI++;
+                        ch = romData[lnI];
+                        str += string.Format("{0:x2} ", ch);
+                        lnI++;
+                        ch = romData[lnI];
+                        str += string.Format("{0:x2} ", ch);
+                        lnI++;
+                        ch = romData[lnI];
+                        str += string.Format("{0:x2} ", ch);
+                        writer.WriteLine(str); str = "";
+                    }
+                    else if (ch == 0xfc)
+                    {
+                        str = "(FC) CHAR-IF: ";
+                        lnI++;
+                        ch = romData[lnI];
+                        str += string.Format("{0:x2} ", ch);
+                        lnI++;
+                        ch = romData[lnI];
+                        str += string.Format("{0:x2} ", ch);
+                        str += "GOTO ";
+                        lnI++;
+                        ch = romData[lnI];
+                        str += string.Format("{0:x2} ", ch);
+                        lnI++;
+                        ch = romData[lnI];
+                        str += string.Format("{0:x2} ", ch);
+                        lnI++;
+                        ch = romData[lnI];
+                        str += string.Format("{0:x2} ", ch);
+                        writer.WriteLine(str); str = "";
+                    }
+                    else if (ch == 0xfd)
+                    {
+                        str = "(FD) TRIG-SET: ";
+                        lnI++;
+                        ch = romData[lnI];
+                        str += string.Format("{0:x2} ", ch);
+                        lnI++;
+                        ch = romData[lnI];
+                        str += string.Format("{0:x2} ", ch);
+                        writer.WriteLine(str); str = "";
+                    }
+                    else if (ch == 0xfe)
+                    {
+                        str = "(FE) CHAR-SET: ";
+                        lnI++;
+                        ch = romData[lnI];
+                        str += string.Format("{0:x2} ", ch);
+                        lnI++;
+                        ch = romData[lnI];
+                        str += string.Format("{0:x2} ", ch);
+                        writer.WriteLine(str); str = "";
+                    }
+                    else if (ch == 0xff)
+                    {
+                        str = "(FF) GOTO: ";
+                        lnI++;
+                        ch = romData[lnI];
+                        str += string.Format("{0:x2} ", ch);
+                        lnI++;
+                        ch = romData[lnI];
+                        str += string.Format("{0:x2} ", ch);
+                        lnI++;
+                        ch = romData[lnI];
+                        str += string.Format("{0:x2} ", ch);
+                        writer.WriteLine(str); str = "";
+                    }
                 }
             }
-        }
-
-        private void chkHeroInteractions_Click(object sender, EventArgs e)
-        {
-            chkAllHeroesJoin.Checked = false;
-            chkNoHeroesJoin.Checked = false;
-            determineFlags(null, null);
-        }
-
-        private void chkAllHeroesJoin_Click(object sender, EventArgs e)
-        {
-            chkHeroInteractions.Checked = false;
-            chkNoHeroesJoin.Checked = false;
-            determineFlags(null, null);
-        }
-
-        private void chkNoHeroesJoin_Click(object sender, EventArgs e)
-        {
-            chkHeroInteractions.Checked = false;
-            chkAllHeroesJoin.Checked = false;
-            determineFlags(null, null);
         }
 
         private void cmdGuide_Click(object sender, EventArgs e)
@@ -1967,6 +2398,79 @@ namespace _7thSagaRando
 
             string finalFile = Path.Combine(Path.GetDirectoryName(txtFileName.Text), "7SR_" + txtSeed.Text + "_" + txtFlags.Text + "_HeroGuide.txt");
             lblStatus.Text = "Guide complete!  (" + finalFile + ")";
+        }
+
+
+        private void chkHeroInteractions_Click(object sender, EventArgs e)
+        {
+            chkAllHeroesJoin.Checked = chkNoHeroesJoin.Checked = false;
+            determineFlags(null, null);
+        }
+
+        private void chkAllHeroesJoin_Click(object sender, EventArgs e)
+        {
+            chkHeroInteractions.Checked = chkNoHeroesJoin.Checked = false;
+            determineFlags(null, null);
+        }
+
+        private void chkNoHeroesJoin_Click(object sender, EventArgs e)
+        {
+            chkHeroInteractions.Checked = chkAllHeroesJoin.Checked = false;
+            determineFlags(null, null);
+        }
+
+        private void chkNoSeeds_Click(object sender, EventArgs e)
+        {
+            chkStores.Checked = chkNoStoreItems.Checked = false;
+            determineFlags(null, null);
+        }
+
+        private void chkStores_Click(object sender, EventArgs e)
+        {
+            chkNoSeeds.Checked = chkNoStoreItems.Checked = false;
+            determineFlags(null, null);
+        }
+
+        private void chkNoStoreItems_Click(object sender, EventArgs e)
+        {
+            chkNoSeeds.Checked = chkStores.Checked = false;
+            determineFlags(null, null);
+        }
+
+        private void chkLearnNoMagic_Click(object sender, EventArgs e)
+        {
+            chkSpellLearning.Checked = chkHeroSpells.Checked = false;
+            determineFlags(null, null);
+        }
+
+        private void chkSpellLearning_Click(object sender, EventArgs e)
+        {
+            chkLearnNoMagic.Checked = chkHeroSpells.Checked = false;
+            determineFlags(null, null);
+        }
+
+        private void chkHeroSpells_Click(object sender, EventArgs e)
+        {
+            chkLearnNoMagic.Checked = chkSpellLearning.Checked = false;
+            determineFlags(null, null);
+        }
+
+        private void chkPostBoneRemote_Click(object sender, EventArgs e)
+        {
+            chkPostBonePandam.Checked = chkPostBoneRandom.Checked = false;
+            determineFlags(null, null);
+        }
+
+        private void chkPostBonePandam_Click(object sender, EventArgs e)
+        {
+            chkPostBoneRemote.Checked = chkPostBoneRandom.Checked = false;
+            determineFlags(null, null);
+        }
+
+        private void chkPostBoneRandom_Click(object sender, EventArgs e)
+        {
+            chkPostBoneRemote.Checked = chkPostBonePandam.Checked = false;
+            determineFlags(null, null);
         }
     }
 }
