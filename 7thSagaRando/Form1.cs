@@ -176,6 +176,8 @@ namespace _7thSagaRando
             number = (chkPostBoneRandom.Checked ? 1 : 0) + (chkPostBonePandam.Checked ? 2 : 0) + (chkPostBoneRemote.Checked ? 4 : 0) +
                 (chkPostBoneGrime.Checked ? 8 : 0) + (chkFullXP.Checked ? 16 : 0) + (chkVacuumBoss.Checked ? 32 : 0);
             flags += convertIntToChar(number);
+            number = (chkBrushAirship1.Checked ? 1 : 0) + (chkBrushAirship2.Checked ? 2 : 0);
+            flags += convertIntToChar(number);
             flags += convertIntToChar(trkExperience.Value);
             flags += convertIntToChar(trkGoldReq.Value - 10);
             flags += convertIntToChar(trkMonsterStats.Value - 10);
@@ -189,7 +191,7 @@ namespace _7thSagaRando
 
         private void determineChecks(object sender, EventArgs e)
         {
-            if (txtFlags.Text.Length != 14) return;
+            if (txtFlags.Text.Length != 15) return;
             loading = true;
             string flags = txtFlags.Text;
             int number = convertChartoInt(Convert.ToChar(flags.Substring(0, 1)));
@@ -248,19 +250,23 @@ namespace _7thSagaRando
             chkFullXP.Checked = (number % 32 >= 16);
             chkVacuumBoss.Checked = (number % 64 >= 32);
 
-            trkExperience.Value = convertChartoInt(Convert.ToChar(flags.Substring(7, 1)));
+            number = convertChartoInt(Convert.ToChar(flags.Substring(7, 1)));
+            chkBrushAirship1.Checked = (number % 2 == 1);
+            chkBrushAirship2.Checked = (number % 4 >= 2);
+
+            trkExperience.Value = convertChartoInt(Convert.ToChar(flags.Substring(8, 1)));
             trkExperience_Scroll(null, null);
-            trkGoldReq.Value = convertChartoInt(Convert.ToChar(flags.Substring(8, 1))) + 10;
+            trkGoldReq.Value = convertChartoInt(Convert.ToChar(flags.Substring(9, 1))) + 10;
             trkGoldReq_Scroll(null, null);
-            trkMonsterStats.Value = convertChartoInt(Convert.ToChar(flags.Substring(9, 1))) + 10;
+            trkMonsterStats.Value = convertChartoInt(Convert.ToChar(flags.Substring(10, 1))) + 10;
             trkMonsterStats_Scroll(null, null);
-            trkEquipPowers.Value = convertChartoInt(Convert.ToChar(flags.Substring(10, 1))) + 10;
+            trkEquipPowers.Value = convertChartoInt(Convert.ToChar(flags.Substring(11, 1))) + 10;
             trkEquipPowers_Scroll(null, null);
-            trkSpellCosts.Value = convertChartoInt(Convert.ToChar(flags.Substring(11, 1))) + 10;
+            trkSpellCosts.Value = convertChartoInt(Convert.ToChar(flags.Substring(12, 1))) + 10;
             trkSpellCosts_Scroll(null, null);
-            trkHeroStats.Value = convertChartoInt(Convert.ToChar(flags.Substring(12, 1))) + 10;
+            trkHeroStats.Value = convertChartoInt(Convert.ToChar(flags.Substring(13, 1))) + 10;
             trkHeroStats_Scroll(null, null);
-            trkHeroGrowth.Value = convertChartoInt(Convert.ToChar(flags.Substring(13, 1))) + 10;
+            trkHeroGrowth.Value = convertChartoInt(Convert.ToChar(flags.Substring(14, 1))) + 10;
             trkHeroGrowth_Scroll(null, null);
             loading = false;
         }
@@ -342,9 +348,9 @@ namespace _7thSagaRando
             if (chkMonsterZones.Checked) randomizeMonsterZones(r1);
             if (chkMonsterPatterns.Checked) randomizeMonsterPatterns(r1);
             if (chkMonsterDrops.Checked) randomizeMonsterDrops(r1);
-            if (chkHeroSpells.Checked) randomizeHeroSpells(r1);
+            if (chkHeroSpells.Checked || chkSpellLearning.Checked || chkLearnNoMagic.Checked) randomizeHeroSpells(r1);
             if (chkTreasures.Checked) randomizeTreasures(r1);
-            if (chkStores.Checked) randomizeStores(r1);
+            if (chkStores.Checked || chkNoSeeds.Checked) randomizeStores(r1);
             if (chkNoStoreItems.Checked) noStoreItems();
             if (chkWhoCanEquip.Checked) randomizeWhoCanEquip(r1);
             if (chkFullXP.Checked) noXPSplitting();
@@ -357,11 +363,26 @@ namespace _7thSagaRando
             equipmentStats(r1);
             spellCosts(r1);
             if (chkSpeedHacks.Checked) speedHacks();
+
             // Remove stat gain text on level up.
             if (!chkShowStatGains.Checked) romData[0x18cd1] = 0x6b;
             // Enable debuffs and vacuums on bosses by replacing BEQ with BRA
             if (chkDebuffBoss.Checked) romData[0x4bf6a] = 0x80;
             if (chkVacuumBoss.Checked) romData[0x4be60] = 0x80;
+
+            // Speedup airship ride
+            if (chkBrushAirship1.Checked)
+            {
+                romData[0x39a5] = 0x60;
+                romData[0x39a6] = 0x07;
+                if (chkBrushAirship2.Checked)
+                {
+                    for (int lnI = 0x500e8; lnI <= 0x50228; lnI += 8)
+                        romData[lnI] = 0x01;
+                    romData[0x39a5] = 0xb0;
+                    romData[0x39a6] = 0x00;
+                }
+            }
 
             if (chkDoubleWalk.Checked) doubleWalk();
             if (chkRemoveTriggers.Checked) removeUselessTriggers();
@@ -545,10 +566,10 @@ namespace _7thSagaRando
                 romData[0x65675] = (byte)((r1.Next() % 7) + 1);
             } else if (chkPostBonePandam.Checked)
             {
-                textToHex(0x6566e, "", new byte[] { 0xf3, 0xe3, 0x57, 0xc6 });
+                textToHex(0x6566e, "", new byte[] { 0xf3, 0xff, 0xe3, 0x57, 0xc6 });
             } else if (chkPostBoneRemote.Checked)
             {
-                textToHex(0x6566e, "", new byte[] { 0xf3, 0x21, 0x57, 0xc6 });
+                textToHex(0x6566e, "", new byte[] { 0xf3, 0xff, 0x21, 0x57, 0xc6 });
             }
             if (chkPostBoneGrime.Checked)
             {
@@ -995,6 +1016,15 @@ namespace _7thSagaRando
             // Serpent released - remove happy song.
             textToHex(0x68e27, "The power of *Serpent*@is gone.", new byte[] { 0xfc, 0x2d, 0x00, 0x4e, 0x8e, 0xc6, 0xfe, 0x71, 0x00, 0xfe, 0x72, 0x00 });
 
+            // Fortune teller
+            textToHex(0x6ac0d, "Go see *Brantu*.");
+
+            // Brantu part 2
+            textToHex(0x6ae7c, "Let's see my new plane!", new byte[] { 0xf3, 0xf6, 0x45 });
+
+            // Brantu part 3
+            textToHex(0x6af43, "OK, let's go west!", new byte[] { 0xfe, 0x7a, 0x00, 0xfe, 0x31, 0x00, 0xf6, 0x01, 0xf6, 0x46 });
+
             // Alter curse
             textToHex(0x6b7c7, "Thou art cursed!");
 
@@ -1002,8 +1032,8 @@ namespace _7thSagaRando
             textToHex(0x6c216, "You won this round!@But I'll still@be around!");
 
             // Remove curse
-            textToHex(0x6bc29, "I was wrong.@The curse is gone.", new byte[] { 0xf3, 0xff, 0xfc, 0xbc, 0xc6 });
-            textToHex(0x6bd21, "", new byte[] { 0xfd, 0x3a, 0x00, 0xfd, 0x3c, 0x00, 0xf3, 0xff, 0x21, 0xbd, 0xc6 });
+            textToHex(0x6bc29, "I was wrong and will@remove the curse.", new byte[] { 0xf3, 0xff, 0xfc, 0xbc, 0xc6 });
+            textToHex(0x6bd21, "", new byte[] { 0xfb, 0x0a, 0x00, 0x36, 0xbd, 0xc6 });
 
             // Shorten post-curse
             textToHex(0x6bd36, "Now go east to get@ the *Wizard Rune*!");
@@ -1011,8 +1041,14 @@ namespace _7thSagaRando
             // Shorten Sage speech
             textToHex(0x6cfa6, "Yes you are from@the future.  Continue your@quest on the airship!");
 
+            // Faster Foma access
+            textToHex(0x6db59, "TO PROTECT...", new byte[] { 0xfc, 0x85, 0x00, 0xe6, 0xe7, 0xc6 });
+
             // Shorten SARO speech
             textToHex(0x6f646, "Good job!  *GORSIA's*@ curse on the *Runes*@ is lifted.", new byte[] { 0xf6, 0x01, 0xf6, 0x03, 0xf6, 0x01, 0xf6, 0x6a });
+
+            // All the old runes at once
+            //textToHex(0x0, "", new byte[] { 0xff, 0x52, 0xf4, 0xc6 });
 
             // Inn
             //romPlugin = new byte[] { 0x28, 0x47, 0x47, 0x5a, 0x0d, 0x82, 0x8c, 0x82, 0x0d, 0x26, 0xfc, 0x00, 0x00, 0x00, 0x00, 0xc6, 0x0d, 0xf9 };
@@ -1223,9 +1259,8 @@ namespace _7thSagaRando
                 int byteToUse = 0x8a18 + (lnI * 16);
                 for (int lnJ = 0; lnJ < 16; lnJ++)
                 {
-                    if (lnI == 0)
-                        romData[byteToUse + lnJ] = 0x00;
-                    else if (lnI == 1)
+                    romData[byteToUse + lnJ] = 0x00;
+                    if (lnI == 1)
                     {
                         romData[byteToUse + lnJ] = (commonItems[r1.Next() % commonItems.Length]);
                     }
@@ -1241,7 +1276,7 @@ namespace _7thSagaRando
                     {
                         romData[byteToUse + lnJ] = (equipItems[r1.Next() % equipItems.Length]);
                     }
-                    else
+                    else if (lnI > 0) // If lnI == 0, keep everything at 0.
                     {
                         if (lnJ == 0 || r1.Next() % 2 == 0)
                         {
@@ -1276,6 +1311,9 @@ namespace _7thSagaRando
                 else if (r1.Next() % 3 == 0)
                 {
                     romData[byteToUse + 36] = (byte)(0x05 + (r1.Next() % 25));
+                } else
+                {
+                    romData[byteToUse + 36] = 0x00;
                 }
             }
         }
@@ -1318,15 +1356,14 @@ namespace _7thSagaRando
                                 break;
                         }
                     }
-                    for (int lnJ = 0; lnJ < maxSpells; lnJ++)
+                    if (chkSpellLearning.Checked)
                     {
-                        if (chkSpellLearning.Checked)
-                        {
-                            int spellLoc = r1.Next() % actualLegalSpells.Count;
-                            actualSpells.Add(legalSpells[spellLoc]);
-                            actualLegalSpells.RemoveAt(spellLoc);
-                        }
-                        else
+                        byte[] byteSpells = shuffle(actualLegalSpells.ToArray(), r1);
+                        actualSpells = byteSpells.ToList();
+                    }
+                    else
+                    {
+                        for (int lnJ = 0; lnJ < maxSpells; lnJ++)
                         {
                             actualSpells.Add(legalSpells[r1.Next() % legalSpells.Length]);
                             for (int lnK = 0; lnK < lnJ; lnK++)
@@ -1337,15 +1374,11 @@ namespace _7thSagaRando
 
                 int[] spellLevels = inverted_power_curve(1, 45, actualSpells.Count, 1, r1);
 
-                if (!chkSpellLearning.Checked)
-                {
-                    for (int lnJ = 0; lnJ < 32; lnJ++)
-                        romData[byteToUse + lnJ] = 0;
-                }
+                for (int lnJ = 0; lnJ < 32; lnJ++)
+                    romData[byteToUse + lnJ] = 0;
                 for (int lnJ = 0; lnJ < actualSpells.Count; lnJ++)
                 {
-                    if (!chkSpellLearning.Checked)
-                        romData[byteToUse + lnJ] = actualSpells[lnJ];
+                    romData[byteToUse + lnJ] = actualSpells[lnJ];
                     romData[byteToUse + lnJ + 16] = (byte)spellLevels[lnJ];
                 }
             }
@@ -1408,13 +1441,7 @@ namespace _7thSagaRando
             {
                 int byteToUse = 0x8308 + (lnI * 27);
                 
-                for (int lnJ = 0; lnJ < 5; lnJ++)
-                    romData[byteToUse + lnJ] = 0;
-
-                for (int lnJ = 6; lnJ < 13; lnJ++)
-                    romData[byteToUse + lnJ] = 0;
-
-                for (int lnJ = 13; lnJ < 21; lnJ++)
+                for (int lnJ = 0; lnJ < 22; lnJ++)
                     romData[byteToUse + lnJ] = 0;
             }
         }
@@ -1423,7 +1450,11 @@ namespace _7thSagaRando
         {
             for (int lnI = 0; lnI <= items.Length * 7; lnI++)
             {
-                int temp = items[r1.Next() % items.Length];
+                int item1 = r1.Next() % items.Length;
+                int item2 = r1.Next() % items.Length;
+                byte temp = items[item1];
+                items[item1] = items[item2];
+                items[item2] = temp;
             }
             return items;
         }
@@ -1488,13 +1519,14 @@ namespace _7thSagaRando
 
             for (int lnI = 0; lnI < 40; lnI++)
             {
+                int byteToUse = 0x8308 + (lnI * 27);
+
                 if (lnI == 0x04 || lnI == 0x05 || lnI == 0x07 || lnI == 0x0d ||
                     lnI == 0x10 || lnI == 0x18 || lnI == 0x1a || lnI == 0x1e ||
                     lnI == 0x22 || lnI == 0x23 || lnI == 0x24 || lnI == 0x25 || lnI == 0x26 || lnI == 0x27)
-                    return;
+                    continue;
 
                 List<byte> cityWeapons = new List<byte>();
-                int byteToUse = 0x8308 + (lnI * 27);
                 // Weapons at bytes 0-4, armor at bytes 5-12, items at bytes 13-21.  I reserve the right to place weapons in armor stores and vice versa.
                 for (int lnJ = 0; lnJ < 2 + (r1.Next() % 3); lnJ++)
                 {
@@ -1522,7 +1554,7 @@ namespace _7thSagaRando
                     romData[byteToUse + lnJ] = (byte)(lnJ < cityWeapons.Count ? cityWeapons[lnJ] : 0);
 
                 List<byte> cityArmor = new List<byte>();
-                for (int lnJ = 6; lnJ < 8 + (r1.Next() % 4); lnJ++)
+                for (int lnJ = 0; lnJ < 2 + (r1.Next() % 4); lnJ++)
                 {
                     //bool duplicate = true;
                     //byte currentWeapon = 0;
@@ -1544,12 +1576,12 @@ namespace _7thSagaRando
                     }
                 }
                 for (int lnJ = 0; lnJ < 8; lnJ++)
-                    romData[byteToUse + 6 + lnJ] = (byte)(lnJ < cityArmor.Count ? cityArmor[lnJ] : 0);
+                    romData[byteToUse + 5 + lnJ] = (byte)(lnJ < cityArmor.Count ? cityArmor[lnJ] : 0);
 
                 romData[byteToUse + 13] = commonItems[r1.Next() % commonItems.Length];
 
                 List<byte> cityItems = new List<byte>();
-                for (int lnJ = 14; lnJ < 18; lnJ++)
+                for (int lnJ = 0; lnJ < 4; lnJ++)
                 {
                     //bool duplicate = true;
                     //byte currentItem = 0;
@@ -1628,6 +1660,7 @@ namespace _7thSagaRando
                 {
                     romData[byteToUse + 20] = 0x00;
                 }
+                romData[byteToUse + 21] = 0x00;
             }
         }
 

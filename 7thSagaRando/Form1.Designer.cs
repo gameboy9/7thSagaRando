@@ -65,6 +65,8 @@
             this.chkMonsterPatterns = new System.Windows.Forms.CheckBox();
             this.chkMonsterZones = new System.Windows.Forms.CheckBox();
             this.tabPage4 = new System.Windows.Forms.TabPage();
+            this.chkVacuumBoss = new System.Windows.Forms.CheckBox();
+            this.chkDebuffBoss = new System.Windows.Forms.CheckBox();
             this.chkFullXP = new System.Windows.Forms.CheckBox();
             this.chkPostBoneGrime = new System.Windows.Forms.CheckBox();
             this.chkPostBoneRemote = new System.Windows.Forms.CheckBox();
@@ -116,8 +118,8 @@
             this.chkDoubleWalk = new System.Windows.Forms.CheckBox();
             this.chkSpeedHacks = new System.Windows.Forms.CheckBox();
             this.cmdGuide = new System.Windows.Forms.Button();
-            this.chkDebuffBoss = new System.Windows.Forms.CheckBox();
-            this.chkVacuumBoss = new System.Windows.Forms.CheckBox();
+            this.chkBrushAirship1 = new System.Windows.Forms.CheckBox();
+            this.chkBrushAirship2 = new System.Windows.Forms.CheckBox();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage4.SuspendLayout();
@@ -346,6 +348,7 @@
             this.chk9999Defense.TabIndex = 179;
             this.chk9999Defense.Text = "All monsters have 9999 defense";
             this.chk9999Defense.UseVisualStyleBackColor = true;
+            this.chk9999Defense.CheckedChanged += new System.EventHandler(this.determineFlags);
             // 
             // chkLearnNoMagic
             // 
@@ -429,9 +432,9 @@
             this.chkNoSeeds.AutoSize = true;
             this.chkNoSeeds.Location = new System.Drawing.Point(172, 104);
             this.chkNoSeeds.Name = "chkNoSeeds";
-            this.chkNoSeeds.Size = new System.Drawing.Size(127, 17);
+            this.chkNoSeeds.Size = new System.Drawing.Size(186, 17);
             this.chkNoSeeds.TabIndex = 171;
-            this.chkNoSeeds.Text = "No rare items allowed";
+            this.chkNoSeeds.Text = "Randomize; No rare items allowed";
             this.chkNoSeeds.UseVisualStyleBackColor = true;
             this.chkNoSeeds.Click += new System.EventHandler(this.chkNoSeeds_Click);
             // 
@@ -503,6 +506,8 @@
             // 
             // tabPage4
             // 
+            this.tabPage4.Controls.Add(this.chkBrushAirship2);
+            this.tabPage4.Controls.Add(this.chkBrushAirship1);
             this.tabPage4.Controls.Add(this.chkVacuumBoss);
             this.tabPage4.Controls.Add(this.chkDebuffBoss);
             this.tabPage4.Controls.Add(this.chkFullXP);
@@ -518,10 +523,32 @@
             this.tabPage4.Text = "Adjustments";
             this.tabPage4.UseVisualStyleBackColor = true;
             // 
+            // chkVacuumBoss
+            // 
+            this.chkVacuumBoss.AutoSize = true;
+            this.chkVacuumBoss.Location = new System.Drawing.Point(275, 58);
+            this.chkVacuumBoss.Name = "chkVacuumBoss";
+            this.chkVacuumBoss.Size = new System.Drawing.Size(187, 17);
+            this.chkVacuumBoss.TabIndex = 179;
+            this.chkVacuumBoss.Text = "VACUUM1/2 can work on bosses";
+            this.chkVacuumBoss.UseVisualStyleBackColor = true;
+            this.chkVacuumBoss.CheckedChanged += new System.EventHandler(this.determineFlags);
+            // 
+            // chkDebuffBoss
+            // 
+            this.chkDebuffBoss.AutoSize = true;
+            this.chkDebuffBoss.Location = new System.Drawing.Point(275, 35);
+            this.chkDebuffBoss.Name = "chkDebuffBoss";
+            this.chkDebuffBoss.Size = new System.Drawing.Size(315, 17);
+            this.chkDebuffBoss.TabIndex = 178;
+            this.chkDebuffBoss.Text = "DEFENSE2/HP/MPCATCHR/PETRIFY can work on bosses";
+            this.chkDebuffBoss.UseVisualStyleBackColor = true;
+            this.chkDebuffBoss.CheckedChanged += new System.EventHandler(this.determineFlags);
+            // 
             // chkFullXP
             // 
             this.chkFullXP.AutoSize = true;
-            this.chkFullXP.Location = new System.Drawing.Point(275, 37);
+            this.chkFullXP.Location = new System.Drawing.Point(275, 12);
             this.chkFullXP.Name = "chkFullXP";
             this.chkFullXP.Size = new System.Drawing.Size(125, 17);
             this.chkFullXP.TabIndex = 177;
@@ -974,44 +1001,44 @@
             this.tabPage3.Text = "Speedups";
             this.tabPage3.UseVisualStyleBackColor = true;
             // 
-            // chkSkyRune5
+            // chkWindRune5
             // 
             this.chkWindRune5.AutoSize = true;
             this.chkWindRune5.Location = new System.Drawing.Point(329, 127);
-            this.chkWindRune5.Name = "chkSkyRune5";
+            this.chkWindRune5.Name = "chkWindRune5";
             this.chkWindRune5.Size = new System.Drawing.Size(116, 17);
             this.chkWindRune5.TabIndex = 155;
             this.chkWindRune5.Text = "Past, Ice Continent";
             this.chkWindRune5.UseVisualStyleBackColor = true;
             this.chkWindRune5.CheckedChanged += new System.EventHandler(this.determineFlags);
             // 
-            // chkSkyRune4
+            // chkWindRune4
             // 
             this.chkWindRune4.AutoSize = true;
             this.chkWindRune4.Location = new System.Drawing.Point(329, 104);
-            this.chkWindRune4.Name = "chkSkyRune4";
+            this.chkWindRune4.Name = "chkWindRune4";
             this.chkWindRune4.Size = new System.Drawing.Size(135, 17);
             this.chkWindRune4.TabIndex = 154;
             this.chkWindRune4.Text = "Past, Pre-Ice Continent";
             this.chkWindRune4.UseVisualStyleBackColor = true;
             this.chkWindRune4.CheckedChanged += new System.EventHandler(this.determineFlags);
             // 
-            // chkSkyRune3
+            // chkWindRune3
             // 
             this.chkWindRune3.AutoSize = true;
             this.chkWindRune3.Location = new System.Drawing.Point(329, 81);
-            this.chkWindRune3.Name = "chkSkyRune3";
+            this.chkWindRune3.Name = "chkWindRune3";
             this.chkWindRune3.Size = new System.Drawing.Size(89, 17);
             this.chkWindRune3.TabIndex = 153;
             this.chkWindRune3.Text = "Ice Continent";
             this.chkWindRune3.UseVisualStyleBackColor = true;
             this.chkWindRune3.CheckedChanged += new System.EventHandler(this.determineFlags);
             // 
-            // chkSkyRune2
+            // chkWindRune2
             // 
             this.chkWindRune2.AutoSize = true;
             this.chkWindRune2.Location = new System.Drawing.Point(329, 58);
-            this.chkWindRune2.Name = "chkSkyRune2";
+            this.chkWindRune2.Name = "chkWindRune2";
             this.chkWindRune2.Size = new System.Drawing.Size(108, 17);
             this.chkWindRune2.TabIndex = 152;
             this.chkWindRune2.Text = "Pre-Ice Continent";
@@ -1038,11 +1065,11 @@
             this.chkRemoveTriggers.UseVisualStyleBackColor = true;
             this.chkRemoveTriggers.CheckedChanged += new System.EventHandler(this.determineFlags);
             // 
-            // chkSkyRune1
+            // chkWindRune1
             // 
             this.chkWindRune1.AutoSize = true;
             this.chkWindRune1.Location = new System.Drawing.Point(329, 35);
-            this.chkWindRune1.Name = "chkSkyRune1";
+            this.chkWindRune1.Name = "chkWindRune1";
             this.chkWindRune1.Size = new System.Drawing.Size(84, 17);
             this.chkWindRune1.TabIndex = 149;
             this.chkWindRune1.Text = "Up To Bone";
@@ -1092,27 +1119,27 @@
             this.cmdGuide.UseVisualStyleBackColor = true;
             this.cmdGuide.Click += new System.EventHandler(this.cmdGuide_Click);
             // 
-            // chkDebuffBoss
+            // chkBrushAirship1
             // 
-            this.chkDebuffBoss.AutoSize = true;
-            this.chkDebuffBoss.Location = new System.Drawing.Point(275, 60);
-            this.chkDebuffBoss.Name = "chkDebuffBoss";
-            this.chkDebuffBoss.Size = new System.Drawing.Size(315, 17);
-            this.chkDebuffBoss.TabIndex = 178;
-            this.chkDebuffBoss.Text = "DEFENSE2/HP/MPCATCHR/PETRIFY can work on bosses";
-            this.chkDebuffBoss.UseVisualStyleBackColor = true;
-            this.chkDebuffBoss.CheckedChanged += new System.EventHandler(this.determineFlags);
+            this.chkBrushAirship1.AutoSize = true;
+            this.chkBrushAirship1.Location = new System.Drawing.Point(275, 83);
+            this.chkBrushAirship1.Name = "chkBrushAirship1";
+            this.chkBrushAirship1.Size = new System.Drawing.Size(155, 17);
+            this.chkBrushAirship1.TabIndex = 180;
+            this.chkBrushAirship1.Text = "Speed up Brush airship ride";
+            this.chkBrushAirship1.UseVisualStyleBackColor = true;
+            this.chkBrushAirship1.CheckedChanged += new System.EventHandler(this.determineFlags);
             // 
-            // chkVacuumBoss
+            // chkBrushAirship2
             // 
-            this.chkVacuumBoss.AutoSize = true;
-            this.chkVacuumBoss.Location = new System.Drawing.Point(275, 83);
-            this.chkVacuumBoss.Name = "chkVacuumBoss";
-            this.chkVacuumBoss.Size = new System.Drawing.Size(187, 17);
-            this.chkVacuumBoss.TabIndex = 179;
-            this.chkVacuumBoss.Text = "VACUUM1/2 can work on bosses";
-            this.chkVacuumBoss.UseVisualStyleBackColor = true;
-            this.chkVacuumBoss.CheckedChanged += new System.EventHandler(this.determineFlags);
+            this.chkBrushAirship2.AutoSize = true;
+            this.chkBrushAirship2.Location = new System.Drawing.Point(435, 83);
+            this.chkBrushAirship2.Name = "chkBrushAirship2";
+            this.chkBrushAirship2.Size = new System.Drawing.Size(108, 17);
+            this.chkBrushAirship2.TabIndex = 181;
+            this.chkBrushAirship2.Text = "... in a weird way!";
+            this.chkBrushAirship2.UseVisualStyleBackColor = true;
+            this.chkBrushAirship2.CheckedChanged += new System.EventHandler(this.determineFlags);
             // 
             // Form1
             // 
@@ -1256,6 +1283,8 @@
         private System.Windows.Forms.CheckBox chk9999Defense;
         private System.Windows.Forms.CheckBox chkVacuumBoss;
         private System.Windows.Forms.CheckBox chkDebuffBoss;
+        private System.Windows.Forms.CheckBox chkBrushAirship2;
+        private System.Windows.Forms.CheckBox chkBrushAirship1;
     }
 }
 
