@@ -1081,9 +1081,9 @@
             this.chkShowStatGains.AutoSize = true;
             this.chkShowStatGains.Location = new System.Drawing.Point(6, 58);
             this.chkShowStatGains.Name = "chkShowStatGains";
-            this.chkShowStatGains.Size = new System.Drawing.Size(189, 17);
+            this.chkShowStatGains.Size = new System.Drawing.Size(156, 17);
             this.chkShowStatGains.TabIndex = 148;
-            this.chkShowStatGains.Text = "Do not show stat gains on level up";
+            this.chkShowStatGains.Text = "Show stat gains on level up";
             this.chkShowStatGains.UseVisualStyleBackColor = true;
             this.chkShowStatGains.CheckedChanged += new System.EventHandler(this.determineFlags);
             // 

@@ -212,7 +212,7 @@ namespace _7thSagaRando
 
             number = convertChartoInt(Convert.ToChar(flags.Substring(2, 1)));
             chkHeroSameEquip.Checked = (number % 2 == 1);
-            chkMonsterDrops.Checked = (number % 4 == 2);
+            chkMonsterDrops.Checked = (number % 4 >= 2);
             chkSameRando.Checked = (number % 8 >= 4);
             chkRemoveTriggers.Checked = (number % 16 >= 8);
             chkNoSeeds.Checked = (number % 32 >= 16);
@@ -335,7 +335,7 @@ namespace _7thSagaRando
 
         private void trkHeroGrowth_Scroll(object sender, EventArgs e)
         {
-            lblHeroGrowth.Text = (trkHeroGrowth.Value == 10 ? "100%" : (chkHeroStatMin.Checked ? 100 : (1000 / trkHeroGrowth.Value)) + "-" + (trkHeroGrowth.Value * 10).ToString() + "%");
+            lblHeroGrowth.Text = (trkHeroGrowth.Value == 10 ? "100%" : (chkHeroGrowthMin.Checked ? 100 : (1000 / trkHeroGrowth.Value)) + "-" + (trkHeroGrowth.Value * 10).ToString() + "%");
             determineFlags(null, null);
         }
 
@@ -384,9 +384,32 @@ namespace _7thSagaRando
                 }
             }
 
+            adjustExperienceTable();
+
             if (chkDoubleWalk.Checked) doubleWalk();
             if (chkRemoveTriggers.Checked) removeUselessTriggers();
             if (chkWindRune1.Checked || chkWindRune2.Checked || chkWindRune3.Checked || chkWindRune4.Checked || chkWindRune5.Checked) freeIce();
+        }
+
+        private void adjustExperienceTable()
+        {
+            romData[0x28045] = 0x00;
+            romData[0x28046] = 0x01;
+
+            romData[0x2800a] = 0x74;
+            romData[0x2800b] = 0x01;
+
+            for (int lnI = 0; lnI < 80; lnI++)
+            {
+                int byteToUse = 0x8cc8 + (3 * lnI);
+                double xp = romData[byteToUse + 0] + (romData[byteToUse + 1] * 256) + (romData[byteToUse + 2] * 65536);
+                xp /= 2.203125;
+                int newXP = (int)Math.Round(xp);
+
+                romData[byteToUse + 0] = (byte)(newXP % 256);
+                romData[byteToUse + 1] = (byte)((newXP / 256) % 256);
+                romData[byteToUse + 2] = (byte)(newXP / 65536);
+            }
         }
 
         private void cmdRandomize_Click(object sender, EventArgs e)
@@ -605,7 +628,13 @@ namespace _7thSagaRando
             //romData[0x6a909] = romData[0x6a90f] = romData[0x6a915] = romData[0x6a91b] = romData[0x6a921] = romData[0x6a927] = romData[0x6a92d] = romData[0x6a92d] = 0x10;
 
             // Skip Eygus part... hopefully.
-            textToHex(0x623ae, "*Romus* uncursed!", new byte[] { 0xfe, 0x7e, 0x00, 0xf3, 0xf6, 0x22, 0xf3, 0xff, 0xcb, 0x23, 0xc6 });
+            if (chkWindRune1.Checked && !chkWindRune2.Checked)
+            {
+                textToHex(0x623ae, "Win!", new byte[] { 0xfe, 0x7e, 0x00, 0xf3, 0xf6, 0x22, 0xff, 0xcb, 0x23, 0xc6 });
+            } else if (chkWindRune2.Checked)
+            {
+                textToHex(0x623ae, "Win!", new byte[] { 0xfe, 0x7e, 0x00, 0xf3, 0xf6, 0x22, 0xfe, 0x7d, 0x00, 0xf6, 0x4e, 0xff, 0xcb, 0x23, 0xc6 });
+            }
 
             // "Free Enterprise" the Wind Rune.
             byte[] romPlugin = { 0x22, 0x00, 0xed, 0xc0, 0xea };
@@ -1327,7 +1356,7 @@ namespace _7thSagaRando
                 List<byte> actualSpells = new List<byte>();
                 if (!chkLearnNoMagic.Checked)
                 {
-                    int maxSpells = (lnI == 0 ? 12 : lnI == 1 ? 10 : lnI == 2 ? 16 : lnI == 3 ? 7 : lnI == 4 ? 5 : lnI == 5 ? 16 : 16);
+                    int maxSpells = (chkHeroSameSpell.Checked ? 16 : lnI == 0 ? 12 : lnI == 1 ? 10 : lnI == 2 ? 16 : lnI == 3 ? 7 : lnI == 4 ? 5 : lnI == 5 ? 16 : 16);
                     List<byte> actualLegalSpells = new List<byte>();
                     if (chkSpellLearning.Checked)
                     {
