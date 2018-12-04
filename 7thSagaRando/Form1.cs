@@ -176,7 +176,7 @@ namespace _7thSagaRando
             number = (chkPostBoneRandom.Checked ? 1 : 0) + (chkPostBonePandam.Checked ? 2 : 0) + (chkPostBoneRemote.Checked ? 4 : 0) +
                 (chkPostBoneGrime.Checked ? 8 : 0) + (chkFullXP.Checked ? 16 : 0) + (chkVacuumBoss.Checked ? 32 : 0);
             flags += convertIntToChar(number);
-            number = (chkBrushAirship1.Checked ? 1 : 0) + (chkBrushAirship2.Checked ? 2 : 0);
+            number = (chkBrushAirship1.Checked ? 1 : 0) + (chkBrushAirship2.Checked ? 2 : 0) + (chkLocations.Checked ? 4 : 0);
             flags += convertIntToChar(number);
             flags += convertIntToChar(trkExperience.Value);
             flags += convertIntToChar(trkGoldReq.Value - 10);
@@ -253,6 +253,7 @@ namespace _7thSagaRando
             number = convertChartoInt(Convert.ToChar(flags.Substring(7, 1)));
             chkBrushAirship1.Checked = (number % 2 == 1);
             chkBrushAirship2.Checked = (number % 4 >= 2);
+            chkLocations.Checked = (number % 8 >= 4);
 
             trkExperience.Value = convertChartoInt(Convert.ToChar(flags.Substring(8, 1)));
             trkExperience_Scroll(null, null);
@@ -354,6 +355,7 @@ namespace _7thSagaRando
             if (chkNoStoreItems.Checked) noStoreItems();
             if (chkWhoCanEquip.Checked) randomizeWhoCanEquip(r1);
             if (chkFullXP.Checked) noXPSplitting();
+            if (chkLocations.Checked) writeMap(false, r1);
             heroInteractions(r1);
             randomizePison(r1);
             randomizePandam(r1);
@@ -2462,6 +2464,206 @@ namespace _7thSagaRando
             lblStatus.Text = "Guide complete!  (" + finalFile + ")";
         }
 
+        private void writeMap(bool output, Random r1 = null)
+        {
+            int[] allPlains = { 0x01, 0x08, 0x09, 0x0a, 0x0b, 0x0c, 0x0d, 0x0e, 0x0f,
+                                0x10, 0x12, 0x18, 0x19, 0x1a, 0x1b, 0x1c, 0x1d, 0x1e, 0x1f,
+                                0x20, 0x21, 0x22, 0x23, 0x24, 0x28, 0x29, 0x2a, 0x2b, 0x2c, 0x2d, 0x2e, 0x2f,
+                                0x30, 0x31, 0x32, 0x33, 0x34, 0x37, 0x38, 0x39, 0x3a, 0x3b, 0x3c, 0x3d, 0x3e, 0x3f,
+                                0x50, 0x51, 0x52, 0x53, 0x56,
+                                0x60, 0x61, 0x62, 0x63, 0x64, 0x65, 0x66,
+                                0x70, 0x71, 0x72, 0x73, 0x74 };
+            int[] plains1 = { 0x03, 0x06, 0x17, 0x26, 0x27, 0x45, 0x4a, 0x4b, 0x4c, 0x4e, 0x59, 0x5a, 0x5c, 0x7e };
+            int[] plains2 = { 0x04, 0x06, 0x11, 0x15, 0x25, 0x26, 0x46, 0x4a, 0x4b, 0x4c, 0x4f, 0x5b, 0x5d, 0x7f };
+            int[] plains3 = { 0x02, 0x05, 0x11, 0x14, 0x15, 0x45, 0x46, 0x4b, 0x5a, 0x5b, 0x5f, 0x6f };
+            int[] plains4 = { 0x07, 0x13, 0x17, 0x45, 0x46, 0x4a, 0x4d, 0x5a, 0x5b, 0x5e, 0x6e };
+            int[] water1 = { 0x02, 0x04, 0x05, 0x07, 0x11, 0x14, 0x15, 0x16, 0x25, 0x46, 0x57, 0x67, 0x69, 0x6a, 0x6b, 0x6c, 0x6e, 0x6f, 0x79 };
+            int[] water2 = { 0x02, 0x03, 0x05, 0x07, 0x13, 0x16, 0x17, 0x27, 0x45, 0x58, 0x67, 0x69, 0x6a, 0x6b, 0x6d, 0x6e, 0x6f, 0x7a };
+            int[] water3 = { 0x03, 0x06, 0x07, 0x13, 0x16, 0x17, 0x25, 0x26, 0x27, 0x58, 0x68, 0x6a, 0x79, 0x7a, 0x7b, 0x7d, 0x7e, 0x7f };
+            int[] water4 = { 0x02, 0x04, 0x05, 0x06, 0x11, 0x14, 0x15, 0x16, 0x25, 0x26, 0x27, 0x57, 0x68, 0x69, 0x79, 0x7a, 0x7b, 0x7c, 0x7e, 0x7f };
+            int[] mountain1 = { 0x13, 0x47, 0x48, 0x49, 0x4d, 0x4f, 0x58, 0x5b, 0x5d, 0x5e, 0x5f, 0x68, 0x6d, 0x75, 0x76, 0x77, 0x78, 0x7a, 0x7b, 0x7c, 0x7d, 0x7f };
+            int[] mountain2 = { 0x14, 0x47, 0x48, 0x4d, 0x4e, 0x57, 0x59, 0x5a, 0x5c, 0x5e, 0x5f, 0x68, 0x6c, 0x75, 0x76, 0x77, 0x78, 0x79, 0x7b, 0x7c, 0x7d, 0x7e };
+            int[] mountain3 = { 0x04, 0x47, 0x48, 0x49, 0x4a, 0x4c, 0x4d, 0x4e, 0x4f, 0x57, 0x59, 0x5c, 0x5d, 0x5e, 0x67, 0x69, 0x6b, 0x6c, 0x6d, 0x6e, 0x75, 0x76, 0x77, 0x78, 0x7c };
+            int[] mountain4 = { 0x03, 0x47, 0x48, 0x49, 0x4b, 0x4c, 0x4e, 0x4f, 0x58, 0x59, 0x5c, 0x5d, 0x5f, 0x67, 0x6a, 0x6b, 0x6c, 0x6d, 0x6f, 0x75, 0x76, 0x77, 0x78, 0x7d };
+
+            string[,] map = new string[512, 512];
+            for (int x = 0; x < 512; x++)
+                for (int y = 0; y < 512; y++)
+                    map[x, y] = "-";
+            // 16x16 level 1 segments (64x64 lv2, 256x256 lv3, 512x512 lv4)
+            for (int lnI = 0; lnI < 256; lnI++)
+            {
+                int byteToUse = 0xe7134 + lnI;
+                // 4x4 level 2 segments (2 bytes each) (16*16 lv3, 32x32 lv4)
+                int byteToUse2 = 0xe6154 + (romData[byteToUse] * 32);
+                for (int lnJ = 0; lnJ < 32; lnJ += 2)
+                {
+                    // 4x4 level 3 segments (8x8 lv4)
+                    int byteToUse3 = 0xe0000 + (romData[byteToUse2 + lnJ + 0] * 16) + (romData[byteToUse2 + lnJ + 1] * 16 * 256);
+                    for (int lnK = 0; lnK < 16; lnK++)
+                    {
+                        int x = ((lnI % 16) * 32) + (((lnJ / 2) % 4) * 8) + ((lnK % 4) * 2);
+                        int y = ((lnI / 16) * 32) + (((lnJ / 2) / 4) * 8) + ((lnK / 4) * 2);
+                        // 2x2 level 4 segments
+                        int terrain = romData[byteToUse3 + lnK];
+                        if (allPlains.Contains(terrain))
+                        {
+                            map[x + 0, y + 0] = "*";
+                            map[x + 0, y + 1] = "*";
+                            map[x + 1, y + 0] = "*";
+                            map[x + 1, y + 1] = "*";
+                        }
+                        else
+                        {
+                            if (plains1.Contains(terrain))
+                                map[x + 0, y + 0] = "*";
+                            if (plains2.Contains(terrain))
+                                map[x + 1, y + 0] = "*";
+                            if (plains3.Contains(terrain))
+                                map[x + 1, y + 1] = "*";
+                            if (plains4.Contains(terrain))
+                                map[x + 0, y + 1] = "*";
+                            if (mountain1.Contains(terrain))
+                                map[x + 0, y + 0] = "X";
+                            if (mountain2.Contains(terrain))
+                                map[x + 1, y + 0] = "X";
+                            if (mountain3.Contains(terrain))
+                                map[x + 1, y + 1] = "X";
+                            if (mountain4.Contains(terrain))
+                                map[x + 0, y + 1] = "X";
+                        }
+                    }
+                }
+            }
+
+            List<coordinate>[] island = new List<coordinate>[9];
+            int mapMarker = 0;
+            for (int y = 0; y < 512; y++)
+                for (int x = 0; x < 512; x++)
+                {
+                    if (map[x, y] == "*")
+                    {
+                        int marked = 0;
+                        string strMap = (mapMarker <= 9 ? mapMarker.ToString() : mapMarker == 10 ? "@" : mapMarker == 11 ? "#" : mapMarker == 12 ? "$" : "%");
+                        List<coordinate> trace = new List<coordinate>();
+                        trace.Add(new coordinate(x, y));
+                        while (trace.Count > 0)
+                        {
+                            marked++;
+                            int oldX = trace[0].x;
+                            int oldY = trace[0].y;
+                            map[oldX, oldY] = "!";
+                            if (map[oldX + 1, oldY] == "*")
+                                { trace.Add(new coordinate(oldX + 1, oldY)); map[oldX + 1, oldY] = "?"; }
+                            if (map[oldX - 1, oldY] == "*")
+                                { trace.Add(new coordinate(oldX - 1, oldY)); map[oldX - 1, oldY] = "?"; }
+                            if (map[oldX, oldY - 1] == "*")
+                                { trace.Add(new coordinate(oldX, oldY - 1)); map[oldX, oldY - 1] = "?"; }
+                            if (map[oldX, oldY + 1] == "*")
+                                { trace.Add(new coordinate(oldX, oldY + 1)); map[oldX, oldY + 1] = "?"; }
+                            trace.RemoveAt(0);
+                        }
+                        if (marked > 200)
+                        {
+                            island[mapMarker] = new List<coordinate>();
+                            trace.Add(new coordinate(x, y));
+                            while (trace.Count > 0)
+                            {
+                                marked++;
+                                int oldX = trace[0].x;
+                                int oldY = trace[0].y;
+                                map[oldX, oldY] = strMap;
+                                if (oldX % 2 == 0 && oldY % 2 == 0)
+                                    island[mapMarker].Add(new coordinate(oldX, oldY));
+                                if (map[oldX + 1, oldY] == "!")
+                                    { trace.Add(new coordinate(oldX + 1, oldY)); map[oldX + 1, oldY] = "?"; }
+                                if (oldX > 0 && map[oldX - 1, oldY] == "!")
+                                    { trace.Add(new coordinate(oldX - 1, oldY)); map[oldX - 1, oldY] = "?"; }
+                                if (oldY > 0 && map[oldX, oldY - 1] == "!")
+                                    { trace.Add(new coordinate(oldX, oldY - 1)); map[oldX, oldY - 1] = "?"; }
+                                if (map[oldX, oldY + 1] == "!")
+                                    { trace.Add(new coordinate(oldX, oldY + 1)); map[oldX, oldY + 1] = "?"; }
+                                trace.RemoveAt(0);
+                            }
+
+                            mapMarker++;
+                        }
+                    }
+                }
+
+            if (output)
+            {
+                using (StreamWriter swMap = new StreamWriter("map.txt"))
+                {
+                    for (int y = 0; y < 512; y++)
+                    {
+                        string output1 = "";
+                        for (int x = 0; x < 512; x++)
+                            output1 += map[x, y];
+                        swMap.WriteLine(output1);
+                    }
+                }
+            }
+            else
+            {
+                int[] links =
+                {
+                    0xff, 0x00, 0x01, 0x29, 0x2a,
+                    0xff, 0xff, 0x2b, 0x02, 0x05, 0x2c,
+                    0xff, 0xff, 0x07, 0x2d,
+                    0xff, 0xff, 0x08, 0x09, 0x2e, 0x0a, 0x0b, 0x33, 0x2f,
+                    0xff, 0xff, 0x0c, 0x0e, 0x0f, 0x30, 0x11, 0x12, 0x3b, 0x34, 0x14, 0x32, 0x15, 0x16, 0x17, 0x1a,
+                    0xff, 0xff, 0x31, 0x10,
+                    0xff, 0xff, 0x1c, 0x1d, 0x1f, 0x37, 0x38, 0x35, 0x36,
+                    0xff, 0xff, 0x21, 0x22, 0x23, 0x26, 0x25,
+                    0xff, 0xff, 0x27, 0x24, 0x39, 0x3a
+                };
+
+                int[] area =
+                {
+                    0xff, 0x04, 0x04, 0x04, 0x04,
+                    0xff, 0xff, 0x07, 0x07, 0x07, 0x07,
+                    0xff, 0xff, 0x06, 0x06,
+                    0xff, 0xff, 0x08, 0x08, 0x08, 0x08, 0x08, 0x08, 0x08,
+                    0xff, 0xff, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+                    0xff, 0xff, 0x03, 0x03,
+                    0xff, 0xff, 0x01, 0x02, 0x02, 0x01, 0x02, 0x02, 0x02,
+                    0xff, 0xff, 0x08, 0x08, 0x08, 0x05, 0x05,
+                    0xff, 0xff, 0x02, 0x02, 0x02, 0x02
+                };
+
+                for (int lnI = 0; lnI < links.Length; lnI++)
+                {
+                    if (links[lnI] == 0xff)
+                        continue;
+
+                    int byteToUse = 0x57f0f + (lnI * 6);
+                    int byteToUse2 = 0x58360 + (links[lnI] * 11);
+
+                    List<coordinate> test1 = island[area[lnI]];
+                    coordinate test = test1[r1.Next() % test1.Count()];
+                    if (map[test.x, test.y] != "U")
+                    {
+                        int actualX = test.x / 2;
+                        int actualY = test.y / 2;
+
+                        romData[byteToUse + 0] = (byte)(actualX);
+                        romData[byteToUse + 1] = (byte)(actualY);
+
+                        romData[byteToUse2 + 1] = (byte)(((actualX * 64) - 128) % 256);
+                        romData[byteToUse2 + 2] = (byte)(((actualX * 64) - 128) / 256);
+                        romData[byteToUse2 + 3] = (byte)(((actualY * 64) - 128) % 256);
+                        romData[byteToUse2 + 4] = (byte)(((actualY * 64) - 128) / 256);
+
+                        map[test.x, test.y] = "U";
+                    } else
+                    {
+                        lnI--;
+                        continue;
+                    }
+                }
+            }
+        }
 
         private void chkHeroInteractions_Click(object sender, EventArgs e)
         {
@@ -2533,6 +2735,24 @@ namespace _7thSagaRando
         {
             chkPostBoneRemote.Checked = chkPostBonePandam.Checked = false;
             determineFlags(null, null);
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            loadRom();
+            writeMap(true);
+        }
+
+        private class coordinate
+        {
+            public int x = 0;
+            public int y = 0;
+
+            public coordinate(int pX, int pY)
+            {
+                x = pX;
+                y = pY;
+            }
         }
     }
 }

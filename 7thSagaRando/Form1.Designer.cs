@@ -65,6 +65,8 @@
             this.chkMonsterPatterns = new System.Windows.Forms.CheckBox();
             this.chkMonsterZones = new System.Windows.Forms.CheckBox();
             this.tabPage4 = new System.Windows.Forms.TabPage();
+            this.chkBrushAirship2 = new System.Windows.Forms.CheckBox();
+            this.chkBrushAirship1 = new System.Windows.Forms.CheckBox();
             this.chkVacuumBoss = new System.Windows.Forms.CheckBox();
             this.chkDebuffBoss = new System.Windows.Forms.CheckBox();
             this.chkFullXP = new System.Windows.Forms.CheckBox();
@@ -118,8 +120,8 @@
             this.chkDoubleWalk = new System.Windows.Forms.CheckBox();
             this.chkSpeedHacks = new System.Windows.Forms.CheckBox();
             this.cmdGuide = new System.Windows.Forms.Button();
-            this.chkBrushAirship1 = new System.Windows.Forms.CheckBox();
-            this.chkBrushAirship2 = new System.Windows.Forms.CheckBox();
+            this.button2 = new System.Windows.Forms.Button();
+            this.chkLocations = new System.Windows.Forms.CheckBox();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage4.SuspendLayout();
@@ -316,6 +318,7 @@
             // 
             // tabPage1
             // 
+            this.tabPage1.Controls.Add(this.chkLocations);
             this.tabPage1.Controls.Add(this.chk9999Defense);
             this.tabPage1.Controls.Add(this.chkLearnNoMagic);
             this.tabPage1.Controls.Add(this.chkSpellLearning);
@@ -522,6 +525,28 @@
             this.tabPage4.TabIndex = 3;
             this.tabPage4.Text = "Adjustments";
             this.tabPage4.UseVisualStyleBackColor = true;
+            // 
+            // chkBrushAirship2
+            // 
+            this.chkBrushAirship2.AutoSize = true;
+            this.chkBrushAirship2.Location = new System.Drawing.Point(435, 83);
+            this.chkBrushAirship2.Name = "chkBrushAirship2";
+            this.chkBrushAirship2.Size = new System.Drawing.Size(108, 17);
+            this.chkBrushAirship2.TabIndex = 181;
+            this.chkBrushAirship2.Text = "... in a weird way!";
+            this.chkBrushAirship2.UseVisualStyleBackColor = true;
+            this.chkBrushAirship2.CheckedChanged += new System.EventHandler(this.determineFlags);
+            // 
+            // chkBrushAirship1
+            // 
+            this.chkBrushAirship1.AutoSize = true;
+            this.chkBrushAirship1.Location = new System.Drawing.Point(275, 83);
+            this.chkBrushAirship1.Name = "chkBrushAirship1";
+            this.chkBrushAirship1.Size = new System.Drawing.Size(155, 17);
+            this.chkBrushAirship1.TabIndex = 180;
+            this.chkBrushAirship1.Text = "Speed up Brush airship ride";
+            this.chkBrushAirship1.UseVisualStyleBackColor = true;
+            this.chkBrushAirship1.CheckedChanged += new System.EventHandler(this.determineFlags);
             // 
             // chkVacuumBoss
             // 
@@ -1119,33 +1144,33 @@
             this.cmdGuide.UseVisualStyleBackColor = true;
             this.cmdGuide.Click += new System.EventHandler(this.cmdGuide_Click);
             // 
-            // chkBrushAirship1
+            // button2
             // 
-            this.chkBrushAirship1.AutoSize = true;
-            this.chkBrushAirship1.Location = new System.Drawing.Point(275, 83);
-            this.chkBrushAirship1.Name = "chkBrushAirship1";
-            this.chkBrushAirship1.Size = new System.Drawing.Size(155, 17);
-            this.chkBrushAirship1.TabIndex = 180;
-            this.chkBrushAirship1.Text = "Speed up Brush airship ride";
-            this.chkBrushAirship1.UseVisualStyleBackColor = true;
-            this.chkBrushAirship1.CheckedChanged += new System.EventHandler(this.determineFlags);
+            this.button2.Location = new System.Drawing.Point(520, 428);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(75, 23);
+            this.button2.TabIndex = 151;
+            this.button2.Text = "Map to Text";
+            this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
-            // chkBrushAirship2
+            // chkLocations
             // 
-            this.chkBrushAirship2.AutoSize = true;
-            this.chkBrushAirship2.Location = new System.Drawing.Point(435, 83);
-            this.chkBrushAirship2.Name = "chkBrushAirship2";
-            this.chkBrushAirship2.Size = new System.Drawing.Size(108, 17);
-            this.chkBrushAirship2.TabIndex = 181;
-            this.chkBrushAirship2.Text = "... in a weird way!";
-            this.chkBrushAirship2.UseVisualStyleBackColor = true;
-            this.chkBrushAirship2.CheckedChanged += new System.EventHandler(this.determineFlags);
+            this.chkLocations.AutoSize = true;
+            this.chkLocations.Location = new System.Drawing.Point(6, 173);
+            this.chkLocations.Name = "chkLocations";
+            this.chkLocations.Size = new System.Drawing.Size(124, 17);
+            this.chkLocations.TabIndex = 180;
+            this.chkLocations.Text = "Randomize locations";
+            this.chkLocations.UseVisualStyleBackColor = true;
+            this.chkLocations.CheckedChanged += new System.EventHandler(this.determineFlags);
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(713, 490);
+            this.Controls.Add(this.button2);
             this.Controls.Add(this.cmdGuide);
             this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.button1);
@@ -1285,6 +1310,8 @@
         private System.Windows.Forms.CheckBox chkDebuffBoss;
         private System.Windows.Forms.CheckBox chkBrushAirship2;
         private System.Windows.Forms.CheckBox chkBrushAirship1;
+        private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.CheckBox chkLocations;
     }
 }
 
