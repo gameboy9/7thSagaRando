@@ -1238,11 +1238,11 @@
             // 
             this.chkQbert.AutoSize = true;
             this.chkQbert.ForeColor = System.Drawing.Color.DarkRed;
-            this.chkQbert.Location = new System.Drawing.Point(213, 137);
+            this.chkQbert.Location = new System.Drawing.Point(248, 137);
             this.chkQbert.Name = "chkQbert";
-            this.chkQbert.Size = new System.Drawing.Size(132, 17);
+            this.chkQbert.Size = new System.Drawing.Size(97, 17);
             this.chkQbert.TabIndex = 192;
-            this.chkQbert.Text = "Qbert Mode (@!#?@!)";
+            this.chkQbert.Text = "@!#?@! Mode";
             this.chkQbert.UseVisualStyleBackColor = true;
             this.chkQbert.CheckedChanged += new System.EventHandler(this.determineFlags);
             // 

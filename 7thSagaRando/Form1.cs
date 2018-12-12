@@ -541,6 +541,8 @@ namespace _7thSagaRando
 
         private void cmdRandomize_Click(object sender, EventArgs e)
         {
+            //randomize();
+            //saveRom();
             try
             {
                 randomize();
@@ -1396,7 +1398,8 @@ namespace _7thSagaRando
                         {
                             romData[byteToUse + lnJ + 11] = monsterLegalSpells[r1.Next() % monsterLegalSpells.Length];
                             for (int lnK = 0; lnK < lnJ; lnK++)
-                                if (romData[byteToUse + lnJ + 11] == romData[byteToUse + lnK + 11]) { romData[byteToUse + lnJ + 11] = 0; break; }
+                                if (romData[byteToUse + lnJ + 11] == romData[byteToUse + lnK + 11]) { romData[byteToUse + lnJ + 11] = 0; duplicate = true; break; }
+                            if (duplicate) break;
                             if (lnJ == 6 && chkMonstersMagicRequired.Checked)
                                 romData[byteToUse + lnJ + 19] = (byte)spellTotal;
                             else
@@ -2006,7 +2009,7 @@ namespace _7thSagaRando
 
         private void monsterStats(Random r1)
         {
-            if (chkChaos.Checked)
+            if (chkChaos.Checked && !chkQbert.Checked)
             {
                 // First, fill in the bosses
                 int[] bossHP = inverted_power_curve(20, 20000, 13, .5, r1);
@@ -2111,6 +2114,8 @@ namespace _7thSagaRando
 
                 for (int lnI = 0; lnI < 90; lnI++)
                 {
+                    scores[lnI] = new monsterScore(lnI);
+
                     int byteToUse = 0x72f4 + (42 * lnI);
                     if (romData[byteToUse + 0] == 0x00) continue;
 
@@ -2158,27 +2163,20 @@ namespace _7thSagaRando
                     int byteToUse = 0x72f4 + (42 * lnI);
                     if (romData[byteToUse] == 0x46 || romData[byteToUse] == 0x00) continue; // Do not randomize Gorsia or blank monsters.
 
-                    if (chkChaos.Checked || chkQbert.Checked)
-                    {
-
-                    }
-                    else
-                    {
-                        statAdjust(r1, byteToUse + 1, 2, trkMonsterStats.Value / 10, 1.0, chkMonsterStatMin.Checked);
-                        statAdjust(r1, byteToUse + 3, 2, trkMonsterStats.Value / 10, 1.0, chkMonsterStatMin.Checked);
-                        statAdjust(r1, byteToUse + 5, 2, trkMonsterStats.Value / 10, 0.5, chkMonsterStatMin.Checked);
-                        statAdjust(r1, byteToUse + 7, 2, trkMonsterStats.Value / 10, 0.5, chkMonsterStatMin.Checked);
-                        statAdjust(r1, byteToUse + 9, 1, trkMonsterStats.Value / 10, 0.25, chkMonsterStatMin.Checked);
-                        statAdjust(r1, byteToUse + 10, 1, trkMonsterStats.Value / 10, 0.25, chkMonsterStatMin.Checked);
-                        statAdjust(r1, byteToUse + 27, 1, trkMonsterStats.Value / 10, 0.5, chkMonsterStatMin.Checked, 100);
-                        statAdjust(r1, byteToUse + 28, 1, trkMonsterStats.Value / 10, 0.5, chkMonsterStatMin.Checked, 100);
-                        statAdjust(r1, byteToUse + 29, 1, trkMonsterStats.Value / 10, 0.5, chkMonsterStatMin.Checked, 100);
-                        statAdjust(r1, byteToUse + 30, 1, trkMonsterStats.Value / 10, 0.5, chkMonsterStatMin.Checked, 100);
-                        statAdjust(r1, byteToUse + 31, 1, trkMonsterStats.Value / 10, 0.5, chkMonsterStatMin.Checked, 100);
-                        statAdjust(r1, byteToUse + 32, 1, trkMonsterStats.Value / 10, 0.5, chkMonsterStatMin.Checked, 100);
-                        statAdjust(r1, byteToUse + 33, 1, trkMonsterStats.Value / 10, 0.5, chkMonsterStatMin.Checked, 100);
-                        statAdjust(r1, byteToUse + 34, 2, trkMonsterXP.Value / 10, 1.0, chkMonsterStatMin.Checked);
-                    }
+                    statAdjust(r1, byteToUse + 1, 2, trkMonsterStats.Value / 10, 1.0, chkMonsterStatMin.Checked);
+                    statAdjust(r1, byteToUse + 3, 2, trkMonsterStats.Value / 10, 1.0, chkMonsterStatMin.Checked);
+                    statAdjust(r1, byteToUse + 5, 2, trkMonsterStats.Value / 10, 0.5, chkMonsterStatMin.Checked);
+                    statAdjust(r1, byteToUse + 7, 2, trkMonsterStats.Value / 10, 0.5, chkMonsterStatMin.Checked);
+                    statAdjust(r1, byteToUse + 9, 1, trkMonsterStats.Value / 10, 0.25, chkMonsterStatMin.Checked);
+                    statAdjust(r1, byteToUse + 10, 1, trkMonsterStats.Value / 10, 0.25, chkMonsterStatMin.Checked);
+                    statAdjust(r1, byteToUse + 27, 1, trkMonsterStats.Value / 10, 0.5, chkMonsterStatMin.Checked, 100);
+                    statAdjust(r1, byteToUse + 28, 1, trkMonsterStats.Value / 10, 0.5, chkMonsterStatMin.Checked, 100);
+                    statAdjust(r1, byteToUse + 29, 1, trkMonsterStats.Value / 10, 0.5, chkMonsterStatMin.Checked, 100);
+                    statAdjust(r1, byteToUse + 30, 1, trkMonsterStats.Value / 10, 0.5, chkMonsterStatMin.Checked, 100);
+                    statAdjust(r1, byteToUse + 31, 1, trkMonsterStats.Value / 10, 0.5, chkMonsterStatMin.Checked, 100);
+                    statAdjust(r1, byteToUse + 32, 1, trkMonsterStats.Value / 10, 0.5, chkMonsterStatMin.Checked, 100);
+                    statAdjust(r1, byteToUse + 33, 1, trkMonsterStats.Value / 10, 0.5, chkMonsterStatMin.Checked, 100);
+                    statAdjust(r1, byteToUse + 34, 2, trkMonsterXP.Value / 10, 1.0, chkMonsterStatMin.Checked);
 
                     if (chk9999Defense.Checked)
                     {
@@ -2943,9 +2941,9 @@ namespace _7thSagaRando
                     0xff, 0xff, 0x08, 0x08, 0x08, 0x08, 0x08, 0x08, 0x08,
                     0xff, 0xff, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
                     0xff, 0xff, 0x03, 0x03,
-                    0xff, 0xff, 0x01, 0x02, 0x02, 0x01, 0x02, 0x02, 0x02,
+                    0xff, 0xff, 0x02, 0x01, 0x01, 0x02, 0x01, 0x01, 0x01,
                     0xff, 0xff, 0x08, 0x08, 0x08, 0x05, 0x05,
-                    0xff, 0xff, 0x02, 0x02, 0x02, 0x02
+                    0xff, 0xff, 0x01, 0x01, 0x01, 0x01
                 };
 
                 for (int lnI = 0; lnI < links.Length; lnI++)
