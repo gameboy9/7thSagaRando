@@ -62,10 +62,14 @@
             this.chkDoubleWalk = new System.Windows.Forms.CheckBox();
             this.chkSpeedHacks = new System.Windows.Forms.CheckBox();
             this.tabScaling = new System.Windows.Forms.TabPage();
+            this.trkSpellCosts = new System.Windows.Forms.TrackBar();
+            this.chkSpellCostsMin = new System.Windows.Forms.CheckBox();
+            this.label11 = new System.Windows.Forms.Label();
+            this.lblSpellCosts = new System.Windows.Forms.Label();
             this.chkHeroSameStats = new System.Windows.Forms.CheckBox();
             this.chkSameRando = new System.Windows.Forms.CheckBox();
-            this.trkSpellCosts = new System.Windows.Forms.TrackBar();
-            this.chkSpellMin = new System.Windows.Forms.CheckBox();
+            this.trkSpellPowers = new System.Windows.Forms.TrackBar();
+            this.chkSpellPowersMin = new System.Windows.Forms.CheckBox();
             this.chkEquipMin = new System.Windows.Forms.CheckBox();
             this.chkMonsterStatMin = new System.Windows.Forms.CheckBox();
             this.chkHeroStatMin = new System.Windows.Forms.CheckBox();
@@ -73,7 +77,7 @@
             this.label4 = new System.Windows.Forms.Label();
             this.lblHeroStats = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
-            this.lblSpellCosts = new System.Windows.Forms.Label();
+            this.lblSpellPowers = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.lblEquipPowers = new System.Windows.Forms.Label();
             this.trkEquipPowers = new System.Windows.Forms.TrackBar();
@@ -93,10 +97,13 @@
             this.trkHeroStats = new System.Windows.Forms.TrackBar();
             this.trkGoldReq = new System.Windows.Forms.TrackBar();
             this.tabBoosts = new System.Windows.Forms.TabPage();
+            this.trkMagicPowerBoost = new System.Windows.Forms.TrackBar();
+            this.lblGold = new System.Windows.Forms.Label();
+            this.lblGPBoost = new System.Windows.Forms.Label();
+            this.trkGold = new System.Windows.Forms.TrackBar();
             this.lblMagicBoost = new System.Windows.Forms.Label();
             this.lblExperience = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
-            this.trkMagicPowerBoost = new System.Windows.Forms.TrackBar();
             this.lblExpBoost = new System.Windows.Forms.Label();
             this.trkExperience = new System.Windows.Forms.TrackBar();
             this.tabAdjustments = new System.Windows.Forms.TabPage();
@@ -112,26 +119,31 @@
             this.label6 = new System.Windows.Forms.Label();
             this.chkPostBoneRandom = new System.Windows.Forms.CheckBox();
             this.tabMonsters = new System.Windows.Forms.TabPage();
+            this.label20 = new System.Windows.Forms.Label();
+            this.label19 = new System.Windows.Forms.Label();
+            this.label18 = new System.Windows.Forms.Label();
+            this.cboMonsterZones = new System.Windows.Forms.ComboBox();
+            this.cboMonsterDrops = new System.Windows.Forms.ComboBox();
+            this.cboMonsterPatterns = new System.Windows.Forms.ComboBox();
             this.chkNoEncounters = new System.Windows.Forms.CheckBox();
-            this.chkMonstersMagicRequired = new System.Windows.Forms.CheckBox();
-            this.chkMonstersNoMagic = new System.Windows.Forms.CheckBox();
             this.chk9999Defense = new System.Windows.Forms.CheckBox();
-            this.chkMonsterDrops = new System.Windows.Forms.CheckBox();
-            this.chkMonsterPatterns = new System.Windows.Forms.CheckBox();
-            this.chkMonsterZones = new System.Windows.Forms.CheckBox();
             this.tabRandom = new System.Windows.Forms.TabPage();
+            this.cboTreasures = new System.Windows.Forms.ComboBox();
+            this.label17 = new System.Windows.Forms.Label();
+            this.label16 = new System.Windows.Forms.Label();
+            this.label15 = new System.Windows.Forms.Label();
+            this.label14 = new System.Windows.Forms.Label();
+            this.label13 = new System.Windows.Forms.Label();
             this.cboInteraction = new System.Windows.Forms.ComboBox();
             this.cboEquipment = new System.Windows.Forms.ComboBox();
             this.cboSpellLearning = new System.Windows.Forms.ComboBox();
             this.cboStores = new System.Windows.Forms.ComboBox();
-            this.chkQbert = new System.Windows.Forms.CheckBox();
-            this.chkChaos = new System.Windows.Forms.CheckBox();
             this.chkLocations = new System.Windows.Forms.CheckBox();
-            this.chkTreasures = new System.Windows.Forms.CheckBox();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabSpeedups.SuspendLayout();
             this.tabScaling.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.trkSpellCosts)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.trkSpellPowers)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.trkEquipPowers)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.trkMonsterXP)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.trkMonsterStats)).BeginInit();
@@ -140,6 +152,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.trkGoldReq)).BeginInit();
             this.tabBoosts.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.trkMagicPowerBoost)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.trkGold)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.trkExperience)).BeginInit();
             this.tabAdjustments.SuspendLayout();
             this.tabMonsters.SuspendLayout();
@@ -149,7 +162,7 @@
             // 
             // cmdRandomize
             // 
-            this.cmdRandomize.Location = new System.Drawing.Point(601, 393);
+            this.cmdRandomize.Location = new System.Drawing.Point(601, 454);
             this.cmdRandomize.Name = "cmdRandomize";
             this.cmdRandomize.Size = new System.Drawing.Size(96, 23);
             this.cmdRandomize.TabIndex = 123;
@@ -299,14 +312,14 @@
             // lblStatus
             // 
             this.lblStatus.AutoSize = true;
-            this.lblStatus.Location = new System.Drawing.Point(12, 429);
+            this.lblStatus.Location = new System.Drawing.Point(12, 490);
             this.lblStatus.Name = "lblStatus";
             this.lblStatus.Size = new System.Drawing.Size(0, 13);
             this.lblStatus.TabIndex = 129;
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(520, 393);
+            this.button1.Location = new System.Drawing.Point(520, 454);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(75, 23);
             this.button1.TabIndex = 148;
@@ -317,7 +330,7 @@
             // 
             // cmdGuide
             // 
-            this.cmdGuide.Location = new System.Drawing.Point(601, 428);
+            this.cmdGuide.Location = new System.Drawing.Point(601, 489);
             this.cmdGuide.Name = "cmdGuide";
             this.cmdGuide.Size = new System.Drawing.Size(96, 23);
             this.cmdGuide.TabIndex = 150;
@@ -327,7 +340,7 @@
             // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(520, 428);
+            this.button2.Location = new System.Drawing.Point(520, 489);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(75, 23);
             this.button2.TabIndex = 151;
@@ -350,7 +363,7 @@
             this.tabSpeedups.Controls.Add(this.chkSpeedHacks);
             this.tabSpeedups.Location = new System.Drawing.Point(4, 22);
             this.tabSpeedups.Name = "tabSpeedups";
-            this.tabSpeedups.Size = new System.Drawing.Size(678, 220);
+            this.tabSpeedups.Size = new System.Drawing.Size(678, 260);
             this.tabSpeedups.TabIndex = 2;
             this.tabSpeedups.Text = "Speedups";
             this.tabSpeedups.UseVisualStyleBackColor = true;
@@ -477,10 +490,14 @@
             // 
             // tabScaling
             // 
+            this.tabScaling.Controls.Add(this.trkSpellCosts);
+            this.tabScaling.Controls.Add(this.chkSpellCostsMin);
+            this.tabScaling.Controls.Add(this.label11);
+            this.tabScaling.Controls.Add(this.lblSpellCosts);
             this.tabScaling.Controls.Add(this.chkHeroSameStats);
             this.tabScaling.Controls.Add(this.chkSameRando);
-            this.tabScaling.Controls.Add(this.trkSpellCosts);
-            this.tabScaling.Controls.Add(this.chkSpellMin);
+            this.tabScaling.Controls.Add(this.trkSpellPowers);
+            this.tabScaling.Controls.Add(this.chkSpellPowersMin);
             this.tabScaling.Controls.Add(this.chkEquipMin);
             this.tabScaling.Controls.Add(this.chkMonsterStatMin);
             this.tabScaling.Controls.Add(this.chkHeroStatMin);
@@ -488,7 +505,7 @@
             this.tabScaling.Controls.Add(this.label4);
             this.tabScaling.Controls.Add(this.lblHeroStats);
             this.tabScaling.Controls.Add(this.label2);
-            this.tabScaling.Controls.Add(this.lblSpellCosts);
+            this.tabScaling.Controls.Add(this.lblSpellPowers);
             this.tabScaling.Controls.Add(this.label3);
             this.tabScaling.Controls.Add(this.lblEquipPowers);
             this.tabScaling.Controls.Add(this.trkEquipPowers);
@@ -510,10 +527,50 @@
             this.tabScaling.Location = new System.Drawing.Point(4, 22);
             this.tabScaling.Name = "tabScaling";
             this.tabScaling.Padding = new System.Windows.Forms.Padding(3);
-            this.tabScaling.Size = new System.Drawing.Size(678, 220);
+            this.tabScaling.Size = new System.Drawing.Size(678, 260);
             this.tabScaling.TabIndex = 1;
             this.tabScaling.Text = "Scaling";
             this.tabScaling.UseVisualStyleBackColor = true;
+            // 
+            // trkSpellCosts
+            // 
+            this.trkSpellCosts.Location = new System.Drawing.Point(131, 188);
+            this.trkSpellCosts.Maximum = 36;
+            this.trkSpellCosts.Minimum = 5;
+            this.trkSpellCosts.Name = "trkSpellCosts";
+            this.trkSpellCosts.Size = new System.Drawing.Size(159, 45);
+            this.trkSpellCosts.TabIndex = 219;
+            this.trkSpellCosts.TickStyle = System.Windows.Forms.TickStyle.None;
+            this.trkSpellCosts.Value = 5;
+            this.trkSpellCosts.Scroll += new System.EventHandler(this.trkSpellCosts_Scroll);
+            // 
+            // chkSpellCostsMin
+            // 
+            this.chkSpellCostsMin.AutoSize = true;
+            this.chkSpellCostsMin.Location = new System.Drawing.Point(365, 192);
+            this.chkSpellCostsMin.Name = "chkSpellCostsMin";
+            this.chkSpellCostsMin.Size = new System.Drawing.Size(72, 17);
+            this.chkSpellCostsMin.TabIndex = 222;
+            this.chkSpellCostsMin.Text = "Min 100%";
+            this.chkSpellCostsMin.UseVisualStyleBackColor = true;
+            // 
+            // label11
+            // 
+            this.label11.AutoSize = true;
+            this.label11.Location = new System.Drawing.Point(5, 192);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(59, 13);
+            this.label11.TabIndex = 221;
+            this.label11.Text = "Spell Costs";
+            // 
+            // lblSpellCosts
+            // 
+            this.lblSpellCosts.AutoSize = true;
+            this.lblSpellCosts.Location = new System.Drawing.Point(296, 192);
+            this.lblSpellCosts.Name = "lblSpellCosts";
+            this.lblSpellCosts.Size = new System.Drawing.Size(33, 13);
+            this.lblSpellCosts.TabIndex = 220;
+            this.lblSpellCosts.Text = "100%";
             // 
             // chkHeroSameStats
             // 
@@ -537,28 +594,28 @@
             this.chkSameRando.UseVisualStyleBackColor = true;
             this.chkSameRando.CheckedChanged += new System.EventHandler(this.determineFlags);
             // 
-            // trkSpellCosts
+            // trkSpellPowers
             // 
-            this.trkSpellCosts.Location = new System.Drawing.Point(131, 162);
-            this.trkSpellCosts.Maximum = 70;
-            this.trkSpellCosts.Minimum = 10;
-            this.trkSpellCosts.Name = "trkSpellCosts";
-            this.trkSpellCosts.Size = new System.Drawing.Size(159, 45);
-            this.trkSpellCosts.TabIndex = 159;
-            this.trkSpellCosts.TickStyle = System.Windows.Forms.TickStyle.None;
-            this.trkSpellCosts.Value = 10;
-            this.trkSpellCosts.Scroll += new System.EventHandler(this.trkSpellCosts_Scroll);
+            this.trkSpellPowers.Location = new System.Drawing.Point(131, 162);
+            this.trkSpellPowers.Maximum = 36;
+            this.trkSpellPowers.Minimum = 5;
+            this.trkSpellPowers.Name = "trkSpellPowers";
+            this.trkSpellPowers.Size = new System.Drawing.Size(159, 45);
+            this.trkSpellPowers.TabIndex = 159;
+            this.trkSpellPowers.TickStyle = System.Windows.Forms.TickStyle.None;
+            this.trkSpellPowers.Value = 5;
+            this.trkSpellPowers.Scroll += new System.EventHandler(this.trkSpellPowers_Scroll);
             // 
-            // chkSpellMin
+            // chkSpellPowersMin
             // 
-            this.chkSpellMin.AutoSize = true;
-            this.chkSpellMin.Location = new System.Drawing.Point(365, 166);
-            this.chkSpellMin.Name = "chkSpellMin";
-            this.chkSpellMin.Size = new System.Drawing.Size(72, 17);
-            this.chkSpellMin.TabIndex = 175;
-            this.chkSpellMin.Text = "Min 100%";
-            this.chkSpellMin.UseVisualStyleBackColor = true;
-            this.chkSpellMin.CheckedChanged += new System.EventHandler(this.determineFlags);
+            this.chkSpellPowersMin.AutoSize = true;
+            this.chkSpellPowersMin.Location = new System.Drawing.Point(365, 166);
+            this.chkSpellPowersMin.Name = "chkSpellPowersMin";
+            this.chkSpellPowersMin.Size = new System.Drawing.Size(72, 17);
+            this.chkSpellPowersMin.TabIndex = 175;
+            this.chkSpellPowersMin.Text = "Min 100%";
+            this.chkSpellPowersMin.UseVisualStyleBackColor = true;
+            this.chkSpellPowersMin.CheckedChanged += new System.EventHandler(this.determineFlags);
             // 
             // chkEquipMin
             // 
@@ -627,18 +684,18 @@
             this.label2.AutoSize = true;
             this.label2.Location = new System.Drawing.Point(5, 166);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(99, 13);
+            this.label2.Size = new System.Drawing.Size(68, 13);
             this.label2.TabIndex = 161;
-            this.label2.Text = "Spell Powers/Costs";
+            this.label2.Text = "Spell Powers";
             // 
-            // lblSpellCosts
+            // lblSpellPowers
             // 
-            this.lblSpellCosts.AutoSize = true;
-            this.lblSpellCosts.Location = new System.Drawing.Point(296, 166);
-            this.lblSpellCosts.Name = "lblSpellCosts";
-            this.lblSpellCosts.Size = new System.Drawing.Size(33, 13);
-            this.lblSpellCosts.TabIndex = 160;
-            this.lblSpellCosts.Text = "100%";
+            this.lblSpellPowers.AutoSize = true;
+            this.lblSpellPowers.Location = new System.Drawing.Point(296, 166);
+            this.lblSpellPowers.Name = "lblSpellPowers";
+            this.lblSpellPowers.Size = new System.Drawing.Size(33, 13);
+            this.lblSpellPowers.TabIndex = 160;
+            this.lblSpellPowers.Text = "100%";
             // 
             // label3
             // 
@@ -661,13 +718,13 @@
             // trkEquipPowers
             // 
             this.trkEquipPowers.Location = new System.Drawing.Point(131, 136);
-            this.trkEquipPowers.Maximum = 70;
-            this.trkEquipPowers.Minimum = 10;
+            this.trkEquipPowers.Maximum = 36;
+            this.trkEquipPowers.Minimum = 5;
             this.trkEquipPowers.Name = "trkEquipPowers";
             this.trkEquipPowers.Size = new System.Drawing.Size(159, 45);
             this.trkEquipPowers.TabIndex = 156;
             this.trkEquipPowers.TickStyle = System.Windows.Forms.TickStyle.None;
-            this.trkEquipPowers.Value = 10;
+            this.trkEquipPowers.Value = 5;
             this.trkEquipPowers.Scroll += new System.EventHandler(this.trkEquipPowers_Scroll);
             // 
             // label1
@@ -767,108 +824,84 @@
             // trkMonsterXP
             // 
             this.trkMonsterXP.Location = new System.Drawing.Point(132, 110);
-            this.trkMonsterXP.Maximum = 70;
-            this.trkMonsterXP.Minimum = 10;
+            this.trkMonsterXP.Maximum = 37;
+            this.trkMonsterXP.Minimum = 5;
             this.trkMonsterXP.Name = "trkMonsterXP";
             this.trkMonsterXP.Size = new System.Drawing.Size(159, 45);
             this.trkMonsterXP.TabIndex = 180;
             this.trkMonsterXP.TickStyle = System.Windows.Forms.TickStyle.None;
-            this.trkMonsterXP.Value = 10;
+            this.trkMonsterXP.Value = 5;
             this.trkMonsterXP.Scroll += new System.EventHandler(this.trkMonsterXP_Scroll);
             // 
             // trkMonsterStats
             // 
             this.trkMonsterStats.Location = new System.Drawing.Point(132, 84);
-            this.trkMonsterStats.Maximum = 70;
-            this.trkMonsterStats.Minimum = 10;
+            this.trkMonsterStats.Maximum = 37;
+            this.trkMonsterStats.Minimum = 5;
             this.trkMonsterStats.Name = "trkMonsterStats";
             this.trkMonsterStats.Size = new System.Drawing.Size(159, 45);
             this.trkMonsterStats.TabIndex = 153;
             this.trkMonsterStats.TickStyle = System.Windows.Forms.TickStyle.None;
-            this.trkMonsterStats.Value = 10;
+            this.trkMonsterStats.Value = 5;
             this.trkMonsterStats.Scroll += new System.EventHandler(this.trkMonsterStats_Scroll);
             // 
             // trkHeroGrowth
             // 
             this.trkHeroGrowth.Location = new System.Drawing.Point(132, 58);
-            this.trkHeroGrowth.Maximum = 70;
-            this.trkHeroGrowth.Minimum = 10;
+            this.trkHeroGrowth.Maximum = 36;
+            this.trkHeroGrowth.Minimum = 5;
             this.trkHeroGrowth.Name = "trkHeroGrowth";
             this.trkHeroGrowth.Size = new System.Drawing.Size(159, 45);
             this.trkHeroGrowth.TabIndex = 176;
             this.trkHeroGrowth.TickStyle = System.Windows.Forms.TickStyle.None;
-            this.trkHeroGrowth.Value = 10;
+            this.trkHeroGrowth.Value = 5;
             this.trkHeroGrowth.Scroll += new System.EventHandler(this.trkHeroGrowth_Scroll);
             // 
             // trkHeroStats
             // 
             this.trkHeroStats.Location = new System.Drawing.Point(132, 32);
-            this.trkHeroStats.Maximum = 70;
-            this.trkHeroStats.Minimum = 10;
+            this.trkHeroStats.Maximum = 36;
+            this.trkHeroStats.Minimum = 5;
             this.trkHeroStats.Name = "trkHeroStats";
             this.trkHeroStats.Size = new System.Drawing.Size(159, 45);
             this.trkHeroStats.TabIndex = 162;
             this.trkHeroStats.TickStyle = System.Windows.Forms.TickStyle.None;
-            this.trkHeroStats.Value = 10;
+            this.trkHeroStats.Value = 5;
             this.trkHeroStats.Scroll += new System.EventHandler(this.trkHeroStats_Scroll);
             // 
             // trkGoldReq
             // 
             this.trkGoldReq.Location = new System.Drawing.Point(132, 6);
-            this.trkGoldReq.Maximum = 70;
-            this.trkGoldReq.Minimum = 10;
+            this.trkGoldReq.Maximum = 36;
+            this.trkGoldReq.Minimum = 5;
             this.trkGoldReq.Name = "trkGoldReq";
             this.trkGoldReq.Size = new System.Drawing.Size(159, 45);
             this.trkGoldReq.TabIndex = 148;
             this.trkGoldReq.TickStyle = System.Windows.Forms.TickStyle.None;
-            this.trkGoldReq.Value = 10;
+            this.trkGoldReq.Value = 5;
             this.trkGoldReq.Scroll += new System.EventHandler(this.trkGoldReq_Scroll);
             // 
             // tabBoosts
             // 
+            this.tabBoosts.Controls.Add(this.trkMagicPowerBoost);
+            this.tabBoosts.Controls.Add(this.lblGold);
+            this.tabBoosts.Controls.Add(this.lblGPBoost);
+            this.tabBoosts.Controls.Add(this.trkGold);
             this.tabBoosts.Controls.Add(this.lblMagicBoost);
             this.tabBoosts.Controls.Add(this.lblExperience);
             this.tabBoosts.Controls.Add(this.label8);
-            this.tabBoosts.Controls.Add(this.trkMagicPowerBoost);
             this.tabBoosts.Controls.Add(this.lblExpBoost);
             this.tabBoosts.Controls.Add(this.trkExperience);
             this.tabBoosts.Location = new System.Drawing.Point(4, 22);
             this.tabBoosts.Name = "tabBoosts";
-            this.tabBoosts.Size = new System.Drawing.Size(678, 220);
+            this.tabBoosts.Size = new System.Drawing.Size(678, 260);
             this.tabBoosts.TabIndex = 4;
             this.tabBoosts.Text = "Boosts";
             this.tabBoosts.UseVisualStyleBackColor = true;
             // 
-            // lblMagicBoost
-            // 
-            this.lblMagicBoost.AutoSize = true;
-            this.lblMagicBoost.Location = new System.Drawing.Point(307, 36);
-            this.lblMagicBoost.Name = "lblMagicBoost";
-            this.lblMagicBoost.Size = new System.Drawing.Size(33, 13);
-            this.lblMagicBoost.TabIndex = 157;
-            this.lblMagicBoost.Text = "100%";
-            // 
-            // lblExperience
-            // 
-            this.lblExperience.AutoSize = true;
-            this.lblExperience.Location = new System.Drawing.Point(307, 9);
-            this.lblExperience.Name = "lblExperience";
-            this.lblExperience.Size = new System.Drawing.Size(33, 13);
-            this.lblExperience.TabIndex = 156;
-            this.lblExperience.Text = "100%";
-            // 
-            // label8
-            // 
-            this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(3, 34);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(99, 13);
-            this.label8.TabIndex = 155;
-            this.label8.Text = "Boost Magic Power";
-            // 
             // trkMagicPowerBoost
             // 
-            this.trkMagicPowerBoost.Location = new System.Drawing.Point(129, 33);
+            this.trkMagicPowerBoost.Location = new System.Drawing.Point(140, 60);
             this.trkMagicPowerBoost.Maximum = 35;
             this.trkMagicPowerBoost.Minimum = 5;
             this.trkMagicPowerBoost.Name = "trkMagicPowerBoost";
@@ -878,18 +911,75 @@
             this.trkMagicPowerBoost.Value = 10;
             this.trkMagicPowerBoost.Scroll += new System.EventHandler(this.trkMagicPowerBoost_Scroll);
             // 
+            // lblGold
+            // 
+            this.lblGold.AutoSize = true;
+            this.lblGold.Location = new System.Drawing.Point(318, 36);
+            this.lblGold.Name = "lblGold";
+            this.lblGold.Size = new System.Drawing.Size(33, 13);
+            this.lblGold.TabIndex = 160;
+            this.lblGold.Text = "100%";
+            // 
+            // lblGPBoost
+            // 
+            this.lblGPBoost.AutoSize = true;
+            this.lblGPBoost.Location = new System.Drawing.Point(3, 36);
+            this.lblGPBoost.Name = "lblGPBoost";
+            this.lblGPBoost.Size = new System.Drawing.Size(126, 13);
+            this.lblGPBoost.TabIndex = 159;
+            this.lblGPBoost.Text = "Reduce GP requirements";
+            // 
+            // trkGold
+            // 
+            this.trkGold.Location = new System.Drawing.Point(140, 34);
+            this.trkGold.Maximum = 35;
+            this.trkGold.Minimum = 5;
+            this.trkGold.Name = "trkGold";
+            this.trkGold.Size = new System.Drawing.Size(159, 45);
+            this.trkGold.TabIndex = 158;
+            this.trkGold.TickStyle = System.Windows.Forms.TickStyle.None;
+            this.trkGold.Value = 10;
+            this.trkGold.Scroll += new System.EventHandler(this.trkGold_Scroll);
+            // 
+            // lblMagicBoost
+            // 
+            this.lblMagicBoost.AutoSize = true;
+            this.lblMagicBoost.Location = new System.Drawing.Point(318, 62);
+            this.lblMagicBoost.Name = "lblMagicBoost";
+            this.lblMagicBoost.Size = new System.Drawing.Size(33, 13);
+            this.lblMagicBoost.TabIndex = 157;
+            this.lblMagicBoost.Text = "100%";
+            // 
+            // lblExperience
+            // 
+            this.lblExperience.AutoSize = true;
+            this.lblExperience.Location = new System.Drawing.Point(318, 10);
+            this.lblExperience.Name = "lblExperience";
+            this.lblExperience.Size = new System.Drawing.Size(33, 13);
+            this.lblExperience.TabIndex = 156;
+            this.lblExperience.Text = "100%";
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(3, 62);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(99, 13);
+            this.label8.TabIndex = 155;
+            this.label8.Text = "Boost Magic Power";
+            // 
             // lblExpBoost
             // 
             this.lblExpBoost.AutoSize = true;
-            this.lblExpBoost.Location = new System.Drawing.Point(3, 9);
+            this.lblExpBoost.Location = new System.Drawing.Point(3, 10);
             this.lblExpBoost.Name = "lblExpBoost";
-            this.lblExpBoost.Size = new System.Drawing.Size(110, 13);
+            this.lblExpBoost.Size = new System.Drawing.Size(125, 13);
             this.lblExpBoost.TabIndex = 153;
-            this.lblExpBoost.Text = "Boost Experience/GP";
+            this.lblExpBoost.Text = "Reduce XP requirements";
             // 
             // trkExperience
             // 
-            this.trkExperience.Location = new System.Drawing.Point(129, 8);
+            this.trkExperience.Location = new System.Drawing.Point(140, 8);
             this.trkExperience.Maximum = 35;
             this.trkExperience.Minimum = 5;
             this.trkExperience.Name = "trkExperience";
@@ -914,7 +1004,7 @@
             this.tabAdjustments.Controls.Add(this.chkPostBoneRandom);
             this.tabAdjustments.Location = new System.Drawing.Point(4, 22);
             this.tabAdjustments.Name = "tabAdjustments";
-            this.tabAdjustments.Size = new System.Drawing.Size(678, 220);
+            this.tabAdjustments.Size = new System.Drawing.Size(678, 260);
             this.tabAdjustments.TabIndex = 3;
             this.tabAdjustments.Text = "Adjustments";
             this.tabAdjustments.UseVisualStyleBackColor = true;
@@ -1043,24 +1133,96 @@
             // 
             // tabMonsters
             // 
+            this.tabMonsters.Controls.Add(this.label20);
+            this.tabMonsters.Controls.Add(this.label19);
+            this.tabMonsters.Controls.Add(this.label18);
+            this.tabMonsters.Controls.Add(this.cboMonsterZones);
+            this.tabMonsters.Controls.Add(this.cboMonsterDrops);
+            this.tabMonsters.Controls.Add(this.cboMonsterPatterns);
             this.tabMonsters.Controls.Add(this.chkNoEncounters);
-            this.tabMonsters.Controls.Add(this.chkMonstersMagicRequired);
-            this.tabMonsters.Controls.Add(this.chkMonstersNoMagic);
             this.tabMonsters.Controls.Add(this.chk9999Defense);
-            this.tabMonsters.Controls.Add(this.chkMonsterDrops);
-            this.tabMonsters.Controls.Add(this.chkMonsterPatterns);
-            this.tabMonsters.Controls.Add(this.chkMonsterZones);
             this.tabMonsters.Location = new System.Drawing.Point(4, 22);
             this.tabMonsters.Name = "tabMonsters";
-            this.tabMonsters.Size = new System.Drawing.Size(678, 220);
+            this.tabMonsters.Size = new System.Drawing.Size(678, 260);
             this.tabMonsters.TabIndex = 5;
             this.tabMonsters.Text = "Monsters";
             this.tabMonsters.UseVisualStyleBackColor = true;
             // 
+            // label20
+            // 
+            this.label20.AutoSize = true;
+            this.label20.Location = new System.Drawing.Point(3, 62);
+            this.label20.Name = "label20";
+            this.label20.Size = new System.Drawing.Size(79, 13);
+            this.label20.TabIndex = 230;
+            this.label20.Text = "Monster Drops:";
+            // 
+            // label19
+            // 
+            this.label19.AutoSize = true;
+            this.label19.Location = new System.Drawing.Point(3, 37);
+            this.label19.Name = "label19";
+            this.label19.Size = new System.Drawing.Size(90, 13);
+            this.label19.TabIndex = 229;
+            this.label19.Text = "Monster Patterns:";
+            // 
+            // label18
+            // 
+            this.label18.AutoSize = true;
+            this.label18.Location = new System.Drawing.Point(3, 12);
+            this.label18.Name = "label18";
+            this.label18.Size = new System.Drawing.Size(81, 13);
+            this.label18.TabIndex = 228;
+            this.label18.Text = "Monster Zones:";
+            // 
+            // cboMonsterZones
+            // 
+            this.cboMonsterZones.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cboMonsterZones.FormattingEnabled = true;
+            this.cboMonsterZones.Items.AddRange(new object[] {
+            "No randomization",
+            "Realistic",
+            "Chaos",
+            "!@#$%?"});
+            this.cboMonsterZones.Location = new System.Drawing.Point(113, 9);
+            this.cboMonsterZones.Name = "cboMonsterZones";
+            this.cboMonsterZones.Size = new System.Drawing.Size(339, 21);
+            this.cboMonsterZones.TabIndex = 227;
+            // 
+            // cboMonsterDrops
+            // 
+            this.cboMonsterDrops.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cboMonsterDrops.FormattingEnabled = true;
+            this.cboMonsterDrops.Items.AddRange(new object[] {
+            "No randomization",
+            "Normal items only",
+            "Rare items only",
+            "Gems only",
+            "Equipment only",
+            "Complete randomization (Chaos)"});
+            this.cboMonsterDrops.Location = new System.Drawing.Point(113, 59);
+            this.cboMonsterDrops.Name = "cboMonsterDrops";
+            this.cboMonsterDrops.Size = new System.Drawing.Size(339, 21);
+            this.cboMonsterDrops.TabIndex = 226;
+            // 
+            // cboMonsterPatterns
+            // 
+            this.cboMonsterPatterns.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cboMonsterPatterns.FormattingEnabled = true;
+            this.cboMonsterPatterns.Items.AddRange(new object[] {
+            "No randomization",
+            "Normal randomization",
+            "All monsters learn no special moves",
+            "All monsters must use special moves"});
+            this.cboMonsterPatterns.Location = new System.Drawing.Point(113, 34);
+            this.cboMonsterPatterns.Name = "cboMonsterPatterns";
+            this.cboMonsterPatterns.Size = new System.Drawing.Size(339, 21);
+            this.cboMonsterPatterns.TabIndex = 214;
+            // 
             // chkNoEncounters
             // 
             this.chkNoEncounters.AutoSize = true;
-            this.chkNoEncounters.Location = new System.Drawing.Point(5, 150);
+            this.chkNoEncounters.Location = new System.Drawing.Point(5, 116);
             this.chkNoEncounters.Name = "chkNoEncounters";
             this.chkNoEncounters.Size = new System.Drawing.Size(198, 17);
             this.chkNoEncounters.TabIndex = 189;
@@ -1069,33 +1231,11 @@
             this.chkNoEncounters.Visible = false;
             this.chkNoEncounters.CheckedChanged += new System.EventHandler(this.determineFlags);
             // 
-            // chkMonstersMagicRequired
-            // 
-            this.chkMonstersMagicRequired.AutoSize = true;
-            this.chkMonstersMagicRequired.Location = new System.Drawing.Point(5, 104);
-            this.chkMonstersMagicRequired.Name = "chkMonstersMagicRequired";
-            this.chkMonstersMagicRequired.Size = new System.Drawing.Size(145, 17);
-            this.chkMonstersMagicRequired.TabIndex = 188;
-            this.chkMonstersMagicRequired.Text = "Monsters must use magic";
-            this.chkMonstersMagicRequired.UseVisualStyleBackColor = true;
-            this.chkMonstersMagicRequired.CheckedChanged += new System.EventHandler(this.determineFlags);
-            // 
-            // chkMonstersNoMagic
-            // 
-            this.chkMonstersNoMagic.AutoSize = true;
-            this.chkMonstersNoMagic.Location = new System.Drawing.Point(5, 81);
-            this.chkMonstersNoMagic.Name = "chkMonstersNoMagic";
-            this.chkMonstersNoMagic.Size = new System.Drawing.Size(141, 17);
-            this.chkMonstersNoMagic.TabIndex = 187;
-            this.chkMonstersNoMagic.Text = "Monsters learn no magic";
-            this.chkMonstersNoMagic.UseVisualStyleBackColor = true;
-            this.chkMonstersNoMagic.CheckedChanged += new System.EventHandler(this.determineFlags);
-            // 
             // chk9999Defense
             // 
             this.chk9999Defense.AutoSize = true;
             this.chk9999Defense.ForeColor = System.Drawing.Color.DarkRed;
-            this.chk9999Defense.Location = new System.Drawing.Point(5, 127);
+            this.chk9999Defense.Location = new System.Drawing.Point(5, 93);
             this.chk9999Defense.Name = "chk9999Defense";
             this.chk9999Defense.Size = new System.Drawing.Size(177, 17);
             this.chk9999Defense.TabIndex = 186;
@@ -1103,56 +1243,89 @@
             this.chk9999Defense.UseVisualStyleBackColor = true;
             this.chk9999Defense.CheckedChanged += new System.EventHandler(this.determineFlags);
             // 
-            // chkMonsterDrops
-            // 
-            this.chkMonsterDrops.AutoSize = true;
-            this.chkMonsterDrops.Location = new System.Drawing.Point(5, 58);
-            this.chkMonsterDrops.Name = "chkMonsterDrops";
-            this.chkMonsterDrops.Size = new System.Drawing.Size(151, 17);
-            this.chkMonsterDrops.TabIndex = 185;
-            this.chkMonsterDrops.Text = "Randomize Monster Drops";
-            this.chkMonsterDrops.UseVisualStyleBackColor = true;
-            this.chkMonsterDrops.CheckedChanged += new System.EventHandler(this.determineFlags);
-            // 
-            // chkMonsterPatterns
-            // 
-            this.chkMonsterPatterns.AutoSize = true;
-            this.chkMonsterPatterns.Location = new System.Drawing.Point(5, 36);
-            this.chkMonsterPatterns.Name = "chkMonsterPatterns";
-            this.chkMonsterPatterns.Size = new System.Drawing.Size(162, 17);
-            this.chkMonsterPatterns.TabIndex = 184;
-            this.chkMonsterPatterns.Text = "Randomize Monster Patterns";
-            this.chkMonsterPatterns.UseVisualStyleBackColor = true;
-            this.chkMonsterPatterns.CheckedChanged += new System.EventHandler(this.determineFlags);
-            // 
-            // chkMonsterZones
-            // 
-            this.chkMonsterZones.AutoSize = true;
-            this.chkMonsterZones.Location = new System.Drawing.Point(5, 13);
-            this.chkMonsterZones.Name = "chkMonsterZones";
-            this.chkMonsterZones.Size = new System.Drawing.Size(153, 17);
-            this.chkMonsterZones.TabIndex = 183;
-            this.chkMonsterZones.Text = "Randomize Monster Zones";
-            this.chkMonsterZones.UseVisualStyleBackColor = true;
-            this.chkMonsterZones.CheckedChanged += new System.EventHandler(this.determineFlags);
-            // 
             // tabRandom
             // 
+            this.tabRandom.Controls.Add(this.cboTreasures);
+            this.tabRandom.Controls.Add(this.label17);
+            this.tabRandom.Controls.Add(this.label16);
+            this.tabRandom.Controls.Add(this.label15);
+            this.tabRandom.Controls.Add(this.label14);
+            this.tabRandom.Controls.Add(this.label13);
             this.tabRandom.Controls.Add(this.cboInteraction);
             this.tabRandom.Controls.Add(this.cboEquipment);
             this.tabRandom.Controls.Add(this.cboSpellLearning);
             this.tabRandom.Controls.Add(this.cboStores);
-            this.tabRandom.Controls.Add(this.chkQbert);
-            this.tabRandom.Controls.Add(this.chkChaos);
             this.tabRandom.Controls.Add(this.chkLocations);
-            this.tabRandom.Controls.Add(this.chkTreasures);
             this.tabRandom.Location = new System.Drawing.Point(4, 22);
             this.tabRandom.Name = "tabRandom";
             this.tabRandom.Padding = new System.Windows.Forms.Padding(3);
-            this.tabRandom.Size = new System.Drawing.Size(678, 220);
+            this.tabRandom.Size = new System.Drawing.Size(678, 260);
             this.tabRandom.TabIndex = 0;
             this.tabRandom.Text = "Randomization";
             this.tabRandom.UseVisualStyleBackColor = true;
+            // 
+            // cboTreasures
+            // 
+            this.cboTreasures.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cboTreasures.FormattingEnabled = true;
+            this.cboTreasures.Items.AddRange(new object[] {
+            "No randomization",
+            "Normal items only",
+            "Rare items only",
+            "Gems only",
+            "Equipment only",
+            "Monsters only (!)",
+            "Complete randomization (CHAOS)"});
+            this.cboTreasures.Location = new System.Drawing.Point(113, 33);
+            this.cboTreasures.Name = "cboTreasures";
+            this.cboTreasures.Size = new System.Drawing.Size(339, 21);
+            this.cboTreasures.TabIndex = 225;
+            this.cboTreasures.SelectedIndexChanged += new System.EventHandler(this.determineFlags);
+            // 
+            // label17
+            // 
+            this.label17.AutoSize = true;
+            this.label17.Location = new System.Drawing.Point(6, 117);
+            this.label17.Name = "label17";
+            this.label17.Size = new System.Drawing.Size(77, 13);
+            this.label17.TabIndex = 224;
+            this.label17.Text = "Spell Learning:";
+            // 
+            // label16
+            // 
+            this.label16.AutoSize = true;
+            this.label16.Location = new System.Drawing.Point(6, 90);
+            this.label16.Name = "label16";
+            this.label16.Size = new System.Drawing.Size(60, 13);
+            this.label16.TabIndex = 223;
+            this.label16.Text = "Equipment:";
+            // 
+            // label15
+            // 
+            this.label15.AutoSize = true;
+            this.label15.Location = new System.Drawing.Point(6, 63);
+            this.label15.Name = "label15";
+            this.label15.Size = new System.Drawing.Size(86, 13);
+            this.label15.TabIndex = 222;
+            this.label15.Text = "Hero Interaction:";
+            // 
+            // label14
+            // 
+            this.label14.AutoSize = true;
+            this.label14.Location = new System.Drawing.Point(6, 36);
+            this.label14.Name = "label14";
+            this.label14.Size = new System.Drawing.Size(57, 13);
+            this.label14.TabIndex = 221;
+            this.label14.Text = "Treasures:";
+            // 
+            // label13
+            // 
+            this.label13.AutoSize = true;
+            this.label13.Location = new System.Drawing.Point(6, 9);
+            this.label13.Name = "label13";
+            this.label13.Size = new System.Drawing.Size(40, 13);
+            this.label13.TabIndex = 220;
+            this.label13.Text = "Stores:";
             // 
             // cboInteraction
             // 
@@ -1163,7 +1336,7 @@
             "Randomize hero interactions",
             "All heroes join",
             "No heroes join"});
-            this.cboInteraction.Location = new System.Drawing.Point(6, 56);
+            this.cboInteraction.Location = new System.Drawing.Point(113, 60);
             this.cboInteraction.Name = "cboInteraction";
             this.cboInteraction.Size = new System.Drawing.Size(339, 21);
             this.cboInteraction.TabIndex = 219;
@@ -1180,8 +1353,9 @@
             "75% equip chance for all heroes",
             "50% equip chance for all heroes",
             "25% equip chance for all heroes",
-            "0% equip chance for all heroes"});
-            this.cboEquipment.Location = new System.Drawing.Point(6, 83);
+            "0% equip chance for all heroes",
+            "Random% chance for all heroes"});
+            this.cboEquipment.Location = new System.Drawing.Point(113, 87);
             this.cboEquipment.Name = "cboEquipment";
             this.cboEquipment.Size = new System.Drawing.Size(339, 21);
             this.cboEquipment.TabIndex = 218;
@@ -1212,8 +1386,9 @@
             "3 randomized spells",
             "2 randomized spells",
             "1 randomized spells",
-            "0 randomized spells"});
-            this.cboSpellLearning.Location = new System.Drawing.Point(6, 110);
+            "0 randomized spells",
+            "[0-16] randomized spells"});
+            this.cboSpellLearning.Location = new System.Drawing.Point(113, 114);
             this.cboSpellLearning.Name = "cboSpellLearning";
             this.cboSpellLearning.Size = new System.Drawing.Size(339, 21);
             this.cboSpellLearning.TabIndex = 217;
@@ -1228,57 +1403,22 @@
             "Randomize all stores",
             "Randomize; no rare items",
             "No items in stores"});
-            this.cboStores.Location = new System.Drawing.Point(6, 6);
+            this.cboStores.Location = new System.Drawing.Point(113, 6);
             this.cboStores.Name = "cboStores";
             this.cboStores.Size = new System.Drawing.Size(339, 21);
             this.cboStores.TabIndex = 213;
             this.cboStores.SelectedIndexChanged += new System.EventHandler(this.determineFlags);
             // 
-            // chkQbert
-            // 
-            this.chkQbert.AutoSize = true;
-            this.chkQbert.ForeColor = System.Drawing.Color.DarkRed;
-            this.chkQbert.Location = new System.Drawing.Point(248, 137);
-            this.chkQbert.Name = "chkQbert";
-            this.chkQbert.Size = new System.Drawing.Size(97, 17);
-            this.chkQbert.TabIndex = 192;
-            this.chkQbert.Text = "@!#?@! Mode";
-            this.chkQbert.UseVisualStyleBackColor = true;
-            this.chkQbert.CheckedChanged += new System.EventHandler(this.determineFlags);
-            // 
-            // chkChaos
-            // 
-            this.chkChaos.AutoSize = true;
-            this.chkChaos.ForeColor = System.Drawing.Color.DarkRed;
-            this.chkChaos.Location = new System.Drawing.Point(6, 137);
-            this.chkChaos.Name = "chkChaos";
-            this.chkChaos.Size = new System.Drawing.Size(86, 17);
-            this.chkChaos.TabIndex = 191;
-            this.chkChaos.Text = "Chaos Mode";
-            this.chkChaos.UseVisualStyleBackColor = true;
-            this.chkChaos.CheckedChanged += new System.EventHandler(this.determineFlags);
-            // 
             // chkLocations
             // 
             this.chkLocations.AutoSize = true;
-            this.chkLocations.Location = new System.Drawing.Point(221, 33);
+            this.chkLocations.Location = new System.Drawing.Point(9, 143);
             this.chkLocations.Name = "chkLocations";
             this.chkLocations.Size = new System.Drawing.Size(124, 17);
             this.chkLocations.TabIndex = 180;
             this.chkLocations.Text = "Randomize locations";
             this.chkLocations.UseVisualStyleBackColor = true;
             this.chkLocations.CheckedChanged += new System.EventHandler(this.determineFlags);
-            // 
-            // chkTreasures
-            // 
-            this.chkTreasures.AutoSize = true;
-            this.chkTreasures.Location = new System.Drawing.Point(6, 33);
-            this.chkTreasures.Name = "chkTreasures";
-            this.chkTreasures.Size = new System.Drawing.Size(125, 17);
-            this.chkTreasures.TabIndex = 134;
-            this.chkTreasures.Text = "Randomize treasures";
-            this.chkTreasures.UseVisualStyleBackColor = true;
-            this.chkTreasures.CheckedChanged += new System.EventHandler(this.determineFlags);
             // 
             // tabControl1
             // 
@@ -1291,14 +1431,14 @@
             this.tabControl1.Location = new System.Drawing.Point(15, 138);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(686, 246);
+            this.tabControl1.Size = new System.Drawing.Size(686, 286);
             this.tabControl1.TabIndex = 149;
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(713, 490);
+            this.ClientSize = new System.Drawing.Size(713, 539);
             this.Controls.Add(this.button2);
             this.Controls.Add(this.cmdGuide);
             this.Controls.Add(this.tabControl1);
@@ -1330,6 +1470,7 @@
             this.tabScaling.ResumeLayout(false);
             this.tabScaling.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.trkSpellCosts)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.trkSpellPowers)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.trkEquipPowers)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.trkMonsterXP)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.trkMonsterStats)).EndInit();
@@ -1339,6 +1480,7 @@
             this.tabBoosts.ResumeLayout(false);
             this.tabBoosts.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.trkMagicPowerBoost)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.trkGold)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.trkExperience)).EndInit();
             this.tabAdjustments.ResumeLayout(false);
             this.tabAdjustments.PerformLayout();
@@ -1389,8 +1531,8 @@
         private System.Windows.Forms.TabPage tabScaling;
         private System.Windows.Forms.CheckBox chkHeroSameStats;
         private System.Windows.Forms.CheckBox chkSameRando;
-        private System.Windows.Forms.TrackBar trkSpellCosts;
-        private System.Windows.Forms.CheckBox chkSpellMin;
+        private System.Windows.Forms.TrackBar trkSpellPowers;
+        private System.Windows.Forms.CheckBox chkSpellPowersMin;
         private System.Windows.Forms.CheckBox chkEquipMin;
         private System.Windows.Forms.CheckBox chkMonsterStatMin;
         private System.Windows.Forms.CheckBox chkHeroStatMin;
@@ -1398,7 +1540,7 @@
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label lblHeroStats;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Label lblSpellCosts;
+        private System.Windows.Forms.Label lblSpellPowers;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label lblEquipPowers;
         private System.Windows.Forms.TrackBar trkEquipPowers;
@@ -1438,22 +1580,33 @@
         private System.Windows.Forms.CheckBox chkPostBoneRandom;
         private System.Windows.Forms.TabPage tabMonsters;
         private System.Windows.Forms.CheckBox chkNoEncounters;
-        private System.Windows.Forms.CheckBox chkMonstersMagicRequired;
-        private System.Windows.Forms.CheckBox chkMonstersNoMagic;
         private System.Windows.Forms.CheckBox chk9999Defense;
-        private System.Windows.Forms.CheckBox chkMonsterDrops;
-        private System.Windows.Forms.CheckBox chkMonsterPatterns;
-        private System.Windows.Forms.CheckBox chkMonsterZones;
         private System.Windows.Forms.TabPage tabRandom;
         private System.Windows.Forms.ComboBox cboInteraction;
         private System.Windows.Forms.ComboBox cboEquipment;
         private System.Windows.Forms.ComboBox cboSpellLearning;
         private System.Windows.Forms.ComboBox cboStores;
-        private System.Windows.Forms.CheckBox chkQbert;
-        private System.Windows.Forms.CheckBox chkChaos;
         private System.Windows.Forms.CheckBox chkLocations;
-        private System.Windows.Forms.CheckBox chkTreasures;
         private System.Windows.Forms.TabControl tabControl1;
+        private System.Windows.Forms.Label lblGold;
+        private System.Windows.Forms.Label lblGPBoost;
+        private System.Windows.Forms.TrackBar trkGold;
+        private System.Windows.Forms.TrackBar trkSpellCosts;
+        private System.Windows.Forms.CheckBox chkSpellCostsMin;
+        private System.Windows.Forms.Label label11;
+        private System.Windows.Forms.Label lblSpellCosts;
+        private System.Windows.Forms.ComboBox cboTreasures;
+        private System.Windows.Forms.Label label17;
+        private System.Windows.Forms.Label label16;
+        private System.Windows.Forms.Label label15;
+        private System.Windows.Forms.Label label14;
+        private System.Windows.Forms.Label label13;
+        private System.Windows.Forms.Label label20;
+        private System.Windows.Forms.Label label19;
+        private System.Windows.Forms.Label label18;
+        private System.Windows.Forms.ComboBox cboMonsterZones;
+        private System.Windows.Forms.ComboBox cboMonsterDrops;
+        private System.Windows.Forms.ComboBox cboMonsterPatterns;
     }
 }
 
