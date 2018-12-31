@@ -196,6 +196,9 @@ namespace _7thSagaRando
             {
                 cboStores.SelectedIndex = cboTreasures.SelectedIndex = cboInteraction.SelectedIndex = cboEquipment.SelectedIndex = cboSpellLearning.SelectedIndex = 0;
                 cboMonsterZones.SelectedIndex = cboMonsterPatterns.SelectedIndex = cboMonsterDrops.SelectedIndex = 0;
+                chkShowInitStats.Checked = true;
+                chkShowLevelUpStats.Checked = true;
+                chkShowStatGains.Checked = true;
                 return;
             }
             loading = true;
@@ -570,17 +573,17 @@ namespace _7thSagaRando
 
         private void adjustExperienceTable()
         {
-            romData[0x28045] = 0x00;
-            romData[0x28046] = 0x01;
+            //romData[0x28045] = 0x00;
+            //romData[0x28046] = 0x01;
 
-            romData[0x2800a] = 0x74;
-            romData[0x2800b] = 0x01;
+            //romData[0x2800a] = 0x74;
+            //romData[0x2800b] = 0x01;
 
             for (int lnI = 0; lnI < 80; lnI++)
             {
                 int byteToUse = 0x8cc8 + (3 * lnI);
                 double xp = romData[byteToUse + 0] + (romData[byteToUse + 1] * 256) + (romData[byteToUse + 2] * 65536);
-                xp /= 2.203125;
+                //xp /= 2.203125;
                 xp /= (trkExperience.Value * 20 / 100);
                 int newXP = (int)Math.Round(xp);
 
@@ -1435,7 +1438,8 @@ namespace _7thSagaRando
             for (int lnI = 0; lnI < monsterRanking.Length; lnI++)
             {
                 int byteToUse = 0x72f4 + (monsterRanking[lnI] * 42);
-                if (romData[byteToUse] == 0x46 || romData[byteToUse] == 0x00) continue; // Do not randomize Gorsia or blank monsters.
+                // romData[byteToUse] == 0x46 || - Let's experiment randomizing Gorsia
+                if (romData[byteToUse] == 0x00) continue; // Do not randomize blank monsters.
 
                 if (cboMonsterPatterns.SelectedIndex >= 1)
                 {
@@ -1552,56 +1556,57 @@ namespace _7thSagaRando
 
         private void randomizeHeroSpells(Random r1)
         {
+            int allMax = r1.Next() % 17;
             for (int lnI = 0; lnI < 7; lnI++)
             {
                 int byteToUse = 0x62bd + (32 * lnI);
 
                 List<byte> actualSpells = new List<byte>();
-                if (cboSpellLearning.SelectedIndex != 19)
+                int maxSpells = (cboSpellLearning.SelectedIndex == 1 || cboSpellLearning.SelectedIndex == 2 ? (lnI == 0 ? 12 : lnI == 1 ? 10 : lnI == 2 ? 16 : lnI == 3 ? 7 : lnI == 4 ? 5 : lnI == 5 ? 16 : 16) : 
+                    cboSpellLearning.SelectedIndex == 3 ? (lnI == 0 ? 6 : lnI == 1 ? 5 : lnI == 2 ? 8 : lnI == 3 ? 3 : lnI == 4 ? 2 : lnI == 5 ? 8 : 8) : 
+                    cboSpellLearning.SelectedIndex == 21 ? allMax :
+                    cboSpellLearning.SelectedIndex == 22 ? (r1.Next() % 17) :
+                    16 - (cboSpellLearning.SelectedIndex - 4));
+                List<byte> actualLegalSpells = new List<byte>();
+                if (cboSpellLearning.SelectedIndex == 1)
                 {
-                    int maxSpells = (cboSpellLearning.SelectedIndex == 0 || cboSpellLearning.SelectedIndex == 1 ? (lnI == 0 ? 12 : lnI == 1 ? 10 : lnI == 2 ? 16 : lnI == 3 ? 7 : lnI == 4 ? 5 : lnI == 5 ? 16 : 16) : 
-                        cboSpellLearning.SelectedIndex == 3 ? (lnI == 0 ? 6 : lnI == 1 ? 5 : lnI == 2 ? 8 : lnI == 3 ? 3 : lnI == 4 ? 2 : lnI == 5 ? 8 : 8) : 16 - (cboSpellLearning.SelectedIndex - 4));
-                    List<byte> actualLegalSpells = new List<byte>();
-                    if (cboSpellLearning.SelectedIndex == 1)
+                    switch (lnI)
                     {
-                        switch (lnI)
-                        {
-                            case 0:
-                                actualLegalSpells = new List<byte>() { 0x01, 0x18, 0x2D, 0x0C, 0x19, 0x03, 0x15, 0x02, 0x28, 0x2E, 0x1A, 0x0D };
-                                break;
-                            case 1:
-                                actualLegalSpells = new List<byte>() { 0x18, 0x01, 0x15, 0x16, 0x02, 0x19, 0x2D, 0x1B, 0x1A, 0x2E };
-                                break;
-                            case 2:
-                                actualLegalSpells = new List<byte>() { 0x03, 0x22, 0x1B, 0x18, 0x2D, 0x04, 0x0E, 0x15, 0x21, 0x28, 0x16, 0x0F, 0x1E, 0x2E, 0x1A, 0x29 };
-                                break;
-                            case 3:
-                                actualLegalSpells = new List<byte>() { 0x01, 0x22, 0x0C, 0x02, 0x1B, 0x0D, 0x28 };
-                                break;
-                            case 4:
-                                actualLegalSpells = new List<byte>() { 0x05, 0x06, 0x10, 0x07, 0x11 };
-                                break;
-                            case 5:
-                                actualLegalSpells = new List<byte>() { 0x18, 0x03, 0x16, 0x2D, 0x15, 0x19, 0x2E, 0x21, 0x1C, 0x1D, 0x1B, 0x1A, 0x1F, 0x1E, 0x2F, 0x23 };
-                                break;
-                            case 6:
-                                actualLegalSpells = new List<byte>() { 0x01, 0x22, 0x03, 0x15, 0x0C, 0x02, 0x17, 0x0E, 0x04, 0x28, 0x1B, 0x1D, 0x0D, 0x0F, 0x1E, 0x29 };
-                                break;
-                        }
+                        case 0:
+                            actualLegalSpells = new List<byte>() { 0x01, 0x18, 0x2D, 0x0C, 0x19, 0x03, 0x15, 0x02, 0x28, 0x2E, 0x1A, 0x0D };
+                            break;
+                        case 1:
+                            actualLegalSpells = new List<byte>() { 0x18, 0x01, 0x15, 0x16, 0x02, 0x19, 0x2D, 0x1B, 0x1A, 0x2E };
+                            break;
+                        case 2:
+                            actualLegalSpells = new List<byte>() { 0x03, 0x22, 0x1B, 0x18, 0x2D, 0x04, 0x0E, 0x15, 0x21, 0x28, 0x16, 0x0F, 0x1E, 0x2E, 0x1A, 0x29 };
+                            break;
+                        case 3:
+                            actualLegalSpells = new List<byte>() { 0x01, 0x22, 0x0C, 0x02, 0x1B, 0x0D, 0x28 };
+                            break;
+                        case 4:
+                            actualLegalSpells = new List<byte>() { 0x05, 0x06, 0x10, 0x07, 0x11 };
+                            break;
+                        case 5:
+                            actualLegalSpells = new List<byte>() { 0x18, 0x03, 0x16, 0x2D, 0x15, 0x19, 0x2E, 0x21, 0x1C, 0x1D, 0x1B, 0x1A, 0x1F, 0x1E, 0x2F, 0x23 };
+                            break;
+                        case 6:
+                            actualLegalSpells = new List<byte>() { 0x01, 0x22, 0x03, 0x15, 0x0C, 0x02, 0x17, 0x0E, 0x04, 0x28, 0x1B, 0x1D, 0x0D, 0x0F, 0x1E, 0x29 };
+                            break;
                     }
-                    if (cboSpellLearning.SelectedIndex == 1)
+                }
+                if (cboSpellLearning.SelectedIndex == 1)
+                {
+                    byte[] byteSpells = shuffle(actualLegalSpells.ToArray(), r1);
+                    actualSpells = byteSpells.ToList();
+                }
+                else
+                {
+                    for (int lnJ = 0; lnJ < maxSpells; lnJ++)
                     {
-                        byte[] byteSpells = shuffle(actualLegalSpells.ToArray(), r1);
-                        actualSpells = byteSpells.ToList();
-                    }
-                    else
-                    {
-                        for (int lnJ = 0; lnJ < maxSpells; lnJ++)
-                        {
-                            actualSpells.Add(legalSpells[r1.Next() % legalSpells.Length]);
-                            for (int lnK = 0; lnK < lnJ; lnK++)
-                                if (actualSpells[lnJ] == actualSpells[lnK]) { actualSpells.RemoveAt(actualSpells.Count - 1); lnJ--; break; }
-                        }
+                        actualSpells.Add(legalSpells[r1.Next() % legalSpells.Length]);
+                        for (int lnK = 0; lnK < lnJ; lnK++)
+                            if (actualSpells[lnJ] == actualSpells[lnK]) { actualSpells.RemoveAt(actualSpells.Count - 1); lnJ--; break; }
                     }
                 }
 
@@ -1979,7 +1984,7 @@ namespace _7thSagaRando
                 for (int lnI = 0; lnI < 51; lnI++)
                 {
                     int byteToUse = 0x639d + (10 * lnI);
-                    int gp = inverted_power_curve(1, 65500, 1, .3, r1)[0];
+                    int gp = inverted_power_curve(1, 65500 / (trkGold.Value / 5), 1, .3, r1)[0];
                     romData[byteToUse + 2] = (byte)(gp % 256);
                     romData[byteToUse + 3] = (byte)(gp / 256);
                 }
@@ -1987,7 +1992,7 @@ namespace _7thSagaRando
                 for (int lnI = 0; lnI < 51; lnI++)
                 {
                     int byteToUse = 0x659b + (17 * lnI);
-                    int gp = inverted_power_curve(1, 65500, 1, .3, r1)[0];
+                    int gp = inverted_power_curve(1, 65500 / (trkGold.Value / 5), 1, .3, r1)[0];
                     romData[byteToUse + 2] = (byte)(gp % 256);
                     romData[byteToUse + 3] = (byte)(gp / 256);
                 }
@@ -1995,7 +2000,7 @@ namespace _7thSagaRando
                 for (int lnI = 0; lnI < 100; lnI++)
                 {
                     int byteToUse = 0x6c94 + (9 * lnI);
-                    int gp = inverted_power_curve(1, 20000, 1, .25, r1)[0];
+                    int gp = inverted_power_curve(1, 20000 / (trkGold.Value / 5), 1, .25, r1)[0];
                     romData[byteToUse + 2] = (byte)(gp % 256);
                     romData[byteToUse + 3] = (byte)(gp / 256);
                 }
@@ -2004,7 +2009,7 @@ namespace _7thSagaRando
                 {
                     int byteToUse = 0x8308 + (27 * lnI);
                     if (romData[byteToUse + 22] == 0) continue;
-                    int gp = inverted_power_curve(1, 3000, 1, .1, r1)[0];
+                    int gp = inverted_power_curve(1, 3000 / (trkGold.Value / 5), 1, .1, r1)[0];
                     romData[byteToUse + 22] = (byte)(gp % 256);
                     romData[byteToUse + 23] = (byte)(gp / 256);
                 }
@@ -2016,18 +2021,27 @@ namespace _7thSagaRando
                 {
                     int byteToUse = 0x639d + (10 * lnI);
                     statAdjust(r1, byteToUse + 2, 2, trkGoldReq.Value / 5, 1.0, chkGoldMin.Checked);
+                    int gp = Math.Max((romData[byteToUse + 2] + (256 * romData[byteToUse + 3])) / (trkGold.Value / 5), 1);
+                    romData[byteToUse + 2] = (byte)(gp % 256);
+                    romData[byteToUse + 3] = (byte)(gp / 256);
                 }
                 // Armor/Accessories
                 for (int lnI = 0; lnI < 51; lnI++)
                 {
                     int byteToUse = 0x659b + (17 * lnI);
                     statAdjust(r1, byteToUse + 2, 2, trkGoldReq.Value / 5, 1.0, chkGoldMin.Checked);
+                    int gp = Math.Max((romData[byteToUse + 2] + (256 * romData[byteToUse + 3])) / (trkGold.Value / 5), 1);
+                    romData[byteToUse + 2] = (byte)(gp % 256);
+                    romData[byteToUse + 3] = (byte)(gp / 256);
                 }
                 // Items
                 for (int lnI = 0; lnI < 100; lnI++)
                 {
                     int byteToUse = 0x6c94 + (9 * lnI);
                     statAdjust(r1, byteToUse + 2, 2, trkGoldReq.Value / 5, 1.0, chkGoldMin.Checked);
+                    int gp = Math.Max((romData[byteToUse + 2] + (256 * romData[byteToUse + 3])) / (trkGold.Value / 5), 1);
+                    romData[byteToUse + 2] = (byte)(gp % 256);
+                    romData[byteToUse + 3] = (byte)(gp / 256);
                 }
                 // Inns
                 for (int lnI = 0; lnI < 38; lnI++)
@@ -2035,6 +2049,21 @@ namespace _7thSagaRando
                     int byteToUse = 0x8308 + (27 * lnI);
                     if (romData[byteToUse + 22] == 0) continue;
                     statAdjust(r1, byteToUse + 22, 2, trkGoldReq.Value / 5, 1.0, chkGoldMin.Checked);
+                    int gp = Math.Max((romData[byteToUse + 22] + (256 * romData[byteToUse + 23])) / (trkGold.Value / 5), 1);
+                    romData[byteToUse + 22] = (byte)(gp % 256);
+                    romData[byteToUse + 23] = (byte)(gp / 256);
+                }
+
+                if (trkGold.Value >= 10)
+                    romData[0x9f46] = romData[0x9fc4] = 0xea;
+                if (trkGold.Value >= 20)
+                    romData[0x9f47] = romData[0x9fc5] = 0xea;
+                if (trkGold.Value >= 25)
+                {
+                    romData[0x9f48] = romData[0x9fc6] = 0xea;
+                    romData[0x9f49] = romData[0x9fc7] = 0xea;
+                    romData[0x9f4d] = romData[0x9fcb] = 0xea;
+                    romData[0x9f4e] = romData[0x9fcc] = 0xea;
                 }
             }
         }
@@ -2057,6 +2086,49 @@ namespace _7thSagaRando
 
         private void monsterStats(Random r1)
         {
+            if (trkMonsterXP.Value == 36)
+            {
+                int[] bossGP = inverted_power_curve(100, 20000, 13, .5, r1);
+                int[] bossOrder = { 0x21, 0x1e, 0x1f, 0x32, 0x23, 0x22, 0x33, 0x20, 0x58, 0x26, 0x34, 0x27, 0x4a, 0x59, 0x28, 0x35, 0x36, 0x37 }; // 0x22+0x33 / 0x26+0x34 / 0x28+0x35+0x36+0x37
+                int[] trueBossOrder = { 0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x05, 0x06, 0x07, 0x08, 0x08, 0x09, 0x0a, 0x0b, 0x0c, 0x0c, 0x0c, 0x0c };
+
+                for (int lnI = 0; lnI < bossOrder.Length; lnI++)
+                {
+                    int byteToUse = 0x72f4 + (42 * bossOrder[lnI]);
+
+                    romData[byteToUse + 34] = (byte)(bossGP[trueBossOrder[lnI]] % 256);
+                    romData[byteToUse + 35] = (byte)(bossGP[trueBossOrder[lnI]] / 256);
+                }
+
+                for (int lnI = 0; lnI < 90; lnI++)
+                {
+                    int byteToUse = 0x72f4 + (42 * lnI);
+                    if (bossOrder.Contains(lnI) || romData[byteToUse + 0] == 0x00) continue;
+
+                    int gp = inverted_power_curve(1, 8000, 1, .5, r1)[0];
+                    romData[byteToUse + 34] = (byte)(gp % 256);
+                    romData[byteToUse + 35] = (byte)(gp / 256);
+                }
+            }
+            else if (trkMonsterXP.Value == 37)
+            {
+                for (int lnI = 0; lnI < 90; lnI++)
+                {
+                    int byteToUse = 0x72f4 + (42 * lnI);
+                    int gp = inverted_power_curve(1, 15000, 1, .2, r1)[0];
+                    romData[byteToUse + 34] = (byte)(gp % 256);
+                    romData[byteToUse + 35] = (byte)(gp / 256);
+                }
+            }
+            else
+            {
+                for (int lnI = 0; lnI < 90; lnI++)
+                {
+                    int byteToUse = 0x72f4 + (42 * lnI);
+                    statAdjust(r1, byteToUse + 34, 2, trkMonsterXP.Value / 5, 1.0, chkMonsterStatMin.Checked);
+                }
+            }
+
             if (trkMonsterStats.Value == 36)
             {
                 // First, fill in the bosses
@@ -2066,7 +2138,7 @@ namespace _7thSagaRando
                 int[] bossGuard = inverted_power_curve(1, 3000, 13, .5, r1);
                 int[] bossMagic = inverted_power_curve(20, 255, 13, 1, r1);
                 int[] bossSpeed = inverted_power_curve(5, 255, 13, 1, r1);
-                int[] bossGP = inverted_power_curve(200, 65500, 13, .5, r1);
+                //int[] bossGP = inverted_power_curve(200, 20000, 13, .5, r1);
                 int[] bossOrder = { 0x21, 0x1e, 0x1f, 0x32, 0x23, 0x22, 0x33, 0x20, 0x58, 0x26, 0x34, 0x27, 0x4a, 0x59, 0x28, 0x35, 0x36, 0x37 }; // 0x22+0x33 / 0x26+0x34 / 0x28+0x35+0x36+0x37
                 int[] trueBossOrder = { 0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x05, 0x06, 0x07, 0x08, 0x08, 0x09, 0x0a, 0x0b, 0x0c, 0x0c, 0x0c, 0x0c };
                 monsterScore[] scores = new monsterScore[90];
@@ -2088,8 +2160,8 @@ namespace _7thSagaRando
                     romData[byteToUse + 8] = (byte)(bossGuard[trueBossOrder[lnI]] / 256);
                     romData[byteToUse + 9] = (byte)(bossMagic[trueBossOrder[lnI]]);
                     romData[byteToUse + 10] = (byte)(bossSpeed[trueBossOrder[lnI]]);
-                    romData[byteToUse + 34] = (byte)(bossGP[trueBossOrder[lnI]] % 256);
-                    romData[byteToUse + 35] = (byte)(bossGP[trueBossOrder[lnI]] / 256);
+                    //romData[byteToUse + 34] = (byte)(bossGP[trueBossOrder[lnI]] % 256);
+                    //romData[byteToUse + 35] = (byte)(bossGP[trueBossOrder[lnI]] / 256);
                     scores[bossOrder[lnI]].score = ((long)bossHP[trueBossOrder[lnI]] < 10 ? 1 : (long)bossHP[trueBossOrder[lnI]] / 10) *
                                                    ((long)bossPower[trueBossOrder[lnI]] < 10 ? 1 : (long)bossPower[trueBossOrder[lnI]] / 10) *
                                                    ((long)bossGuard[trueBossOrder[lnI]] < 10 ? 1 : (long)bossGuard[trueBossOrder[lnI]] / 10) *
@@ -2109,7 +2181,7 @@ namespace _7thSagaRando
                     int guard = inverted_power_curve(1, 1200, 1, .5, r1)[0];
                     int magic = inverted_power_curve(1, 255, 1, .5, r1)[0];
                     int speed = inverted_power_curve(1, 255, 1, .5, r1)[0];
-                    int gp = inverted_power_curve(1, 20000, 1, .5, r1)[0];
+                    //int gp = inverted_power_curve(1, 8000, 1, .5, r1)[0];
 
                     romData[byteToUse + 1] = (byte)(hp % 256);
                     romData[byteToUse + 2] = (byte)(hp / 256);
@@ -2121,8 +2193,8 @@ namespace _7thSagaRando
                     romData[byteToUse + 8] = (byte)(guard / 256);
                     romData[byteToUse + 9] = (byte)(magic);
                     romData[byteToUse + 10] = (byte)(speed);
-                    romData[byteToUse + 34] = (byte)(gp % 256);
-                    romData[byteToUse + 35] = (byte)(gp / 256);
+                    //romData[byteToUse + 34] = (byte)(gp % 256);
+                    //romData[byteToUse + 35] = (byte)(gp / 256);
                     scores[lnI].score = ((long)hp < 10 ? 1 : (long)hp / 10) *
                                         ((long)power < 10 ? 1 : (long)power / 10) *
                                         ((long)guard < 10 ? 1 : (long)guard / 10) *
@@ -2152,7 +2224,7 @@ namespace _7thSagaRando
                 romData[noodleByte + 8] = 5;
                 romData[noodleByte + 9] = 5;
                 romData[noodleByte + 10] = 5;
-                int newXP = inverted_power_curve(100, 500, 1, .5, r1)[0];
+                int newXP = inverted_power_curve(20, 200, 1, .5, r1)[0];
                 romData[noodleByte + 34] = (byte)(newXP % 256);
                 romData[noodleByte + 35] = (byte)(newXP / 256);
             }
@@ -2173,7 +2245,7 @@ namespace _7thSagaRando
                     int guard = inverted_power_curve(1, 1200, 1, .2, r1)[0];
                     int magic = inverted_power_curve(1, 255, 1, .2, r1)[0];
                     int speed = inverted_power_curve(1, 255, 1, .2, r1)[0];
-                    int gp = inverted_power_curve(1, 65000, 1, .2, r1)[0];
+                    int gp = inverted_power_curve(1, 20000, 1, .2, r1)[0];
 
                     romData[byteToUse + 1] = (byte)(hp % 256);
                     romData[byteToUse + 2] = (byte)(hp / 256);
@@ -2209,8 +2281,8 @@ namespace _7thSagaRando
                 for (int lnI = 0; lnI < 90; lnI++)
                 {
                     int byteToUse = 0x72f4 + (42 * lnI);
-                    // romData[byteToUse] == 0x46 || - Let's experiment not randomizing Gorsia and see how it goes.
-                    if (romData[byteToUse] == 0x00) continue; // Do not randomize Gorsia or blank monsters. 
+                    // romData[byteToUse] == 0x46 || - Let's experiment randomizing Gorsia and see how it goes.
+                    if (romData[byteToUse] == 0x00) continue; // Do not randomize blank monsters. 
 
                     statAdjust(r1, byteToUse + 1, 2, trkMonsterStats.Value / 5, 1.0, chkMonsterStatMin.Checked);
                     statAdjust(r1, byteToUse + 3, 2, trkMonsterStats.Value / 5, 1.0, chkMonsterStatMin.Checked);
@@ -2612,6 +2684,9 @@ namespace _7thSagaRando
                 loading = false;
                 cboStores.SelectedIndex = cboTreasures.SelectedIndex = cboInteraction.SelectedIndex = cboEquipment.SelectedIndex = cboSpellLearning.SelectedIndex = 0;
                 cboMonsterZones.SelectedIndex = cboMonsterPatterns.SelectedIndex = cboMonsterDrops.SelectedIndex = 0;
+                chkShowInitStats.Checked = true;
+                chkShowLevelUpStats.Checked = true;
+                chkShowStatGains.Checked = true;
             }
         }
 

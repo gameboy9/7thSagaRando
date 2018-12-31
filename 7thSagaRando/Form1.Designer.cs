@@ -1188,6 +1188,7 @@
             this.cboMonsterZones.Name = "cboMonsterZones";
             this.cboMonsterZones.Size = new System.Drawing.Size(339, 21);
             this.cboMonsterZones.TabIndex = 227;
+            this.cboMonsterZones.SelectedIndexChanged += new System.EventHandler(this.determineFlags);
             // 
             // cboMonsterDrops
             // 
@@ -1204,6 +1205,7 @@
             this.cboMonsterDrops.Name = "cboMonsterDrops";
             this.cboMonsterDrops.Size = new System.Drawing.Size(339, 21);
             this.cboMonsterDrops.TabIndex = 226;
+            this.cboMonsterDrops.SelectedIndexChanged += new System.EventHandler(this.determineFlags);
             // 
             // cboMonsterPatterns
             // 
@@ -1218,6 +1220,7 @@
             this.cboMonsterPatterns.Name = "cboMonsterPatterns";
             this.cboMonsterPatterns.Size = new System.Drawing.Size(339, 21);
             this.cboMonsterPatterns.TabIndex = 214;
+            this.cboMonsterPatterns.SelectedIndexChanged += new System.EventHandler(this.determineFlags);
             // 
             // chkNoEncounters
             // 
@@ -1387,7 +1390,8 @@
             "2 randomized spells",
             "1 randomized spells",
             "0 randomized spells",
-            "[0-16] randomized spells"});
+            "[0-16] randomized spells (constant to all heroes)",
+            "[0-16] randomized spells (random to all heroes)"});
             this.cboSpellLearning.Location = new System.Drawing.Point(113, 114);
             this.cboSpellLearning.Name = "cboSpellLearning";
             this.cboSpellLearning.Size = new System.Drawing.Size(339, 21);
