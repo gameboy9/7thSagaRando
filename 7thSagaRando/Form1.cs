@@ -155,16 +155,17 @@ namespace _7thSagaRando
                 return;
 
             string flags = "";
-            flags += convertIntToChar(checkboxesToNumber(new CheckBox[] { chkPostBoneRandom, chkPostBonePandam, chkPostBoneRemote, chkPostBoneGrime, chkGrimeRequired }));
-            flags += convertIntToChar(checkboxesToNumber(new CheckBox[] { chkFullXP, chkDebuffBoss, chkVacuumBoss, chkShowInitStats, chkShowLevelUpStats }));
-            flags += convertIntToChar(checkboxesToNumber(new CheckBox[] { chkDoubleWalk, chkSpeedHacks, chkShowStatGains, chkRemoveTriggers, chkBrushAirship1 }));
-            flags += convertIntToChar(checkboxesToNumber(new CheckBox[] { chkWindRune1, chkWindRune2, chkWindRune3, chkWindRune4, chkWindRune5 }));
+            flags += convertIntToChar(checkboxesToNumber(new CheckBox[] { chkPostBoneRandom, chkPostBonePandam, chkPostBoneRemote, chkPostBoneGrime, chkGrimeRequired, chkElnardStats }));
+            flags += convertIntToChar(checkboxesToNumber(new CheckBox[] { chkFullXP, chkDebuffBoss, chkVacuumBoss, chkShowInitStats, chkShowLevelUpStats, chkNoXPMonsters }));
+            flags += convertIntToChar(checkboxesToNumber(new CheckBox[] { chkDoubleWalk, chkSpeedHacks, chkShowStatGains, chkRemoveTriggers, chkBrushAirship1, chkLevel1Spells }));
+            flags += convertIntToChar(checkboxesToNumber(new CheckBox[] { chkWindRune1, chkWindRune2, chkWindRune3, chkWindRune4, chkWindRune5, chkHeroSameSpells }));
             flags += convertIntToChar(checkboxesToNumber(new CheckBox[] { chkGoldMin, chkHeroStatMin, chkMonsterStatMin, chkEquipMin, chkSpellPowersMin, chkHeroGrowthMin }));
             flags += convertIntToChar(checkboxesToNumber(new CheckBox[] { chkXPMin, chkHeroSameStats, chkSameRando, chkLocations, chk9999Defense, chkNoEncounters }));
             flags += convertIntToChar(cboMonsterZones.SelectedIndex + (cboMonsterPatterns.SelectedIndex * 4));
             flags += convertIntToChar(cboTreasures.SelectedIndex + (cboMonsterDrops.SelectedIndex * 8));
             flags += convertIntToChar(cboStores.SelectedIndex + (cboInteraction.SelectedIndex * 4));
-            flags += convertIntToChar(cboEquipment.SelectedIndex);
+            flags += convertIntToChar(cboEquipment.SelectedIndex + (cboDropFrequency.SelectedIndex * 8));
+            flags += convertIntToChar(cboDropContinuation.SelectedIndex);
             flags += convertIntToChar(cboSpellLearning.SelectedIndex);
             flags += convertIntToChar(trkExperience.Value);
             flags += convertIntToChar(trkGold.Value);
@@ -177,6 +178,8 @@ namespace _7thSagaRando
             flags += convertIntToChar(trkSpellCosts.Value - 5);
             flags += convertIntToChar(trkHeroStats.Value - 5);
             flags += convertIntToChar(trkHeroGrowth.Value - 5);
+            flags += convertIntToChar(trkSeedMin.Value);
+            flags += convertIntToChar(trkSeedRange.Value);
 
             txtFlags.Text = flags;
         }
@@ -192,10 +195,12 @@ namespace _7thSagaRando
 
         private void determineChecks(object sender, EventArgs e)
         {
-            if (txtFlags.Text.Length != 22)
+            if (txtFlags.Text.Length != 25)
             {
                 cboStores.SelectedIndex = cboTreasures.SelectedIndex = cboInteraction.SelectedIndex = cboEquipment.SelectedIndex = cboSpellLearning.SelectedIndex = 0;
                 cboMonsterZones.SelectedIndex = cboMonsterPatterns.SelectedIndex = cboMonsterDrops.SelectedIndex = 0;
+                cboDropFrequency.SelectedIndex = 3;
+                cboDropContinuation.SelectedIndex = 4;
                 chkShowInitStats.Checked = true;
                 chkShowLevelUpStats.Checked = true;
                 chkShowStatGains.Checked = true;
@@ -203,14 +208,14 @@ namespace _7thSagaRando
             }
             loading = true;
             string flags = txtFlags.Text;
-            numberToCheckboxes(convertChartoInt(Convert.ToChar(flags.Substring(0, 1))), new CheckBox[] { chkPostBoneRandom, chkPostBonePandam, chkPostBoneRemote, chkPostBoneGrime, chkGrimeRequired });
-            numberToCheckboxes(convertChartoInt(Convert.ToChar(flags.Substring(1, 1))), new CheckBox[] { chkFullXP, chkDebuffBoss, chkVacuumBoss, chkShowInitStats, chkShowLevelUpStats });
+            numberToCheckboxes(convertChartoInt(Convert.ToChar(flags.Substring(0, 1))), new CheckBox[] { chkPostBoneRandom, chkPostBonePandam, chkPostBoneRemote, chkPostBoneGrime, chkGrimeRequired, chkElnardStats });
+            numberToCheckboxes(convertChartoInt(Convert.ToChar(flags.Substring(1, 1))), new CheckBox[] { chkFullXP, chkDebuffBoss, chkVacuumBoss, chkShowInitStats, chkShowLevelUpStats, chkNoXPMonsters });
             numberToCheckboxes(convertChartoInt(Convert.ToChar(flags.Substring(2, 1))), new CheckBox[] { chkDoubleWalk, chkSpeedHacks, chkShowStatGains, chkRemoveTriggers, chkBrushAirship1 });
             numberToCheckboxes(convertChartoInt(Convert.ToChar(flags.Substring(3, 1))), new CheckBox[] { chkWindRune1, chkWindRune2, chkWindRune3, chkWindRune4, chkWindRune5 });
             numberToCheckboxes(convertChartoInt(Convert.ToChar(flags.Substring(4, 1))), new CheckBox[] { chkGoldMin, chkHeroStatMin, chkMonsterStatMin, chkEquipMin, chkSpellPowersMin, chkHeroGrowthMin });
             numberToCheckboxes(convertChartoInt(Convert.ToChar(flags.Substring(5, 1))), new CheckBox[] { chkXPMin, chkHeroSameStats, chkSameRando, chkLocations, chk9999Defense, chkNoEncounters });
 
-            cboMonsterZones.SelectedIndex = (convertChartoInt(Convert.ToChar(flags.Substring(6, 1))) / 4) % 4;
+            cboMonsterZones.SelectedIndex = convertChartoInt(Convert.ToChar(flags.Substring(6, 1))) % 4;
             cboMonsterPatterns.SelectedIndex = convertChartoInt(Convert.ToChar(flags.Substring(6, 1))) / 4;
 
             cboTreasures.SelectedIndex = convertChartoInt(Convert.ToChar(flags.Substring(7, 1))) % 8;
@@ -219,31 +224,38 @@ namespace _7thSagaRando
             cboStores.SelectedIndex = convertChartoInt(Convert.ToChar(flags.Substring(8, 1))) % 4;
             cboInteraction.SelectedIndex = convertChartoInt(Convert.ToChar(flags.Substring(8, 1))) / 4;
 
-            cboEquipment.SelectedIndex = convertChartoInt(Convert.ToChar(flags.Substring(9, 1)));
-            cboSpellLearning.SelectedIndex = convertChartoInt(Convert.ToChar(flags.Substring(10, 1)));
+            cboEquipment.SelectedIndex = convertChartoInt(Convert.ToChar(flags.Substring(9, 1))) % 8;
+            cboDropFrequency.SelectedIndex = convertChartoInt(Convert.ToChar(flags.Substring(9, 1))) / 8;
 
-            trkExperience.Value = convertChartoInt(Convert.ToChar(flags.Substring(11, 1)));
+            cboDropContinuation.SelectedIndex = convertChartoInt(Convert.ToChar(flags.Substring(10, 1))) % 8;
+
+            cboSpellLearning.SelectedIndex = convertChartoInt(Convert.ToChar(flags.Substring(11, 1)));
+
+            trkExperience.Value = convertChartoInt(Convert.ToChar(flags.Substring(12, 1)));
             trkExperience_Scroll(null, null);
-            trkGold.Value = convertChartoInt(Convert.ToChar(flags.Substring(12, 1)));
+            trkGold.Value = convertChartoInt(Convert.ToChar(flags.Substring(13, 1)));
             trkGold_Scroll(null, null);
-            trkMagicPowerBoost.Value = convertChartoInt(Convert.ToChar(flags.Substring(13, 1)));
+            trkMagicPowerBoost.Value = convertChartoInt(Convert.ToChar(flags.Substring(14, 1)));
             trkMagicPowerBoost_Scroll(null, null);
-            trkGoldReq.Value = convertChartoInt(Convert.ToChar(flags.Substring(14, 1))) + 5;
+            trkGoldReq.Value = convertChartoInt(Convert.ToChar(flags.Substring(15, 1))) + 5;
             trkGoldReq_Scroll(null, null);
-            trkMonsterStats.Value = convertChartoInt(Convert.ToChar(flags.Substring(15, 1))) + 5;
+            trkMonsterStats.Value = convertChartoInt(Convert.ToChar(flags.Substring(16, 1))) + 5;
             trkMonsterStats_Scroll(null, null);
-            trkMonsterXP.Value = convertChartoInt(Convert.ToChar(flags.Substring(16, 1))) + 5;
+            trkMonsterXP.Value = convertChartoInt(Convert.ToChar(flags.Substring(17, 1))) + 5;
             trkMonsterXP_Scroll(null, null);
-            trkEquipPowers.Value = convertChartoInt(Convert.ToChar(flags.Substring(17, 1))) + 5;
+            trkEquipPowers.Value = convertChartoInt(Convert.ToChar(flags.Substring(18, 1))) + 5;
             trkEquipPowers_Scroll(null, null);
-            trkSpellPowers.Value = convertChartoInt(Convert.ToChar(flags.Substring(18, 1))) + 5;
+            trkSpellPowers.Value = convertChartoInt(Convert.ToChar(flags.Substring(19, 1))) + 5;
             trkSpellPowers_Scroll(null, null);
-            trkSpellCosts.Value = convertChartoInt(Convert.ToChar(flags.Substring(19, 1))) + 5;
+            trkSpellCosts.Value = convertChartoInt(Convert.ToChar(flags.Substring(20, 1))) + 5;
             trkSpellCosts_Scroll(null, null);
-            trkHeroStats.Value = convertChartoInt(Convert.ToChar(flags.Substring(20, 1))) + 5;
+            trkHeroStats.Value = convertChartoInt(Convert.ToChar(flags.Substring(21, 1))) + 5;
             trkHeroStats_Scroll(null, null);
-            trkHeroGrowth.Value = convertChartoInt(Convert.ToChar(flags.Substring(21, 1))) + 5;
+            trkHeroGrowth.Value = convertChartoInt(Convert.ToChar(flags.Substring(22, 1))) + 5;
             trkHeroGrowth_Scroll(null, null);
+            trkSeedMin.Value = convertChartoInt(Convert.ToChar(flags.Substring(23, 1)));
+            trkSeedRange.Value = convertChartoInt(Convert.ToChar(flags.Substring(24, 1)));
+            trkSeedRange_Scroll(null, null);
             loading = false;
         }
 
@@ -399,15 +411,17 @@ namespace _7thSagaRando
             heroStats(r1);
             equipmentStats(r1);
             spellCosts(r1);
+            seedAdjustment(r1);
             if (chkSpeedHacks.Checked) speedHacks();
 
             // Remove stat gain text on level up.
-            if (!chkShowStatGains.Checked) romData[0x18cd1] = 0x6b;
+            if (!chkShowStatGains.Checked)
+                romData[0x18cd1] = 0x6b;
             // Enable debuffs and vacuums on bosses by replacing BEQ with BRA
             if (chkDebuffBoss.Checked)
             {
                 romData[0x4bf6a] = 0x80;
-                // But make sure that Doros, Gorsia, and Gariso are immune to debuffs
+                // But make sure that Doros, Gorsia, and Gariso are immune to debuffs (the game does weird stuff otherwise)
                 romData[0x7951] = romData[0x79bd] = 0x64;
                 romData[0x79a5] = romData[0x7bc7] = romData[0x7bf1] = romData[0x7c1b] = 0x64;
                 romData[0x78a9] = romData[0x7b73] = 0x64;
@@ -415,7 +429,7 @@ namespace _7thSagaRando
             if (chkVacuumBoss.Checked)
             {
                 romData[0x4be60] = 0x80;
-                // But make sure that Doros, Gorsia, and Gariso are immune to vacuum
+                // But make sure that Doros, Gorsia, and Gariso are immune to vacuum (the game does weird stuff otherwise)
                 romData[0x7950] = romData[0x79bc] = 0x64;
                 romData[0x79a4] = romData[0x7bc6] = romData[0x7bf0] = romData[0x7c1a] = 0x64;
                 romData[0x78a8] = romData[0x7b72] = 0x64;
@@ -441,6 +455,197 @@ namespace _7thSagaRando
             if (chkDoubleWalk.Checked) doubleWalk();
             if (chkRemoveTriggers.Checked) removeUselessTriggers();
             if (chkWindRune1.Checked || chkWindRune2.Checked || chkWindRune3.Checked || chkWindRune4.Checked || chkWindRune5.Checked) freeIce();
+        }
+
+        private void seedAdjustment(Random r1)
+        {
+            // P Seeds...
+
+            byte[] romPlugin = new byte[]
+            {
+                0x22, 0x10, 0xfd, 0xc3,
+                0xea, 0xea
+            };
+
+            for (int lnI = 0; lnI < romPlugin.Length; lnI++)
+                romData[0x4a136 + lnI] = romPlugin[lnI];
+
+            byte minimum = (byte)(trkSeedMin.Value >= 16 ? r1.Next() % 16 : trkSeedMin.Value);
+            byte range = (byte)(trkSeedRange.Value >= 16 ? r1.Next() % (16 - minimum) : trkSeedRange.Value + minimum >= 16 ? 16 - minimum : trkSeedRange.Value);
+
+            romPlugin = new byte[]
+            {
+                0xc2, 0x20,
+                0x29, 0xff, 0x00,
+                0x8d, 0x02, 0x42, // Put RNG into Multiplier A
+                0xa9, range, 0x00,
+                0x8d, 0x03, 0x42, // Put maximum result into Multiplier B
+                0xea, 0xea, 0xea, 0xea, // Wait a bit...
+                0xad, 0x17, 0x42, // Get high value of end of multiplication
+                0x29, 0xff, 0x00,
+                0x18, // Clear carry bit
+                0x69, minimum, 0x00, // Add to the minimum seed value, and you have your result!
+                0x6b
+            };
+
+            for (int lnI = 0; lnI < romPlugin.Length; lnI++)
+                romData[0x3fd10 + lnI] = romPlugin[lnI];
+
+            // Pr Seeds...
+
+            romPlugin = new byte[]
+            {
+                0x22, 0x30, 0xfd, 0xc3,
+                0xea, 0xea
+            };
+
+            for (int lnI = 0; lnI < romPlugin.Length; lnI++)
+                romData[0x4a1a7 + lnI] = romPlugin[lnI];
+
+            minimum = (byte)(trkSeedMin.Value != 17 ? minimum : r1.Next() % 16);
+            range = (byte)(trkSeedRange.Value != 17 ? range : r1.Next() % (16 - minimum));
+
+            romPlugin = new byte[]
+            {
+                0xc2, 0x20,
+                0x29, 0xff, 0x00,
+                0x8d, 0x02, 0x42, // Put RNG into Multiplier A
+                0xa9, range, 0x00,
+                0x8d, 0x03, 0x42, // Put maximum result into Multiplier B
+                0xea, 0xea, 0xea, 0xea, // Wait a bit...
+                0xad, 0x17, 0x42, // Get high value of end of multiplication
+                0x29, 0xff, 0x00,
+                0x18, // Clear carry bit
+                0x69, minimum, 0x00, // Add to the minimum seed value, and you have your result!
+                0x6b
+            };
+
+            for (int lnI = 0; lnI < romPlugin.Length; lnI++)
+                romData[0x3fd30 + lnI] = romPlugin[lnI];
+
+            // As are A Seeds...
+
+            romPlugin = new byte[]
+            {
+                0x22, 0x50, 0xfd, 0xc3,
+                0xea
+            };
+
+            for (int lnI = 0; lnI < romPlugin.Length; lnI++)
+                romData[0x4a284 + lnI] = romPlugin[lnI];
+
+            minimum = (byte)(trkSeedMin.Value != 17 ? minimum : r1.Next() % 16);
+            range = (byte)(trkSeedRange.Value != 17 ? range : r1.Next() % (16 - minimum));
+
+            romPlugin = new byte[]
+            {
+                0xe2, 0x20,
+                0x8d, 0x02, 0x42, // Put RNG into Multiplier A
+                0xa9, range,
+                0x8d, 0x03, 0x42, // Put maximum result into Multiplier B
+                0xea, 0xea, 0xea, 0xea, // Wait a bit...
+                0xad, 0x17, 0x42, // Get high value of end of multiplication
+                0x18, // Clear carry bit
+                0x69, minimum, // Add to the minimum seed value, and you have your result!
+                0x6b
+            };
+
+            for (int lnI = 0; lnI < romPlugin.Length; lnI++)
+                romData[0x3fd50 + lnI] = romPlugin[lnI];
+
+            // I Seeds
+            romPlugin = new byte[]
+            {
+                0x22, 0x70, 0xfd, 0xc3,
+                0xea
+            };
+
+            for (int lnI = 0; lnI < romPlugin.Length; lnI++)
+                romData[0x4a218 + lnI] = romPlugin[lnI];
+
+            minimum = (byte)(trkSeedMin.Value != 17 ? minimum : r1.Next() % 16);
+            range = (byte)(trkSeedRange.Value != 17 ? range : r1.Next() % (16 - minimum));
+
+            romPlugin = new byte[]
+            {
+                0xe2, 0x20,
+                0x8d, 0x02, 0x42, // Put RNG into Multiplier A
+                0xa9, range,
+                0x8d, 0x03, 0x42, // Put maximum result into Multiplier B
+                0xea, 0xea, 0xea, 0xea, // Wait a bit...
+                0xad, 0x17, 0x42, // Get high value of end of multiplication
+                0x18, // Clear carry bit
+                0x69, minimum, // Add to the minimum seed value, and you have your result!
+                0x6b
+            };
+
+            for (int lnI = 0; lnI < romPlugin.Length; lnI++)
+                romData[0x3fd70 + lnI] = romPlugin[lnI];
+
+            // V Seeds
+
+            romPlugin = new byte[]
+            {
+                0x22, 0x90, 0xfd, 0xc3,
+                0xea, 0xea
+            };
+
+            for (int lnI = 0; lnI < romPlugin.Length; lnI++)
+                romData[0x4a054 + lnI] = romPlugin[lnI];
+
+            minimum = (byte)(trkSeedMin.Value != 17 ? minimum : r1.Next() % 16);
+            range = (byte)(trkSeedRange.Value != 17 ? range : r1.Next() % (16 - minimum));
+
+            romPlugin = new byte[]
+            {
+                0xc2, 0x20,
+                0x29, 0xff, 0x00,
+                0x8d, 0x02, 0x42, // Put RNG into Multiplier A
+                0xa9, range, 0x00,
+                0x8d, 0x03, 0x42, // Put maximum result into Multiplier B
+                0xea, 0xea, 0xea, 0xea, // Wait a bit...
+                0xad, 0x17, 0x42, // Get high value of end of multiplication
+                0x29, 0xff, 0x00,
+                0x18, // Clear carry bit
+                0x69, minimum, 0x00, // Add to the minimum seed value, and you have your result!
+                0x6b
+            };
+
+            for (int lnI = 0; lnI < romPlugin.Length; lnI++)
+                romData[0x3fd90 + lnI] = romPlugin[lnI];
+
+            // M Seeds...
+
+            romPlugin = new byte[]
+            {
+                0x22, 0xb0, 0xfd, 0xc3,
+                0xea, 0xea
+            };
+
+            for (int lnI = 0; lnI < romPlugin.Length; lnI++)
+                romData[0x4a0c5 + lnI] = romPlugin[lnI];
+
+            minimum = (byte)(trkSeedMin.Value != 17 ? minimum : r1.Next() % 16);
+            range = (byte)(trkSeedRange.Value != 17 ? range : r1.Next() % (16 - minimum));
+
+            romPlugin = new byte[]
+            {
+                0xc2, 0x20,
+                0x29, 0xff, 0x00,
+                0x8d, 0x02, 0x42, // Put RNG into Multiplier A
+                0xa9, range, 0x00,
+                0x8d, 0x03, 0x42, // Put maximum result into Multiplier B
+                0xea, 0xea, 0xea, 0xea, // Wait a bit...
+                0xad, 0x17, 0x42, // Get high value of end of multiplication
+                0x29, 0xff, 0x00,
+                0x18, // Clear carry bit
+                0x69, minimum, 0x00, // Add to the minimum seed value, and you have your result!
+                0x6b
+            };
+
+            for (int lnI = 0; lnI < romPlugin.Length; lnI++)
+                romData[0x3fdb0 + lnI] = romPlugin[lnI];
+
         }
 
         private void modifyCredits()
@@ -573,11 +778,14 @@ namespace _7thSagaRando
 
         private void adjustExperienceTable()
         {
-            //romData[0x28045] = 0x00;
-            //romData[0x28046] = 0x01;
+            if (chkNoXPMonsters.Checked)
+            {
+                romData[0x28045] = 0x00;
+                romData[0x28046] = 0x00;
 
-            //romData[0x2800a] = 0x74;
-            //romData[0x2800b] = 0x01;
+                romData[0x2800a] = 0x00;
+                romData[0x2800b] = 0x00;
+            }
 
             for (int lnI = 0; lnI < 80; lnI++)
             {
@@ -595,8 +803,6 @@ namespace _7thSagaRando
 
         private void cmdRandomize_Click(object sender, EventArgs e)
         {
-            //randomize();
-            //saveRom();
             try
             {
                 randomize();
@@ -735,24 +941,30 @@ namespace _7thSagaRando
 
         private void apprenticeFightAdjustment(Random r1)
         {
-            //romData[0xbd61] = 0x7f; // Prevent stat boosts when hero level > 10.  That's cheating.
-            byte[] romPlugin = { 0x22, 0xd0, 0xf6, 0xc2 };
-            for (int lnI = 0; lnI < romPlugin.Length; lnI++)
+            if (chkElnardStats.Checked)
             {
-                romData[0x27872 + lnI] = romPlugin[lnI];
-                romData[0x278ad + lnI] = romPlugin[lnI];
-                romData[0x278e8 + lnI] = romPlugin[lnI];
-                romData[0x27923 + lnI] = romPlugin[lnI];
-                romData[0x2795e + lnI] = romPlugin[lnI];
-                romData[0x2799e + lnI] = romPlugin[lnI];
-            }
+                // Enforce stat boosts when hero level > 10
+                byte[] romPlugin = { 0x22, 0xd0, 0xf6, 0xc2 };
+                for (int lnI = 0; lnI < romPlugin.Length; lnI++)
+                {
+                    romData[0x27872 + lnI] = romPlugin[lnI];
+                    romData[0x278ad + lnI] = romPlugin[lnI];
+                    romData[0x278e8 + lnI] = romPlugin[lnI];
+                    romData[0x27923 + lnI] = romPlugin[lnI];
+                    romData[0x2795e + lnI] = romPlugin[lnI];
+                    romData[0x2799e + lnI] = romPlugin[lnI];
+                }
 
-            romPlugin = new byte[] { 0xa0, 0x02, 0x00,
+                romPlugin = new byte[] { 0xa0, 0x02, 0x00,
                 0x22, 0x5b, 0xbd, 0xc0,
                 0x6b };
 
-            for (int lnI = 0; lnI < romPlugin.Length; lnI++)
-                romData[0x2f6d0 + lnI] = romPlugin[lnI];
+                for (int lnI = 0; lnI < romPlugin.Length; lnI++)
+                    romData[0x2f6d0 + lnI] = romPlugin[lnI];
+            } else
+            {
+                romData[0xbd61] = 0x7f; // Prevent stat boosts when hero level > 10.  That's cheating.
+            }
 
             romData[0xca59] = 0xe9; // Force apprentice to be your level MINUS 1 instead of your level PLUS 1.
             romData[0x24852] = 0xea; // None of that doubling of MP either.  Sorry, that's cheating.
@@ -1502,29 +1714,61 @@ namespace _7thSagaRando
             {
                 int byteToUse = 0x8a18 + (lnI * 16);
                 for (int lnJ = 0; lnJ < 16; lnJ++)
-                {
                     romData[byteToUse + lnJ] = 0x00;
-                    if (lnI == 1 && (cboMonsterDrops.SelectedIndex == 5 || cboMonsterDrops.SelectedIndex == 1))
-                        romData[byteToUse + lnJ] = (commonItems[r1.Next() % commonItems.Length]);
-                    else if (lnI == 2 && (cboMonsterDrops.SelectedIndex == 5 || cboMonsterDrops.SelectedIndex == 2))
-                        romData[byteToUse + lnJ] = (rareItems[r1.Next() % rareItems.Length]);
-                    else if (lnI == 3 && (cboMonsterDrops.SelectedIndex == 5 || cboMonsterDrops.SelectedIndex == 3))
-                        romData[byteToUse + lnJ] = (jewelItems[r1.Next() % jewelItems.Length]);
-                    else if (lnI == 4 && (cboMonsterDrops.SelectedIndex == 5 || cboMonsterDrops.SelectedIndex == 4))
-                        romData[byteToUse + lnJ] = (equipItems[r1.Next() % equipItems.Length]);
-                    else if (lnI > 0 && (cboMonsterDrops.SelectedIndex >= 1)) // If lnI == 0, keep everything at 0.
+
+                for (int lnJ = 0; lnJ < 16; lnJ++)
+                {
+                        if (lnI <= 4 && cboMonsterDrops.SelectedIndex == 5)
                     {
-                        if (lnJ == 0 || r1.Next() % 2 == 0)
+                        if (lnI == 1)
+                            romData[byteToUse + lnJ] = (commonItems[r1.Next() % commonItems.Length]);
+                        else if (lnI == 2)
+                            romData[byteToUse + lnJ] = (rareItems[r1.Next() % rareItems.Length]);
+                        else if (lnI == 3)
+                            romData[byteToUse + lnJ] = (jewelItems[r1.Next() % jewelItems.Length]);
+                        else if (lnI == 4)
+                            romData[byteToUse + lnJ] = (equipItems[r1.Next() % equipItems.Length]);
+                    } else if (lnI <= 4)
+                    {
+                        if (cboMonsterDrops.SelectedIndex == 1)
+                            romData[byteToUse + lnJ] = (commonItems[r1.Next() % commonItems.Length]);
+                        else if (cboMonsterDrops.SelectedIndex == 2)
+                            romData[byteToUse + lnJ] = (rareItems[r1.Next() % rareItems.Length]);
+                        else if (cboMonsterDrops.SelectedIndex == 3)
+                            romData[byteToUse + lnJ] = (jewelItems[r1.Next() % jewelItems.Length]);
+                        else if (cboMonsterDrops.SelectedIndex == 4)
+                            romData[byteToUse + lnJ] = (equipItems[r1.Next() % equipItems.Length]);
+                    } else
+                    {
+                        if (lnJ == 0 || r1.Next() % 100 < (cboDropContinuation.SelectedIndex == 0 ? 999 :
+                                                           cboDropContinuation.SelectedIndex == 1 ? 90 :
+                                                           cboDropContinuation.SelectedIndex == 2 ? 75 :
+                                                           cboDropContinuation.SelectedIndex == 3 ? 67 :
+                                                           cboDropContinuation.SelectedIndex == 4 ? 50 :
+                                                           cboDropContinuation.SelectedIndex == 5 ? 25 : 0))
                         {
-                            int itemToUse = r1.Next() % 16;
-                            if (itemToUse < 8 || cboMonsterDrops.SelectedIndex == 1)
-                                romData[byteToUse + lnJ] = (commonItems[r1.Next() % commonItems.Length]);
-                            else if (itemToUse < 12 || cboMonsterDrops.SelectedIndex == 3)
-                                romData[byteToUse + lnJ] = (jewelItems[r1.Next() % jewelItems.Length]);
-                            else if (itemToUse < 14 || cboMonsterDrops.SelectedIndex == 2)
-                                romData[byteToUse + lnJ] = (rareItems[r1.Next() % rareItems.Length]);
-                            else
-                                romData[byteToUse + lnJ] = (equipItems[r1.Next() % equipItems.Length]);
+                            if (cboMonsterDrops.SelectedIndex == 5)
+                            {
+                                int itemToUse = r1.Next() % 16;
+                                if (itemToUse < 8 || cboMonsterDrops.SelectedIndex == 1)
+                                    romData[byteToUse + lnJ] = (commonItems[r1.Next() % commonItems.Length]);
+                                else if (itemToUse < 12 || cboMonsterDrops.SelectedIndex == 3)
+                                    romData[byteToUse + lnJ] = (jewelItems[r1.Next() % jewelItems.Length]);
+                                else if (itemToUse < 14 || cboMonsterDrops.SelectedIndex == 2)
+                                    romData[byteToUse + lnJ] = (rareItems[r1.Next() % rareItems.Length]);
+                                else
+                                    romData[byteToUse + lnJ] = (equipItems[r1.Next() % equipItems.Length]);
+                            } else
+                            {
+                                if (cboMonsterDrops.SelectedIndex == 1)
+                                    romData[byteToUse + lnJ] = (commonItems[r1.Next() % commonItems.Length]);
+                                else if (cboMonsterDrops.SelectedIndex == 3)
+                                    romData[byteToUse + lnJ] = (jewelItems[r1.Next() % jewelItems.Length]);
+                                else if (cboMonsterDrops.SelectedIndex == 2)
+                                    romData[byteToUse + lnJ] = (rareItems[r1.Next() % rareItems.Length]);
+                                else // (cboMonsterDrops.SelectedIndex == 4)
+                                    romData[byteToUse + lnJ] = (equipItems[r1.Next() % equipItems.Length]);
+                            }
                         }
                         else
                             break;
@@ -1536,15 +1780,20 @@ namespace _7thSagaRando
             {
                 int byteToUse = 0x72f4 + (monsterRanking[lnI] * 42);
                 if (romData[byteToUse] == 0x46 || romData[byteToUse] == 0x00) continue; // Do not randomize Gorsia or blank monsters.
-                if (monsterRanking[lnI] == 0x03)
+                if (monsterRanking[lnI] == 0x03 && cboDropFrequency.SelectedIndex != 7)
                     romData[byteToUse + 36] = 0x01;
-                else if (monsterRanking[lnI] == 0x43)
+                else if (monsterRanking[lnI] == 0x43 && cboDropFrequency.SelectedIndex != 7)
                     romData[byteToUse + 36] = 0x02;
-                else if (monsterRanking[lnI] == 0x44)
+                else if (monsterRanking[lnI] == 0x44 && cboDropFrequency.SelectedIndex != 7)
                     romData[byteToUse + 36] = 0x03;
-                else if (monsterRanking[lnI] == 0x45)
+                else if (monsterRanking[lnI] == 0x45 && cboDropFrequency.SelectedIndex != 7)
                     romData[byteToUse + 36] = 0x04;
-                else if (r1.Next() % 3 == 0)
+                else if (r1.Next() % 100 < (cboDropFrequency.SelectedIndex == 0 ? 999 :
+                                            cboDropFrequency.SelectedIndex == 1 ? 75 :
+                                            cboDropFrequency.SelectedIndex == 2 ? 50 :
+                                            cboDropFrequency.SelectedIndex == 3 ? 33 :
+                                            cboDropFrequency.SelectedIndex == 4 ? 25 :
+                                            cboDropFrequency.SelectedIndex == 5 ? 10 : 0))
                 {
                     romData[byteToUse + 36] = (byte)(0x05 + (r1.Next() % 25));
                 } else
@@ -1560,6 +1809,13 @@ namespace _7thSagaRando
             for (int lnI = 0; lnI < 7; lnI++)
             {
                 int byteToUse = 0x62bd + (32 * lnI);
+
+                if (lnI >= 1 && chkHeroSameSpells.Checked)
+                {
+                    for (int lnJ = 0; lnJ < 32; lnJ++)
+                        romData[byteToUse + lnJ] = romData[0x62bd + lnJ];
+                    continue;
+                }
 
                 List<byte> actualSpells = new List<byte>();
                 int maxSpells = (cboSpellLearning.SelectedIndex == 1 || cboSpellLearning.SelectedIndex == 2 ? (lnI == 0 ? 12 : lnI == 1 ? 10 : lnI == 2 ? 16 : lnI == 3 ? 7 : lnI == 4 ? 5 : lnI == 5 ? 16 : 16) : 
@@ -1610,7 +1866,7 @@ namespace _7thSagaRando
                     }
                 }
 
-                int[] spellLevels = inverted_power_curve(1, 45, actualSpells.Count, 1, r1);
+                int[] spellLevels = inverted_power_curve(1, (chkLevel1Spells.Checked ? 1 : 45), actualSpells.Count, 1, r1);
 
                 for (int lnJ = 0; lnJ < 32; lnJ++)
                     romData[byteToUse + lnJ] = 0;
@@ -1662,7 +1918,7 @@ namespace _7thSagaRando
                     0xc0, 0xc1, 0xc2, 0xc7, 0xc8, 0xc9, 0xca, 0xcb
                 };
                 byte[] monsters = { 0xfb, 0xfc, 0xfd, 0xfe };
-                byte itemGet = (byte)(r1.Next() % 100);
+                byte itemGet = (byte)(cboTreasures.SelectedIndex <= 5 ? 255 : (r1.Next() % 100));
                 if (itemGet < 40 || cboTreasures.SelectedIndex == 1)
                     romData[byteToUse] = commonItems[r1.Next() % commonItems.Length];
                 else if (itemGet < 65 || cboTreasures.SelectedIndex == 3)
@@ -2109,6 +2365,11 @@ namespace _7thSagaRando
                     romData[byteToUse + 34] = (byte)(gp % 256);
                     romData[byteToUse + 35] = (byte)(gp / 256);
                 }
+
+                // Also adjust apprentice fight XP rewards
+                int gp2 = inverted_power_curve(10, 200, 1, .5, r1)[0];
+                romData[0x280c2 + 0] = (byte)(gp2 % 256);
+                romData[0x280c2 + 1] = (byte)(gp2 / 256);
             }
             else if (trkMonsterXP.Value == 37)
             {
@@ -2119,6 +2380,11 @@ namespace _7thSagaRando
                     romData[byteToUse + 34] = (byte)(gp % 256);
                     romData[byteToUse + 35] = (byte)(gp / 256);
                 }
+
+                // Also adjust apprentice fight XP rewards
+                int gp2 = inverted_power_curve(10, 200, 1, .5, r1)[0];
+                romData[0x280c2 + 0] = (byte)(gp2 % 256);
+                romData[0x280c2 + 1] = (byte)(gp2 / 256);
             }
             else
             {
@@ -2127,6 +2393,9 @@ namespace _7thSagaRando
                     int byteToUse = 0x72f4 + (42 * lnI);
                     statAdjust(r1, byteToUse + 34, 2, trkMonsterXP.Value / 5, 1.0, chkMonsterStatMin.Checked);
                 }
+
+                // Also adjust apprentice fight XP rewards
+                statAdjust(r1, 0x280c2, 2, trkMonsterXP.Value / 5, 1.0, chkXPMin.Checked, 800);
             }
 
             if (trkMonsterStats.Value == 36)
@@ -2297,7 +2566,7 @@ namespace _7thSagaRando
                     statAdjust(r1, byteToUse + 31, 1, trkMonsterStats.Value / 5, 0.5, chkMonsterStatMin.Checked, 100);
                     statAdjust(r1, byteToUse + 32, 1, trkMonsterStats.Value / 5, 0.5, chkMonsterStatMin.Checked, 100);
                     statAdjust(r1, byteToUse + 33, 1, trkMonsterStats.Value / 5, 0.5, chkMonsterStatMin.Checked, 100);
-                    statAdjust(r1, byteToUse + 34, 2, trkMonsterXP.Value / 5, 1.0, chkMonsterStatMin.Checked);
+                    //statAdjust(r1, byteToUse + 34, 2, trkMonsterXP.Value / 5, 1.0, chkMonsterStatMin.Checked);
 
                     if (chk9999Defense.Checked)
                     {
@@ -2307,9 +2576,6 @@ namespace _7thSagaRando
                     if (romData[byteToUse + 8] >= 0x03)
                         romData[byteToUse + 9] = (byte)(romData[byteToUse + 9] > 150 ? 150 : romData[byteToUse + 9]);
                 }
-
-                // Also adjust apprentice fight XP rewards
-                statAdjust(r1, 0x280c2, 2, trkMonsterStats.Value / 5, 1.0, chkMonsterStatMin.Checked, 800);
             }
         }
 
@@ -2684,6 +2950,7 @@ namespace _7thSagaRando
                 loading = false;
                 cboStores.SelectedIndex = cboTreasures.SelectedIndex = cboInteraction.SelectedIndex = cboEquipment.SelectedIndex = cboSpellLearning.SelectedIndex = 0;
                 cboMonsterZones.SelectedIndex = cboMonsterPatterns.SelectedIndex = cboMonsterDrops.SelectedIndex = 0;
+                cboDropFrequency.SelectedIndex = 3;
                 chkShowInitStats.Checked = true;
                 chkShowLevelUpStats.Checked = true;
                 chkShowStatGains.Checked = true;
@@ -3251,6 +3518,21 @@ namespace _7thSagaRando
             {
                 number = i;
             }
+        }
+
+        private void trkSeedRange_Scroll(object sender, EventArgs e)
+        {
+            if (trkSeedMin.Value >= 16)
+                lblSeedRange.Text = (trkSeedMin.Value == 16 ? "CHAOS" : "!@#$%?" + "+" + (trkSeedRange.Value == 16 ? "CHAOS" : trkSeedRange.Value == 17 ? "!@#$%?" : trkSeedRange.Value.ToString()));
+            else
+                lblSeedRange.Text = (trkSeedMin.Value.ToString() + "-" + (trkSeedRange.Value == 16 ? "CHAOS" : trkSeedRange.Value == 17 ? "!@#$%?" : (Math.Min(15, trkSeedMin.Value + trkSeedRange.Value)).ToString()));
+            determineFlags(null, null);
+        }
+
+        private void trkSeedMin_Scroll(object sender, EventArgs e)
+        {
+            lblSeedRange.Text = (trkSeedMin.Value == 16 ? "CHAOS" : trkSeedMin.Value == 17 ? "!@#$%?" : trkSeedMin.Value.ToString() + "-" + (trkSeedRange.Value == 16 ? "CHAOS" : trkSeedRange.Value == 17 ? "!@#$%?" : (Math.Min(15, trkSeedMin.Value + trkSeedRange.Value).ToString())));
+            determineFlags(null, null);
         }
     }
 }
