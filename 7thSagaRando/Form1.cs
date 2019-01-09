@@ -210,8 +210,8 @@ namespace _7thSagaRando
             string flags = txtFlags.Text;
             numberToCheckboxes(convertChartoInt(Convert.ToChar(flags.Substring(0, 1))), new CheckBox[] { chkPostBoneRandom, chkPostBonePandam, chkPostBoneRemote, chkPostBoneGrime, chkGrimeRequired, chkElnardStats });
             numberToCheckboxes(convertChartoInt(Convert.ToChar(flags.Substring(1, 1))), new CheckBox[] { chkFullXP, chkDebuffBoss, chkVacuumBoss, chkShowInitStats, chkShowLevelUpStats, chkNoXPMonsters });
-            numberToCheckboxes(convertChartoInt(Convert.ToChar(flags.Substring(2, 1))), new CheckBox[] { chkDoubleWalk, chkSpeedHacks, chkShowStatGains, chkRemoveTriggers, chkBrushAirship1 });
-            numberToCheckboxes(convertChartoInt(Convert.ToChar(flags.Substring(3, 1))), new CheckBox[] { chkWindRune1, chkWindRune2, chkWindRune3, chkWindRune4, chkWindRune5 });
+            numberToCheckboxes(convertChartoInt(Convert.ToChar(flags.Substring(2, 1))), new CheckBox[] { chkDoubleWalk, chkSpeedHacks, chkShowStatGains, chkRemoveTriggers, chkBrushAirship1, chkLevel1Spells });
+            numberToCheckboxes(convertChartoInt(Convert.ToChar(flags.Substring(3, 1))), new CheckBox[] { chkWindRune1, chkWindRune2, chkWindRune3, chkWindRune4, chkWindRune5, chkHeroSameSpells });
             numberToCheckboxes(convertChartoInt(Convert.ToChar(flags.Substring(4, 1))), new CheckBox[] { chkGoldMin, chkHeroStatMin, chkMonsterStatMin, chkEquipMin, chkSpellPowersMin, chkHeroGrowthMin });
             numberToCheckboxes(convertChartoInt(Convert.ToChar(flags.Substring(5, 1))), new CheckBox[] { chkXPMin, chkHeroSameStats, chkSameRando, chkLocations, chk9999Defense, chkNoEncounters });
 
@@ -2589,7 +2589,7 @@ namespace _7thSagaRando
                     int byteToUse = 0x639d + (10 * lnI);
                     int gp = inverted_power_curve(1, 1200, 1, .2, r1)[0];
                     romData[byteToUse] = (byte)(gp % 256);
-                    romData[byteToUse] = (byte)(gp / 256);
+                    romData[byteToUse + 1] = (byte)(gp / 256);
                 }
                 // Armor/Accessories
                 for (int lnI = 0; lnI < 53; lnI++)
@@ -2597,7 +2597,7 @@ namespace _7thSagaRando
                     int byteToUse = 0x659b + (17 * lnI);
                     int gp = inverted_power_curve(1, 127, 1, .5, r1)[0];
                     romData[byteToUse] = (byte)(gp % 256);
-                    romData[byteToUse] = (byte)(gp / 256);
+                    romData[byteToUse + 1] = (byte)(gp / 256);
                 }
             }
             else
@@ -3533,6 +3533,22 @@ namespace _7thSagaRando
         {
             lblSeedRange.Text = (trkSeedMin.Value == 16 ? "CHAOS" : trkSeedMin.Value == 17 ? "!@#$%?" : trkSeedMin.Value.ToString() + "-" + (trkSeedRange.Value == 16 ? "CHAOS" : trkSeedRange.Value == 17 ? "!@#$%?" : (Math.Min(15, trkSeedMin.Value + trkSeedRange.Value).ToString())));
             determineFlags(null, null);
+        }
+
+        private void cmdPresetTraditional_Click(object sender, EventArgs e)
+        {
+            txtFlags.Text = "XPV0085k6P42ZZZUUUUUUUU22";
+            //determineChecks(null, null); (this is called by default due to the above line.  Keep this line here for the record)
+        }
+
+        private void cmdPresetSeedOnly_Click(object sender, EventArgs e)
+        {
+            txtFlags.Text = "1v@WQE5I92145ZA77K5555087";
+        }
+
+        private void cmdPresetSuperspeedrun_Click(object sender, EventArgs e)
+        {
+            txtFlags.Text = "0PV000000020ZZK00U0000022";
         }
     }
 }

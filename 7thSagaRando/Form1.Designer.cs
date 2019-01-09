@@ -153,6 +153,10 @@
             this.label12 = new System.Windows.Forms.Label();
             this.chkLevel1Spells = new System.Windows.Forms.CheckBox();
             this.chkHeroSameSpells = new System.Windows.Forms.CheckBox();
+            this.tabPresets = new System.Windows.Forms.TabPage();
+            this.cmdPresetTraditional = new System.Windows.Forms.Button();
+            this.cmdPresetSeedOnly = new System.Windows.Forms.Button();
+            this.cmdPresetSuperspeedrun = new System.Windows.Forms.Button();
             this.tabSpeedups.SuspendLayout();
             this.tabScaling.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.trkSpellCosts)).BeginInit();
@@ -173,6 +177,7 @@
             this.tabControl1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.trkSeedRange)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.trkSeedMin)).BeginInit();
+            this.tabPresets.SuspendLayout();
             this.SuspendLayout();
             // 
             // cmdRandomize
@@ -1488,6 +1493,7 @@
             this.tabControl1.Controls.Add(this.tabBoosts);
             this.tabControl1.Controls.Add(this.tabScaling);
             this.tabControl1.Controls.Add(this.tabSpeedups);
+            this.tabControl1.Controls.Add(this.tabPresets);
             this.tabControl1.Location = new System.Drawing.Point(15, 138);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
@@ -1618,6 +1624,48 @@
             this.chkHeroSameSpells.UseVisualStyleBackColor = true;
             this.chkHeroSameSpells.CheckedChanged += new System.EventHandler(this.determineFlags);
             // 
+            // tabPresets
+            // 
+            this.tabPresets.Controls.Add(this.cmdPresetSuperspeedrun);
+            this.tabPresets.Controls.Add(this.cmdPresetSeedOnly);
+            this.tabPresets.Controls.Add(this.cmdPresetTraditional);
+            this.tabPresets.Location = new System.Drawing.Point(4, 22);
+            this.tabPresets.Name = "tabPresets";
+            this.tabPresets.Size = new System.Drawing.Size(678, 260);
+            this.tabPresets.TabIndex = 6;
+            this.tabPresets.Text = "Presets";
+            this.tabPresets.UseVisualStyleBackColor = true;
+            // 
+            // cmdPresetTraditional
+            // 
+            this.cmdPresetTraditional.Location = new System.Drawing.Point(3, 3);
+            this.cmdPresetTraditional.Name = "cmdPresetTraditional";
+            this.cmdPresetTraditional.Size = new System.Drawing.Size(108, 26);
+            this.cmdPresetTraditional.TabIndex = 0;
+            this.cmdPresetTraditional.Text = "Traditional";
+            this.cmdPresetTraditional.UseVisualStyleBackColor = true;
+            this.cmdPresetTraditional.Click += new System.EventHandler(this.cmdPresetTraditional_Click);
+            // 
+            // cmdPresetSeedOnly
+            // 
+            this.cmdPresetSeedOnly.Location = new System.Drawing.Point(3, 35);
+            this.cmdPresetSeedOnly.Name = "cmdPresetSeedOnly";
+            this.cmdPresetSeedOnly.Size = new System.Drawing.Size(108, 26);
+            this.cmdPresetSeedOnly.TabIndex = 1;
+            this.cmdPresetSeedOnly.Text = "Seed only";
+            this.cmdPresetSeedOnly.UseVisualStyleBackColor = true;
+            this.cmdPresetSeedOnly.Click += new System.EventHandler(this.cmdPresetSeedOnly_Click);
+            // 
+            // cmdPresetSuperspeedrun
+            // 
+            this.cmdPresetSuperspeedrun.Location = new System.Drawing.Point(3, 67);
+            this.cmdPresetSuperspeedrun.Name = "cmdPresetSuperspeedrun";
+            this.cmdPresetSuperspeedrun.Size = new System.Drawing.Size(108, 26);
+            this.cmdPresetSuperspeedrun.TabIndex = 2;
+            this.cmdPresetSuperspeedrun.Text = "Superspeedrun-ish";
+            this.cmdPresetSuperspeedrun.UseVisualStyleBackColor = true;
+            this.cmdPresetSuperspeedrun.Click += new System.EventHandler(this.cmdPresetSuperspeedrun_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1675,6 +1723,7 @@
             this.tabControl1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.trkSeedRange)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.trkSeedMin)).EndInit();
+            this.tabPresets.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1806,6 +1855,10 @@
         private System.Windows.Forms.Label label12;
         private System.Windows.Forms.CheckBox chkLevel1Spells;
         private System.Windows.Forms.CheckBox chkHeroSameSpells;
+        private System.Windows.Forms.TabPage tabPresets;
+        private System.Windows.Forms.Button cmdPresetSuperspeedrun;
+        private System.Windows.Forms.Button cmdPresetSeedOnly;
+        private System.Windows.Forms.Button cmdPresetTraditional;
     }
 }
 
