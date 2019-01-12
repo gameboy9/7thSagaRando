@@ -62,6 +62,8 @@
             this.chkDoubleWalk = new System.Windows.Forms.CheckBox();
             this.chkSpeedHacks = new System.Windows.Forms.CheckBox();
             this.tabScaling = new System.Windows.Forms.TabPage();
+            this.chkNoXPMonsters = new System.Windows.Forms.CheckBox();
+            this.chkElnardStats = new System.Windows.Forms.CheckBox();
             this.trkSpellCosts = new System.Windows.Forms.TrackBar();
             this.chkSpellCostsMin = new System.Windows.Forms.CheckBox();
             this.label11 = new System.Windows.Forms.Label();
@@ -107,6 +109,11 @@
             this.lblExpBoost = new System.Windows.Forms.Label();
             this.trkExperience = new System.Windows.Forms.TrackBar();
             this.tabAdjustments = new System.Windows.Forms.TabPage();
+            this.trkSeedRange = new System.Windows.Forms.TrackBar();
+            this.label23 = new System.Windows.Forms.Label();
+            this.trkSeedMin = new System.Windows.Forms.TrackBar();
+            this.lblSeedRange = new System.Windows.Forms.Label();
+            this.label21 = new System.Windows.Forms.Label();
             this.chkGrimeRequired = new System.Windows.Forms.CheckBox();
             this.chkShowInitStats = new System.Windows.Forms.CheckBox();
             this.chkShowLevelUpStats = new System.Windows.Forms.CheckBox();
@@ -119,6 +126,8 @@
             this.label6 = new System.Windows.Forms.Label();
             this.chkPostBoneRandom = new System.Windows.Forms.CheckBox();
             this.tabMonsters = new System.Windows.Forms.TabPage();
+            this.cboDropContinuation = new System.Windows.Forms.ComboBox();
+            this.label12 = new System.Windows.Forms.Label();
             this.cboDropFrequency = new System.Windows.Forms.ComboBox();
             this.label10 = new System.Windows.Forms.Label();
             this.label20 = new System.Windows.Forms.Label();
@@ -130,6 +139,8 @@
             this.chkNoEncounters = new System.Windows.Forms.CheckBox();
             this.chk9999Defense = new System.Windows.Forms.CheckBox();
             this.tabRandom = new System.Windows.Forms.TabPage();
+            this.chkHeroSameSpells = new System.Windows.Forms.CheckBox();
+            this.chkLevel1Spells = new System.Windows.Forms.CheckBox();
             this.cboTreasures = new System.Windows.Forms.ComboBox();
             this.label17 = new System.Windows.Forms.Label();
             this.label16 = new System.Windows.Forms.Label();
@@ -142,21 +153,10 @@
             this.cboStores = new System.Windows.Forms.ComboBox();
             this.chkLocations = new System.Windows.Forms.CheckBox();
             this.tabControl1 = new System.Windows.Forms.TabControl();
-            this.trkSeedRange = new System.Windows.Forms.TrackBar();
-            this.label23 = new System.Windows.Forms.Label();
-            this.trkSeedMin = new System.Windows.Forms.TrackBar();
-            this.lblSeedRange = new System.Windows.Forms.Label();
-            this.label21 = new System.Windows.Forms.Label();
-            this.chkElnardStats = new System.Windows.Forms.CheckBox();
-            this.chkNoXPMonsters = new System.Windows.Forms.CheckBox();
-            this.cboDropContinuation = new System.Windows.Forms.ComboBox();
-            this.label12 = new System.Windows.Forms.Label();
-            this.chkLevel1Spells = new System.Windows.Forms.CheckBox();
-            this.chkHeroSameSpells = new System.Windows.Forms.CheckBox();
             this.tabPresets = new System.Windows.Forms.TabPage();
-            this.cmdPresetTraditional = new System.Windows.Forms.Button();
-            this.cmdPresetSeedOnly = new System.Windows.Forms.Button();
             this.cmdPresetSuperspeedrun = new System.Windows.Forms.Button();
+            this.cmdPresetSeedOnly = new System.Windows.Forms.Button();
+            this.cmdPresetTraditional = new System.Windows.Forms.Button();
             this.tabSpeedups.SuspendLayout();
             this.tabScaling.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.trkSpellCosts)).BeginInit();
@@ -172,11 +172,11 @@
             ((System.ComponentModel.ISupportInitialize)(this.trkGold)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.trkExperience)).BeginInit();
             this.tabAdjustments.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.trkSeedRange)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.trkSeedMin)).BeginInit();
             this.tabMonsters.SuspendLayout();
             this.tabRandom.SuspendLayout();
             this.tabControl1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.trkSeedRange)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.trkSeedMin)).BeginInit();
             this.tabPresets.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -553,6 +553,30 @@
             this.tabScaling.TabIndex = 1;
             this.tabScaling.Text = "Scaling";
             this.tabScaling.UseVisualStyleBackColor = true;
+            // 
+            // chkNoXPMonsters
+            // 
+            this.chkNoXPMonsters.AutoSize = true;
+            this.chkNoXPMonsters.ForeColor = System.Drawing.Color.DarkRed;
+            this.chkNoXPMonsters.Location = new System.Drawing.Point(457, 114);
+            this.chkNoXPMonsters.Name = "chkNoXPMonsters";
+            this.chkNoXPMonsters.Size = new System.Drawing.Size(140, 17);
+            this.chkNoXPMonsters.TabIndex = 224;
+            this.chkNoXPMonsters.Text = "All monsters award 0 XP";
+            this.chkNoXPMonsters.UseVisualStyleBackColor = true;
+            this.chkNoXPMonsters.CheckedChanged += new System.EventHandler(this.determineFlags);
+            // 
+            // chkElnardStats
+            // 
+            this.chkElnardStats.AutoSize = true;
+            this.chkElnardStats.ForeColor = System.Drawing.Color.ForestGreen;
+            this.chkElnardStats.Location = new System.Drawing.Point(457, 88);
+            this.chkElnardStats.Name = "chkElnardStats";
+            this.chkElnardStats.Size = new System.Drawing.Size(213, 17);
+            this.chkElnardStats.TabIndex = 223;
+            this.chkElnardStats.Text = "Boost stat gains by 1 for every 10 levels";
+            this.chkElnardStats.UseVisualStyleBackColor = true;
+            this.chkElnardStats.CheckedChanged += new System.EventHandler(this.determineFlags);
             // 
             // trkSpellCosts
             // 
@@ -1036,6 +1060,55 @@
             this.tabAdjustments.Text = "Adjustments";
             this.tabAdjustments.UseVisualStyleBackColor = true;
             // 
+            // trkSeedRange
+            // 
+            this.trkSeedRange.Location = new System.Drawing.Point(107, 176);
+            this.trkSeedRange.Maximum = 17;
+            this.trkSeedRange.Name = "trkSeedRange";
+            this.trkSeedRange.Size = new System.Drawing.Size(159, 45);
+            this.trkSeedRange.TabIndex = 192;
+            this.trkSeedRange.TickStyle = System.Windows.Forms.TickStyle.None;
+            this.trkSeedRange.Value = 3;
+            this.trkSeedRange.Scroll += new System.EventHandler(this.trkSeedRange_Scroll);
+            // 
+            // label23
+            // 
+            this.label23.AutoSize = true;
+            this.label23.Location = new System.Drawing.Point(11, 178);
+            this.label23.Name = "label23";
+            this.label23.Size = new System.Drawing.Size(79, 13);
+            this.label23.TabIndex = 193;
+            this.label23.Text = "Seed Maximum";
+            // 
+            // trkSeedMin
+            // 
+            this.trkSeedMin.Location = new System.Drawing.Point(107, 150);
+            this.trkSeedMin.Maximum = 17;
+            this.trkSeedMin.Name = "trkSeedMin";
+            this.trkSeedMin.Size = new System.Drawing.Size(159, 45);
+            this.trkSeedMin.TabIndex = 189;
+            this.trkSeedMin.TickStyle = System.Windows.Forms.TickStyle.None;
+            this.trkSeedMin.Value = 1;
+            this.trkSeedMin.Scroll += new System.EventHandler(this.trkSeedMin_Scroll);
+            // 
+            // lblSeedRange
+            // 
+            this.lblSeedRange.AutoSize = true;
+            this.lblSeedRange.Location = new System.Drawing.Point(285, 152);
+            this.lblSeedRange.Name = "lblSeedRange";
+            this.lblSeedRange.Size = new System.Drawing.Size(22, 13);
+            this.lblSeedRange.TabIndex = 191;
+            this.lblSeedRange.Text = "1-4";
+            // 
+            // label21
+            // 
+            this.label21.AutoSize = true;
+            this.label21.Location = new System.Drawing.Point(11, 152);
+            this.label21.Name = "label21";
+            this.label21.Size = new System.Drawing.Size(76, 13);
+            this.label21.TabIndex = 190;
+            this.label21.Text = "Seed Minimum";
+            // 
             // chkGrimeRequired
             // 
             this.chkGrimeRequired.AutoSize = true;
@@ -1178,6 +1251,33 @@
             this.tabMonsters.TabIndex = 5;
             this.tabMonsters.Text = "Monsters";
             this.tabMonsters.UseVisualStyleBackColor = true;
+            // 
+            // cboDropContinuation
+            // 
+            this.cboDropContinuation.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cboDropContinuation.FormattingEnabled = true;
+            this.cboDropContinuation.Items.AddRange(new object[] {
+            "100%",
+            "90%",
+            "75%",
+            "67%",
+            "50%",
+            "25%",
+            "0%"});
+            this.cboDropContinuation.Location = new System.Drawing.Point(153, 109);
+            this.cboDropContinuation.Name = "cboDropContinuation";
+            this.cboDropContinuation.Size = new System.Drawing.Size(339, 21);
+            this.cboDropContinuation.TabIndex = 234;
+            this.cboDropContinuation.SelectedIndexChanged += new System.EventHandler(this.determineFlags);
+            // 
+            // label12
+            // 
+            this.label12.AutoSize = true;
+            this.label12.Location = new System.Drawing.Point(3, 112);
+            this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(133, 13);
+            this.label12.TabIndex = 233;
+            this.label12.Text = "Drop continuation chance:";
             // 
             // cboDropFrequency
             // 
@@ -1327,6 +1427,30 @@
             this.tabRandom.TabIndex = 0;
             this.tabRandom.Text = "Randomization";
             this.tabRandom.UseVisualStyleBackColor = true;
+            // 
+            // chkHeroSameSpells
+            // 
+            this.chkHeroSameSpells.AutoSize = true;
+            this.chkHeroSameSpells.ForeColor = System.Drawing.Color.Black;
+            this.chkHeroSameSpells.Location = new System.Drawing.Point(467, 143);
+            this.chkHeroSameSpells.Name = "chkHeroSameSpells";
+            this.chkHeroSameSpells.Size = new System.Drawing.Size(173, 17);
+            this.chkHeroSameSpells.TabIndex = 227;
+            this.chkHeroSameSpells.Text = "All heroes learn the same spells";
+            this.chkHeroSameSpells.UseVisualStyleBackColor = true;
+            this.chkHeroSameSpells.CheckedChanged += new System.EventHandler(this.determineFlags);
+            // 
+            // chkLevel1Spells
+            // 
+            this.chkLevel1Spells.AutoSize = true;
+            this.chkLevel1Spells.ForeColor = System.Drawing.Color.ForestGreen;
+            this.chkLevel1Spells.Location = new System.Drawing.Point(467, 116);
+            this.chkLevel1Spells.Name = "chkLevel1Spells";
+            this.chkLevel1Spells.Size = new System.Drawing.Size(141, 17);
+            this.chkLevel1Spells.TabIndex = 226;
+            this.chkLevel1Spells.Text = "Learn all spells at level 1";
+            this.chkLevel1Spells.UseVisualStyleBackColor = true;
+            this.chkLevel1Spells.CheckedChanged += new System.EventHandler(this.determineFlags);
             // 
             // cboTreasures
             // 
@@ -1500,130 +1624,6 @@
             this.tabControl1.Size = new System.Drawing.Size(686, 286);
             this.tabControl1.TabIndex = 149;
             // 
-            // trkSeedRange
-            // 
-            this.trkSeedRange.Location = new System.Drawing.Point(107, 176);
-            this.trkSeedRange.Maximum = 17;
-            this.trkSeedRange.Name = "trkSeedRange";
-            this.trkSeedRange.Size = new System.Drawing.Size(159, 45);
-            this.trkSeedRange.TabIndex = 192;
-            this.trkSeedRange.TickStyle = System.Windows.Forms.TickStyle.None;
-            this.trkSeedRange.Value = 3;
-            this.trkSeedRange.Scroll += new System.EventHandler(this.trkSeedRange_Scroll);
-            // 
-            // label23
-            // 
-            this.label23.AutoSize = true;
-            this.label23.Location = new System.Drawing.Point(11, 178);
-            this.label23.Name = "label23";
-            this.label23.Size = new System.Drawing.Size(79, 13);
-            this.label23.TabIndex = 193;
-            this.label23.Text = "Seed Maximum";
-            // 
-            // trkSeedMin
-            // 
-            this.trkSeedMin.Location = new System.Drawing.Point(107, 150);
-            this.trkSeedMin.Maximum = 17;
-            this.trkSeedMin.Name = "trkSeedMin";
-            this.trkSeedMin.Size = new System.Drawing.Size(159, 45);
-            this.trkSeedMin.TabIndex = 189;
-            this.trkSeedMin.TickStyle = System.Windows.Forms.TickStyle.None;
-            this.trkSeedMin.Value = 1;
-            this.trkSeedMin.Scroll += new System.EventHandler(this.trkSeedMin_Scroll);
-            // 
-            // lblSeedRange
-            // 
-            this.lblSeedRange.AutoSize = true;
-            this.lblSeedRange.Location = new System.Drawing.Point(285, 152);
-            this.lblSeedRange.Name = "lblSeedRange";
-            this.lblSeedRange.Size = new System.Drawing.Size(22, 13);
-            this.lblSeedRange.TabIndex = 191;
-            this.lblSeedRange.Text = "1-4";
-            // 
-            // label21
-            // 
-            this.label21.AutoSize = true;
-            this.label21.Location = new System.Drawing.Point(11, 152);
-            this.label21.Name = "label21";
-            this.label21.Size = new System.Drawing.Size(76, 13);
-            this.label21.TabIndex = 190;
-            this.label21.Text = "Seed Minimum";
-            // 
-            // chkElnardStats
-            // 
-            this.chkElnardStats.AutoSize = true;
-            this.chkElnardStats.ForeColor = System.Drawing.Color.ForestGreen;
-            this.chkElnardStats.Location = new System.Drawing.Point(457, 88);
-            this.chkElnardStats.Name = "chkElnardStats";
-            this.chkElnardStats.Size = new System.Drawing.Size(213, 17);
-            this.chkElnardStats.TabIndex = 223;
-            this.chkElnardStats.Text = "Boost stat gains by 1 for every 10 levels";
-            this.chkElnardStats.UseVisualStyleBackColor = true;
-            this.chkElnardStats.CheckedChanged += new System.EventHandler(this.determineFlags);
-            // 
-            // chkNoXPMonsters
-            // 
-            this.chkNoXPMonsters.AutoSize = true;
-            this.chkNoXPMonsters.ForeColor = System.Drawing.Color.DarkRed;
-            this.chkNoXPMonsters.Location = new System.Drawing.Point(457, 114);
-            this.chkNoXPMonsters.Name = "chkNoXPMonsters";
-            this.chkNoXPMonsters.Size = new System.Drawing.Size(140, 17);
-            this.chkNoXPMonsters.TabIndex = 224;
-            this.chkNoXPMonsters.Text = "All monsters award 0 XP";
-            this.chkNoXPMonsters.UseVisualStyleBackColor = true;
-            this.chkNoXPMonsters.CheckedChanged += new System.EventHandler(this.determineFlags);
-            // 
-            // cboDropContinuation
-            // 
-            this.cboDropContinuation.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cboDropContinuation.FormattingEnabled = true;
-            this.cboDropContinuation.Items.AddRange(new object[] {
-            "100%",
-            "90%",
-            "75%",
-            "67%",
-            "50%",
-            "25%",
-            "0%"});
-            this.cboDropContinuation.Location = new System.Drawing.Point(153, 109);
-            this.cboDropContinuation.Name = "cboDropContinuation";
-            this.cboDropContinuation.Size = new System.Drawing.Size(339, 21);
-            this.cboDropContinuation.TabIndex = 234;
-            this.cboDropContinuation.SelectedIndexChanged += new System.EventHandler(this.determineFlags);
-            // 
-            // label12
-            // 
-            this.label12.AutoSize = true;
-            this.label12.Location = new System.Drawing.Point(3, 112);
-            this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(133, 13);
-            this.label12.TabIndex = 233;
-            this.label12.Text = "Drop continuation chance:";
-            // 
-            // chkLevel1Spells
-            // 
-            this.chkLevel1Spells.AutoSize = true;
-            this.chkLevel1Spells.ForeColor = System.Drawing.Color.ForestGreen;
-            this.chkLevel1Spells.Location = new System.Drawing.Point(467, 116);
-            this.chkLevel1Spells.Name = "chkLevel1Spells";
-            this.chkLevel1Spells.Size = new System.Drawing.Size(141, 17);
-            this.chkLevel1Spells.TabIndex = 226;
-            this.chkLevel1Spells.Text = "Learn all spells at level 1";
-            this.chkLevel1Spells.UseVisualStyleBackColor = true;
-            this.chkLevel1Spells.CheckedChanged += new System.EventHandler(this.determineFlags);
-            // 
-            // chkHeroSameSpells
-            // 
-            this.chkHeroSameSpells.AutoSize = true;
-            this.chkHeroSameSpells.ForeColor = System.Drawing.Color.Black;
-            this.chkHeroSameSpells.Location = new System.Drawing.Point(467, 143);
-            this.chkHeroSameSpells.Name = "chkHeroSameSpells";
-            this.chkHeroSameSpells.Size = new System.Drawing.Size(173, 17);
-            this.chkHeroSameSpells.TabIndex = 227;
-            this.chkHeroSameSpells.Text = "All heroes learn the same spells";
-            this.chkHeroSameSpells.UseVisualStyleBackColor = true;
-            this.chkHeroSameSpells.CheckedChanged += new System.EventHandler(this.determineFlags);
-            // 
             // tabPresets
             // 
             this.tabPresets.Controls.Add(this.cmdPresetSuperspeedrun);
@@ -1636,15 +1636,15 @@
             this.tabPresets.Text = "Presets";
             this.tabPresets.UseVisualStyleBackColor = true;
             // 
-            // cmdPresetTraditional
+            // cmdPresetSuperspeedrun
             // 
-            this.cmdPresetTraditional.Location = new System.Drawing.Point(3, 3);
-            this.cmdPresetTraditional.Name = "cmdPresetTraditional";
-            this.cmdPresetTraditional.Size = new System.Drawing.Size(108, 26);
-            this.cmdPresetTraditional.TabIndex = 0;
-            this.cmdPresetTraditional.Text = "Traditional";
-            this.cmdPresetTraditional.UseVisualStyleBackColor = true;
-            this.cmdPresetTraditional.Click += new System.EventHandler(this.cmdPresetTraditional_Click);
+            this.cmdPresetSuperspeedrun.Location = new System.Drawing.Point(3, 67);
+            this.cmdPresetSuperspeedrun.Name = "cmdPresetSuperspeedrun";
+            this.cmdPresetSuperspeedrun.Size = new System.Drawing.Size(108, 26);
+            this.cmdPresetSuperspeedrun.TabIndex = 2;
+            this.cmdPresetSuperspeedrun.Text = "Superspeedrun-ish";
+            this.cmdPresetSuperspeedrun.UseVisualStyleBackColor = true;
+            this.cmdPresetSuperspeedrun.Click += new System.EventHandler(this.cmdPresetSuperspeedrun_Click);
             // 
             // cmdPresetSeedOnly
             // 
@@ -1656,15 +1656,15 @@
             this.cmdPresetSeedOnly.UseVisualStyleBackColor = true;
             this.cmdPresetSeedOnly.Click += new System.EventHandler(this.cmdPresetSeedOnly_Click);
             // 
-            // cmdPresetSuperspeedrun
+            // cmdPresetTraditional
             // 
-            this.cmdPresetSuperspeedrun.Location = new System.Drawing.Point(3, 67);
-            this.cmdPresetSuperspeedrun.Name = "cmdPresetSuperspeedrun";
-            this.cmdPresetSuperspeedrun.Size = new System.Drawing.Size(108, 26);
-            this.cmdPresetSuperspeedrun.TabIndex = 2;
-            this.cmdPresetSuperspeedrun.Text = "Superspeedrun-ish";
-            this.cmdPresetSuperspeedrun.UseVisualStyleBackColor = true;
-            this.cmdPresetSuperspeedrun.Click += new System.EventHandler(this.cmdPresetSuperspeedrun_Click);
+            this.cmdPresetTraditional.Location = new System.Drawing.Point(3, 3);
+            this.cmdPresetTraditional.Name = "cmdPresetTraditional";
+            this.cmdPresetTraditional.Size = new System.Drawing.Size(108, 26);
+            this.cmdPresetTraditional.TabIndex = 0;
+            this.cmdPresetTraditional.Text = "Traditional";
+            this.cmdPresetTraditional.UseVisualStyleBackColor = true;
+            this.cmdPresetTraditional.Click += new System.EventHandler(this.cmdPresetTraditional_Click);
             // 
             // Form1
             // 
@@ -1694,7 +1694,7 @@
             this.Controls.Add(this.lblRomImage);
             this.Controls.Add(this.txtFileName);
             this.Name = "Form1";
-            this.Text = "7th Saga Randomizer";
+            this.Text = "7th Saga Randomizer Version 3.3.2";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);
             this.Load += new System.EventHandler(this.Form1_Load);
             this.tabSpeedups.ResumeLayout(false);
@@ -1716,13 +1716,13 @@
             ((System.ComponentModel.ISupportInitialize)(this.trkExperience)).EndInit();
             this.tabAdjustments.ResumeLayout(false);
             this.tabAdjustments.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.trkSeedRange)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.trkSeedMin)).EndInit();
             this.tabMonsters.ResumeLayout(false);
             this.tabMonsters.PerformLayout();
             this.tabRandom.ResumeLayout(false);
             this.tabRandom.PerformLayout();
             this.tabControl1.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.trkSeedRange)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.trkSeedMin)).EndInit();
             this.tabPresets.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
