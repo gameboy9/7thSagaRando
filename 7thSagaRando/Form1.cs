@@ -411,6 +411,7 @@ namespace _7thSagaRando
             heroStats(r1);
             equipmentStats(r1);
             spellCosts(r1);
+            spellPowers(r1);
             seedAdjustment(r1);
             if (chkSpeedHacks.Checked) speedHacks();
 

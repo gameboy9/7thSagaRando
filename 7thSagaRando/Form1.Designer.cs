@@ -1694,7 +1694,7 @@
             this.Controls.Add(this.lblRomImage);
             this.Controls.Add(this.txtFileName);
             this.Name = "Form1";
-            this.Text = "7th Saga Randomizer Version 3.3.2";
+            this.Text = "7th Saga Randomizer Version 3.3.3";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);
             this.Load += new System.EventHandler(this.Form1_Load);
             this.tabSpeedups.ResumeLayout(false);
