@@ -161,11 +161,12 @@ namespace _7thSagaRando
             flags += convertIntToChar(checkboxesToNumber(new CheckBox[] { chkWindRune1, chkWindRune2, chkWindRune3, chkWindRune4, chkWindRune5, chkHeroSameSpells }));
             flags += convertIntToChar(checkboxesToNumber(new CheckBox[] { chkGoldMin, chkHeroStatMin, chkMonsterStatMin, chkEquipMin, chkSpellPowersMin, chkHeroGrowthMin }));
             flags += convertIntToChar(checkboxesToNumber(new CheckBox[] { chkXPMin, chkHeroSameStats, chkSameRando, chkLocations, chk9999Defense, chkNoEncounters }));
+            flags += convertIntToChar(checkboxesToNumber(new CheckBox[] { chkXPReq, chkBossStatMin, chkBossXPMin }));
             flags += convertIntToChar(cboMonsterZones.SelectedIndex + (cboMonsterPatterns.SelectedIndex * 4));
             flags += convertIntToChar(cboTreasures.SelectedIndex + (cboMonsterDrops.SelectedIndex * 8));
             flags += convertIntToChar(cboStores.SelectedIndex + (cboInteraction.SelectedIndex * 4));
             flags += convertIntToChar(cboEquipment.SelectedIndex + (cboDropFrequency.SelectedIndex * 8));
-            flags += convertIntToChar(cboDropContinuation.SelectedIndex);
+            flags += convertIntToChar(cboDropContinuation.SelectedIndex + (cboMonsterMovement.SelectedIndex * 8));
             flags += convertIntToChar(cboSpellLearning.SelectedIndex);
             flags += convertIntToChar(trkExperience.Value);
             flags += convertIntToChar(trkGold.Value);
@@ -173,6 +174,8 @@ namespace _7thSagaRando
             flags += convertIntToChar(trkGoldReq.Value - 5);
             flags += convertIntToChar(trkMonsterStats.Value - 5);
             flags += convertIntToChar(trkMonsterXP.Value - 5);
+            flags += convertIntToChar(trkBossStats.Value - 5);
+            flags += convertIntToChar(trkBossXP.Value - 5);
             flags += convertIntToChar(trkEquipPowers.Value - 5);
             flags += convertIntToChar(trkSpellPowers.Value - 5);
             flags += convertIntToChar(trkSpellCosts.Value - 5);
@@ -195,7 +198,7 @@ namespace _7thSagaRando
 
         private void determineChecks(object sender, EventArgs e)
         {
-            if (txtFlags.Text.Length != 25)
+            if (txtFlags.Text.Length != 28)
             {
                 cboStores.SelectedIndex = cboTreasures.SelectedIndex = cboInteraction.SelectedIndex = cboEquipment.SelectedIndex = cboSpellLearning.SelectedIndex = 0;
                 cboMonsterZones.SelectedIndex = cboMonsterPatterns.SelectedIndex = cboMonsterDrops.SelectedIndex = 0;
@@ -214,47 +217,53 @@ namespace _7thSagaRando
             numberToCheckboxes(convertChartoInt(Convert.ToChar(flags.Substring(3, 1))), new CheckBox[] { chkWindRune1, chkWindRune2, chkWindRune3, chkWindRune4, chkWindRune5, chkHeroSameSpells });
             numberToCheckboxes(convertChartoInt(Convert.ToChar(flags.Substring(4, 1))), new CheckBox[] { chkGoldMin, chkHeroStatMin, chkMonsterStatMin, chkEquipMin, chkSpellPowersMin, chkHeroGrowthMin });
             numberToCheckboxes(convertChartoInt(Convert.ToChar(flags.Substring(5, 1))), new CheckBox[] { chkXPMin, chkHeroSameStats, chkSameRando, chkLocations, chk9999Defense, chkNoEncounters });
+            numberToCheckboxes(convertChartoInt(Convert.ToChar(flags.Substring(6, 1))), new CheckBox[] { chkXPReq, chkBossStatMin, chkBossXPMin });
 
-            cboMonsterZones.SelectedIndex = convertChartoInt(Convert.ToChar(flags.Substring(6, 1))) % 4;
-            cboMonsterPatterns.SelectedIndex = convertChartoInt(Convert.ToChar(flags.Substring(6, 1))) / 4;
+            cboMonsterZones.SelectedIndex = convertChartoInt(Convert.ToChar(flags.Substring(7, 1))) % 4;
+            cboMonsterPatterns.SelectedIndex = (convertChartoInt(Convert.ToChar(flags.Substring(7, 1))) % 16) / 4;
 
-            cboTreasures.SelectedIndex = convertChartoInt(Convert.ToChar(flags.Substring(7, 1))) % 8;
-            cboMonsterDrops.SelectedIndex = convertChartoInt(Convert.ToChar(flags.Substring(7, 1))) / 8;
+            cboTreasures.SelectedIndex = convertChartoInt(Convert.ToChar(flags.Substring(8, 1))) % 8;
+            cboMonsterDrops.SelectedIndex = convertChartoInt(Convert.ToChar(flags.Substring(8, 1))) / 8;
 
-            cboStores.SelectedIndex = convertChartoInt(Convert.ToChar(flags.Substring(8, 1))) % 4;
-            cboInteraction.SelectedIndex = convertChartoInt(Convert.ToChar(flags.Substring(8, 1))) / 4;
+            cboStores.SelectedIndex = convertChartoInt(Convert.ToChar(flags.Substring(9, 1))) % 4;
+            cboInteraction.SelectedIndex = (convertChartoInt(Convert.ToChar(flags.Substring(9, 1))) % 16) / 4;
 
-            cboEquipment.SelectedIndex = convertChartoInt(Convert.ToChar(flags.Substring(9, 1))) % 8;
-            cboDropFrequency.SelectedIndex = convertChartoInt(Convert.ToChar(flags.Substring(9, 1))) / 8;
+            cboEquipment.SelectedIndex = convertChartoInt(Convert.ToChar(flags.Substring(10, 1))) % 8;
+            cboDropFrequency.SelectedIndex = convertChartoInt(Convert.ToChar(flags.Substring(10, 1))) / 8;
 
-            cboDropContinuation.SelectedIndex = convertChartoInt(Convert.ToChar(flags.Substring(10, 1))) % 8;
+            cboDropContinuation.SelectedIndex = convertChartoInt(Convert.ToChar(flags.Substring(11, 1))) % 8;
+            cboMonsterMovement.SelectedIndex = convertChartoInt(Convert.ToChar(flags.Substring(11, 1))) / 8;
 
-            cboSpellLearning.SelectedIndex = convertChartoInt(Convert.ToChar(flags.Substring(11, 1)));
+            cboSpellLearning.SelectedIndex = convertChartoInt(Convert.ToChar(flags.Substring(12, 1)));
 
-            trkExperience.Value = convertChartoInt(Convert.ToChar(flags.Substring(12, 1)));
+            trkExperience.Value = convertChartoInt(Convert.ToChar(flags.Substring(13, 1)));
             trkExperience_Scroll(null, null);
-            trkGold.Value = convertChartoInt(Convert.ToChar(flags.Substring(13, 1)));
+            trkGold.Value = convertChartoInt(Convert.ToChar(flags.Substring(14, 1)));
             trkGold_Scroll(null, null);
-            trkMagicPowerBoost.Value = convertChartoInt(Convert.ToChar(flags.Substring(14, 1)));
+            trkMagicPowerBoost.Value = convertChartoInt(Convert.ToChar(flags.Substring(15, 1)));
             trkMagicPowerBoost_Scroll(null, null);
-            trkGoldReq.Value = convertChartoInt(Convert.ToChar(flags.Substring(15, 1))) + 5;
+            trkGoldReq.Value = convertChartoInt(Convert.ToChar(flags.Substring(16, 1))) + 5;
             trkGoldReq_Scroll(null, null);
-            trkMonsterStats.Value = convertChartoInt(Convert.ToChar(flags.Substring(16, 1))) + 5;
+            trkMonsterStats.Value = convertChartoInt(Convert.ToChar(flags.Substring(17, 1))) + 5;
             trkMonsterStats_Scroll(null, null);
-            trkMonsterXP.Value = convertChartoInt(Convert.ToChar(flags.Substring(17, 1))) + 5;
+            trkMonsterXP.Value = convertChartoInt(Convert.ToChar(flags.Substring(18, 1))) + 5;
             trkMonsterXP_Scroll(null, null);
-            trkEquipPowers.Value = convertChartoInt(Convert.ToChar(flags.Substring(18, 1))) + 5;
+            trkBossStats.Value = convertChartoInt(Convert.ToChar(flags.Substring(19, 1))) + 5;
+            trkBossStats_Scroll(null, null);
+            trkBossXP.Value = convertChartoInt(Convert.ToChar(flags.Substring(20, 1))) + 5;
+            trkBossXP_Scroll(null, null);
+            trkEquipPowers.Value = convertChartoInt(Convert.ToChar(flags.Substring(21, 1))) + 5;
             trkEquipPowers_Scroll(null, null);
-            trkSpellPowers.Value = convertChartoInt(Convert.ToChar(flags.Substring(19, 1))) + 5;
+            trkSpellPowers.Value = convertChartoInt(Convert.ToChar(flags.Substring(22, 1))) + 5;
             trkSpellPowers_Scroll(null, null);
-            trkSpellCosts.Value = convertChartoInt(Convert.ToChar(flags.Substring(20, 1))) + 5;
+            trkSpellCosts.Value = convertChartoInt(Convert.ToChar(flags.Substring(23, 1))) + 5;
             trkSpellCosts_Scroll(null, null);
-            trkHeroStats.Value = convertChartoInt(Convert.ToChar(flags.Substring(21, 1))) + 5;
+            trkHeroStats.Value = convertChartoInt(Convert.ToChar(flags.Substring(24, 1))) + 5;
             trkHeroStats_Scroll(null, null);
-            trkHeroGrowth.Value = convertChartoInt(Convert.ToChar(flags.Substring(22, 1))) + 5;
+            trkHeroGrowth.Value = convertChartoInt(Convert.ToChar(flags.Substring(25, 1))) + 5;
             trkHeroGrowth_Scroll(null, null);
-            trkSeedMin.Value = convertChartoInt(Convert.ToChar(flags.Substring(23, 1)));
-            trkSeedRange.Value = convertChartoInt(Convert.ToChar(flags.Substring(24, 1)));
+            trkSeedMin.Value = convertChartoInt(Convert.ToChar(flags.Substring(26, 1)));
+            trkSeedRange.Value = convertChartoInt(Convert.ToChar(flags.Substring(27, 1)));
             trkSeedRange_Scroll(null, null);
             loading = false;
         }
@@ -326,6 +335,17 @@ namespace _7thSagaRando
             determineFlags(null, null);
         }
 
+        private void trkBossStats_Scroll(object sender, EventArgs e)
+        {
+            if (trkBossStats.Value == 36)
+                lblBossStats.Text = "CHAOS";
+            else if (trkBossStats.Value == 37)
+                lblBossStats.Text = "!@#$%?";
+            else
+                lblBossStats.Text = (trkBossStats.Value == 5 ? "100%" : (chkBossStatMin.Checked ? 100 : (500 / trkBossStats.Value)) + "-" + (trkBossStats.Value * 20).ToString() + "%");
+            determineFlags(null, null);
+        }
+
         private void trkEquipPowers_Scroll(object sender, EventArgs e)
         {
             if (trkEquipPowers.Value == 36)
@@ -388,12 +408,22 @@ namespace _7thSagaRando
             determineFlags(null, null);
         }
 
+        private void trkBossXP_Scroll(object sender, EventArgs e)
+        {
+            if (trkBossXP.Value == 36)
+                lblBossXP.Text = "CHAOS";
+            else if (trkBossXP.Value == 37)
+                lblBossXP.Text = "!@#$%?";
+            else
+                lblBossXP.Text = (trkBossXP.Value == 5 ? "100%" : (chkXPMin.Checked ? 100 : (500 / trkBossXP.Value)) + "-" + (trkBossXP.Value * 20).ToString() + "%");
+            determineFlags(null, null);
+        }
+
         private void randomize()
         {
             loadRom();
             Random r1 = new Random(Convert.ToInt32(txtSeed.Text));
             apprenticeFightAdjustment(r1);
-            boostExp();
             monsterStats(r1);
             if (cboMonsterZones.SelectedIndex >= 1) randomizeMonsterZones(r1);
             randomizeMonsterPatterns(r1);
@@ -413,6 +443,7 @@ namespace _7thSagaRando
             spellCosts(r1);
             spellPowers(r1);
             seedAdjustment(r1);
+            monsterMovement();
             if (chkSpeedHacks.Checked) speedHacks();
 
             // Remove stat gain text on level up.
@@ -450,12 +481,21 @@ namespace _7thSagaRando
                 //}
             }
 
-            adjustExperienceTable();
+            adjustExperienceTable(r1);
             modifyCredits();
 
             if (chkDoubleWalk.Checked) doubleWalk();
             if (chkRemoveTriggers.Checked) removeUselessTriggers();
             if (chkWindRune1.Checked || chkWindRune2.Checked || chkWindRune3.Checked || chkWindRune4.Checked || chkWindRune5.Checked) freeIce();
+        }
+
+        private void monsterMovement()
+        {
+            if (chkNoEncounters.Checked)
+                romData[0x1f49] = 0x80; // Turn the BNE to a BRA so it never allows a random encounter
+            int movement = (cboMonsterMovement.SelectedIndex == 0 ? 4 : cboMonsterMovement.SelectedIndex == 1 ? 7 : cboMonsterMovement.SelectedIndex == 2 ? 13 : cboMonsterMovement.SelectedIndex == 3 ? 25 : cboMonsterMovement.SelectedIndex == 4 ? 49 : cboMonsterMovement.SelectedIndex == 5 ? 97 : 65535);
+            romData[0xfbeb] = (byte)(movement % 256);
+            romData[0xfbec] = (byte)(movement / 256);
         }
 
         private void seedAdjustment(Random r1)
@@ -777,7 +817,7 @@ namespace _7thSagaRando
                 romData[0x20ee9 + lnI] = romPlugin2[lnI];
         }
 
-        private void adjustExperienceTable()
+        private void adjustExperienceTable(Random r1)
         {
             if (chkNoXPMonsters.Checked)
             {
@@ -788,17 +828,42 @@ namespace _7thSagaRando
                 romData[0x2800b] = 0x00;
             }
 
-            for (int lnI = 0; lnI < 80; lnI++)
+            if (chkXPReq.Checked)
             {
-                int byteToUse = 0x8cc8 + (3 * lnI);
-                double xp = romData[byteToUse + 0] + (romData[byteToUse + 1] * 256) + (romData[byteToUse + 2] * 65536);
-                //xp /= 2.203125;
-                xp /= (trkExperience.Value * 20 / 100);
-                int newXP = (int)Math.Round(xp);
+                int limit1 = 10000 / (trkExperience.Value * 20 / 100);
+                int limit2 = 60000 / (trkExperience.Value * 20 / 100);
+                int limit3 = 200000 / (trkExperience.Value * 20 / 100);
+                int limit4 = 2000000 / (trkExperience.Value * 20 / 100);
+                int[] xpChart1 = inverted_power_curve(1, limit1, 10, 0.5, r1);
+                int[] xpChart2 = inverted_power_curve(limit1, limit2, 10, 0.5, r1);
+                int[] xpChart3 = inverted_power_curve(limit2, limit3, 10, 0.5, r1);
+                int[] xpChart4 = inverted_power_curve(limit3, limit4, 49, 0.5, r1);
+                int[] xpChart = new int[79];
+                Array.Copy(xpChart1, xpChart, xpChart1.Length);
+                Array.Copy(xpChart2, 0, xpChart, 10, xpChart2.Length);
+                Array.Copy(xpChart3, 0, xpChart, 20, xpChart3.Length);
+                Array.Copy(xpChart4, 0, xpChart, 30, xpChart4.Length);
+                for (int lnI = 0; lnI < 79; lnI++)
+                {
+                    int byteToUse = 0x8cc8 + (3 * lnI);
+                    romData[byteToUse + 0] = (byte)(xpChart[lnI] % 256);
+                    romData[byteToUse + 1] = (byte)((xpChart[lnI] / 256) % 256);
+                    romData[byteToUse + 2] = (byte)(xpChart[lnI] / 65536);
+                }
+            } else
+            {
+                for (int lnI = 0; lnI < 79; lnI++)
+                {
+                    int byteToUse = 0x8cc8 + (3 * lnI);
+                    double xp = romData[byteToUse + 0] + (romData[byteToUse + 1] * 256) + (romData[byteToUse + 2] * 65536);
+                    //xp /= 2.203125;
+                    xp /= (trkExperience.Value * 20 / 100);
+                    int newXP = (int)Math.Round(xp);
 
-                romData[byteToUse + 0] = (byte)(newXP % 256);
-                romData[byteToUse + 1] = (byte)((newXP / 256) % 256);
-                romData[byteToUse + 2] = (byte)(newXP / 65536);
+                    romData[byteToUse + 0] = (byte)(newXP % 256);
+                    romData[byteToUse + 1] = (byte)((newXP / 256) % 256);
+                    romData[byteToUse + 2] = (byte)(newXP / 65536);
+                }
             }
         }
 
@@ -2215,24 +2280,6 @@ namespace _7thSagaRando
             }
         }
 
-        private void boostExp()
-        {
-            //for (int lnI = 0; lnI < 98; lnI++)
-            //{
-            //    int byteToUse = 0x72f4 + (42 * lnI);
-            //    int xp = romData[byteToUse + 34] + (256 * romData[byteToUse + 35]);
-            //    xp *= (trkExperience.Value * 20 / 100);
-            //    romData[byteToUse + 34] = (byte)(xp % 256);
-            //    romData[byteToUse + 35] = (byte)(xp / 256);
-            //}
-
-            // Also adjust apprentice fight XP rewards
-            //int xpChar = romData[0x280c2] + (256 * romData[0x280c3]);
-            //xpChar *= (trkExperience.Value * 20 / 100);
-            //romData[0x280c2] = (byte)(xpChar % 256);
-            //romData[0x280c3] = (byte)(xpChar / 256);
-        }
-
         private void goldRequirements(Random r1)
         {
             if (trkGoldReq.Value == 36)
@@ -2343,63 +2390,82 @@ namespace _7thSagaRando
 
         private void monsterStats(Random r1)
         {
-            if (trkMonsterXP.Value == 36)
+            int[] bossOrder = { 0x21, 0x1e, 0x1f, 0x32, 0x23, 0x22, 0x33, 0x20, 0x58, 0x26, 0x34, 0x27, 0x4a, 0x59, 0x28, 0x35, 0x36, 0x37 }; // 0x22+0x33 / 0x26+0x34 / 0x28+0x35+0x36+0x37
+            if (trkMonsterXP.Value == 36 || trkBossXP.Value == 36)
             {
-                int[] bossGP = inverted_power_curve(100, 20000, 13, .5, r1);
-                int[] bossOrder = { 0x21, 0x1e, 0x1f, 0x32, 0x23, 0x22, 0x33, 0x20, 0x58, 0x26, 0x34, 0x27, 0x4a, 0x59, 0x28, 0x35, 0x36, 0x37 }; // 0x22+0x33 / 0x26+0x34 / 0x28+0x35+0x36+0x37
+                int[] bossGP = inverted_power_curve(30, 30000, 13, .5, r1);
                 int[] trueBossOrder = { 0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x05, 0x06, 0x07, 0x08, 0x08, 0x09, 0x0a, 0x0b, 0x0c, 0x0c, 0x0c, 0x0c };
 
-                for (int lnI = 0; lnI < bossOrder.Length; lnI++)
+                if (trkBossXP.Value == 36)
                 {
-                    int byteToUse = 0x72f4 + (42 * bossOrder[lnI]);
+                    for (int lnI = 0; lnI < bossOrder.Length; lnI++)
+                    {
+                        int byteToUse = 0x72f4 + (42 * bossOrder[lnI]);
 
-                    romData[byteToUse + 34] = (byte)(bossGP[trueBossOrder[lnI]] % 256);
-                    romData[byteToUse + 35] = (byte)(bossGP[trueBossOrder[lnI]] / 256);
+                        romData[byteToUse + 34] = (byte)(bossGP[trueBossOrder[lnI]] % 256);
+                        romData[byteToUse + 35] = (byte)(bossGP[trueBossOrder[lnI]] / 256);
+                    }
+
+                    // Also adjust apprentice fight XP rewards
+                    int gp2 = inverted_power_curve(1, 175, 1, .5, r1)[0];
+                    romData[0x280c2 + 0] = (byte)(gp2 % 256);
+                    romData[0x280c2 + 1] = (byte)(gp2 / 256);
                 }
 
+                if (trkMonsterXP.Value == 36)
+                {
+                    for (int lnI = 0; lnI < 90; lnI++)
+                    {
+                        int byteToUse = 0x72f4 + (42 * lnI);
+                        if (bossOrder.Contains(lnI) || romData[byteToUse + 0] == 0x00) continue;
+
+                        int gp = inverted_power_curve(1, 7000, 1, .5, r1)[0];
+                        romData[byteToUse + 34] = (byte)(gp % 256);
+                        romData[byteToUse + 35] = (byte)(gp / 256);
+                    }
+                }
+            }
+
+            if (trkMonsterXP.Value == 37 || trkBossXP.Value == 37)
+            {
                 for (int lnI = 0; lnI < 90; lnI++)
                 {
-                    int byteToUse = 0x72f4 + (42 * lnI);
-                    if (bossOrder.Contains(lnI) || romData[byteToUse + 0] == 0x00) continue;
-
-                    int gp = inverted_power_curve(1, 8000, 1, .5, r1)[0];
-                    romData[byteToUse + 34] = (byte)(gp % 256);
-                    romData[byteToUse + 35] = (byte)(gp / 256);
+                    if ((bossOrder.Contains(lnI) && trkBossXP.Value == 37) || (!bossOrder.Contains(lnI) && trkMonsterXP.Value == 37))
+                    {
+                        int byteToUse = 0x72f4 + (42 * lnI);
+                        int gp = inverted_power_curve(1, 15000, 1, .2, r1)[0];
+                        romData[byteToUse + 34] = (byte)(gp % 256);
+                        romData[byteToUse + 35] = (byte)(gp / 256);
+                    }
                 }
 
-                // Also adjust apprentice fight XP rewards
-                int gp2 = inverted_power_curve(10, 200, 1, .5, r1)[0];
-                romData[0x280c2 + 0] = (byte)(gp2 % 256);
-                romData[0x280c2 + 1] = (byte)(gp2 / 256);
+                if (trkBossXP.Value == 37)
+                {
+                    // Also adjust apprentice fight XP rewards
+                    int gp2 = inverted_power_curve(1, 175, 1, .5, r1)[0];
+                    romData[0x280c2 + 0] = (byte)(gp2 % 256);
+                    romData[0x280c2 + 1] = (byte)(gp2 / 256);
+                }
             }
-            else if (trkMonsterXP.Value == 37)
+
+            if (trkMonsterXP.Value <= 35 || trkBossXP.Value <= 35)
             {
                 for (int lnI = 0; lnI < 90; lnI++)
                 {
                     int byteToUse = 0x72f4 + (42 * lnI);
-                    int gp = inverted_power_curve(1, 15000, 1, .2, r1)[0];
-                    romData[byteToUse + 34] = (byte)(gp % 256);
-                    romData[byteToUse + 35] = (byte)(gp / 256);
-                }
-
-                // Also adjust apprentice fight XP rewards
-                int gp2 = inverted_power_curve(10, 200, 1, .5, r1)[0];
-                romData[0x280c2 + 0] = (byte)(gp2 % 256);
-                romData[0x280c2 + 1] = (byte)(gp2 / 256);
-            }
-            else
-            {
-                for (int lnI = 0; lnI < 90; lnI++)
-                {
-                    int byteToUse = 0x72f4 + (42 * lnI);
-                    statAdjust(r1, byteToUse + 34, 2, trkMonsterXP.Value / 5, 1.0, chkMonsterStatMin.Checked);
+                    if (!bossOrder.Contains(lnI) && trkMonsterXP.Value <= 35)
+                        statAdjust(r1, byteToUse + 34, 2, trkMonsterXP.Value / 5, 1.0, chkXPMin.Checked);
+                    if (bossOrder.Contains(lnI) && trkBossXP.Value <= 35)
+                        statAdjust(r1, byteToUse + 34, 2, trkBossXP.Value / 5, 1.0, chkBossXPMin.Checked);
                 }
 
                 // Also adjust apprentice fight XP rewards
                 statAdjust(r1, 0x280c2, 2, trkMonsterXP.Value / 5, 1.0, chkXPMin.Checked, 800);
             }
 
-            if (trkMonsterStats.Value == 36)
+            /////////////////////////////////////////////////////////////////////////
+
+            if (trkMonsterStats.Value == 36 || trkBossStats.Value == 36)
             {
                 // First, fill in the bosses
                 int[] bossHP = inverted_power_curve(20, 20000, 13, .5, r1);
@@ -2408,68 +2474,70 @@ namespace _7thSagaRando
                 int[] bossGuard = inverted_power_curve(1, 3000, 13, .5, r1);
                 int[] bossMagic = inverted_power_curve(20, 255, 13, 1, r1);
                 int[] bossSpeed = inverted_power_curve(5, 255, 13, 1, r1);
-                //int[] bossGP = inverted_power_curve(200, 20000, 13, .5, r1);
-                int[] bossOrder = { 0x21, 0x1e, 0x1f, 0x32, 0x23, 0x22, 0x33, 0x20, 0x58, 0x26, 0x34, 0x27, 0x4a, 0x59, 0x28, 0x35, 0x36, 0x37 }; // 0x22+0x33 / 0x26+0x34 / 0x28+0x35+0x36+0x37
                 int[] trueBossOrder = { 0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x05, 0x06, 0x07, 0x08, 0x08, 0x09, 0x0a, 0x0b, 0x0c, 0x0c, 0x0c, 0x0c };
                 monsterScore[] scores = new monsterScore[90];
 
                 for (int lnI = 0; lnI < 90; lnI++)
                     scores[lnI] = new monsterScore(lnI);
 
-                for (int lnI = 0; lnI < bossOrder.Length; lnI++)
+                if (trkBossStats.Value == 36)
                 {
-                    int byteToUse = 0x72f4 + (42 * bossOrder[lnI]);
+                    for (int lnI = 0; lnI < bossOrder.Length; lnI++)
+                    {
+                        int byteToUse = 0x72f4 + (42 * bossOrder[lnI]);
 
-                    romData[byteToUse + 1] = (byte)(bossHP[trueBossOrder[lnI]] % 256);
-                    romData[byteToUse + 2] = (byte)(bossHP[trueBossOrder[lnI]] / 256);
-                    romData[byteToUse + 3] = (byte)(bossMP[trueBossOrder[lnI]] % 256);
-                    romData[byteToUse + 4] = (byte)(bossMP[trueBossOrder[lnI]] / 256);
-                    romData[byteToUse + 5] = (byte)(bossPower[trueBossOrder[lnI]] % 256);
-                    romData[byteToUse + 6] = (byte)(bossPower[trueBossOrder[lnI]] / 256);
-                    romData[byteToUse + 7] = (byte)(bossGuard[trueBossOrder[lnI]] % 256);
-                    romData[byteToUse + 8] = (byte)(bossGuard[trueBossOrder[lnI]] / 256);
-                    romData[byteToUse + 9] = (byte)(bossMagic[trueBossOrder[lnI]]);
-                    romData[byteToUse + 10] = (byte)(bossSpeed[trueBossOrder[lnI]]);
-                    //romData[byteToUse + 34] = (byte)(bossGP[trueBossOrder[lnI]] % 256);
-                    //romData[byteToUse + 35] = (byte)(bossGP[trueBossOrder[lnI]] / 256);
-                    scores[bossOrder[lnI]].score = ((long)bossHP[trueBossOrder[lnI]] < 10 ? 1 : (long)bossHP[trueBossOrder[lnI]] / 10) *
-                                                   ((long)bossPower[trueBossOrder[lnI]] < 10 ? 1 : (long)bossPower[trueBossOrder[lnI]] / 10) *
-                                                   ((long)bossGuard[trueBossOrder[lnI]] < 10 ? 1 : (long)bossGuard[trueBossOrder[lnI]] / 10) *
-                                                   ((long)bossMagic[trueBossOrder[lnI]] < 10 ? 1 : (long)bossMagic[trueBossOrder[lnI]] / 10) *
-                                                   ((long)bossSpeed[trueBossOrder[lnI]] < 10 ? 1 : (long)bossSpeed[trueBossOrder[lnI]] / 10);
+                        romData[byteToUse + 1] = (byte)(bossHP[trueBossOrder[lnI]] % 256);
+                        romData[byteToUse + 2] = (byte)(bossHP[trueBossOrder[lnI]] / 256);
+                        romData[byteToUse + 3] = (byte)(bossMP[trueBossOrder[lnI]] % 256);
+                        romData[byteToUse + 4] = (byte)(bossMP[trueBossOrder[lnI]] / 256);
+                        romData[byteToUse + 5] = (byte)(bossPower[trueBossOrder[lnI]] % 256);
+                        romData[byteToUse + 6] = (byte)(bossPower[trueBossOrder[lnI]] / 256);
+                        romData[byteToUse + 7] = (byte)(bossGuard[trueBossOrder[lnI]] % 256);
+                        romData[byteToUse + 8] = (byte)(bossGuard[trueBossOrder[lnI]] / 256);
+                        romData[byteToUse + 9] = (byte)(bossMagic[trueBossOrder[lnI]]);
+                        romData[byteToUse + 10] = (byte)(bossSpeed[trueBossOrder[lnI]]);
+                        scores[bossOrder[lnI]].score = ((long)bossHP[trueBossOrder[lnI]] < 10 ? 1 : (long)bossHP[trueBossOrder[lnI]] / 10) *
+                                                       ((long)bossPower[trueBossOrder[lnI]] < 10 ? 1 : (long)bossPower[trueBossOrder[lnI]] / 10) *
+                                                       ((long)bossGuard[trueBossOrder[lnI]] < 10 ? 1 : (long)bossGuard[trueBossOrder[lnI]] / 10) *
+                                                       ((long)bossMagic[trueBossOrder[lnI]] < 10 ? 1 : (long)bossMagic[trueBossOrder[lnI]] / 10) *
+                                                       ((long)bossSpeed[trueBossOrder[lnI]] < 10 ? 1 : (long)bossSpeed[trueBossOrder[lnI]] / 10);
+                    }
                 }
 
-                // Then fill in the rest of the monsters.
-                for (int lnI = 0; lnI < 90; lnI++)
+                if (trkMonsterStats.Value == 36)
                 {
-                    int byteToUse = 0x72f4 + (42 * lnI);
-                    if (bossOrder.Contains(lnI) || romData[byteToUse + 0] == 0x00) continue;
+                    // Then fill in the rest of the monsters.
+                    for (int lnI = 0; lnI < 90; lnI++)
+                    {
+                        int byteToUse = 0x72f4 + (42 * lnI);
+                        if (bossOrder.Contains(lnI) || romData[byteToUse + 0] == 0x00) continue;
 
-                    int hp = inverted_power_curve(1, 2000, 1, .5, r1)[0];
-                    int mp = inverted_power_curve(0, 200, 1, .5, r1)[0];
-                    int power = inverted_power_curve(1, 1000, 1, .5, r1)[0];
-                    int guard = inverted_power_curve(1, 1200, 1, .5, r1)[0];
-                    int magic = inverted_power_curve(1, 255, 1, .5, r1)[0];
-                    int speed = inverted_power_curve(1, 255, 1, .5, r1)[0];
-                    //int gp = inverted_power_curve(1, 8000, 1, .5, r1)[0];
+                        int hp = inverted_power_curve(1, 2000, 1, .5, r1)[0];
+                        int mp = inverted_power_curve(0, 200, 1, .5, r1)[0];
+                        int power = inverted_power_curve(1, 1000, 1, .5, r1)[0];
+                        int guard = inverted_power_curve(1, 1200, 1, .5, r1)[0];
+                        int magic = inverted_power_curve(1, 255, 1, .5, r1)[0];
+                        int speed = inverted_power_curve(1, 255, 1, .5, r1)[0];
+                        //int gp = inverted_power_curve(1, 8000, 1, .5, r1)[0];
 
-                    romData[byteToUse + 1] = (byte)(hp % 256);
-                    romData[byteToUse + 2] = (byte)(hp / 256);
-                    romData[byteToUse + 3] = (byte)(mp % 256);
-                    romData[byteToUse + 4] = (byte)(mp / 256);
-                    romData[byteToUse + 5] = (byte)(power % 256);
-                    romData[byteToUse + 6] = (byte)(power / 256);
-                    romData[byteToUse + 7] = (byte)(guard % 256);
-                    romData[byteToUse + 8] = (byte)(guard / 256);
-                    romData[byteToUse + 9] = (byte)(magic);
-                    romData[byteToUse + 10] = (byte)(speed);
-                    //romData[byteToUse + 34] = (byte)(gp % 256);
-                    //romData[byteToUse + 35] = (byte)(gp / 256);
-                    scores[lnI].score = ((long)hp < 10 ? 1 : (long)hp / 10) *
-                                        ((long)power < 10 ? 1 : (long)power / 10) *
-                                        ((long)guard < 10 ? 1 : (long)guard / 10) *
-                                        ((long)magic < 10 ? 1 : (long)magic / 10) *
-                                        ((long)speed < 10 ? 1 : (long)speed / 10);
+                        romData[byteToUse + 1] = (byte)(hp % 256);
+                        romData[byteToUse + 2] = (byte)(hp / 256);
+                        romData[byteToUse + 3] = (byte)(mp % 256);
+                        romData[byteToUse + 4] = (byte)(mp / 256);
+                        romData[byteToUse + 5] = (byte)(power % 256);
+                        romData[byteToUse + 6] = (byte)(power / 256);
+                        romData[byteToUse + 7] = (byte)(guard % 256);
+                        romData[byteToUse + 8] = (byte)(guard / 256);
+                        romData[byteToUse + 9] = (byte)(magic);
+                        romData[byteToUse + 10] = (byte)(speed);
+                        //romData[byteToUse + 34] = (byte)(gp % 256);
+                        //romData[byteToUse + 35] = (byte)(gp / 256);
+                        scores[lnI].score = ((long)hp < 10 ? 1 : (long)hp / 10) *
+                                            ((long)power < 10 ? 1 : (long)power / 10) *
+                                            ((long)guard < 10 ? 1 : (long)guard / 10) *
+                                            ((long)magic < 10 ? 1 : (long)magic / 10) *
+                                            ((long)speed < 10 ? 1 : (long)speed / 10);
+                    }
                 }
 
                 scores = bubbleSort(scores, scores.Length);
@@ -2498,7 +2566,8 @@ namespace _7thSagaRando
                 romData[noodleByte + 34] = (byte)(newXP % 256);
                 romData[noodleByte + 35] = (byte)(newXP / 256);
             }
-            else if (trkMonsterStats.Value == 37)
+
+            if (trkMonsterStats.Value == 37 || trkBossStats.Value == 37)
             {
                 monsterScore[] scores = new monsterScore[90];
 
@@ -2509,26 +2578,35 @@ namespace _7thSagaRando
                     int byteToUse = 0x72f4 + (42 * lnI);
                     if (romData[byteToUse + 0] == 0x00) continue;
 
-                    int hp = inverted_power_curve(1, 25000, 1, .2, r1)[0];
-                    int mp = inverted_power_curve(0, 5000, 1, .2, r1)[0];
-                    int power = inverted_power_curve(1, 3000, 1, .2, r1)[0];
-                    int guard = inverted_power_curve(1, 1200, 1, .2, r1)[0];
-                    int magic = inverted_power_curve(1, 255, 1, .2, r1)[0];
-                    int speed = inverted_power_curve(1, 255, 1, .2, r1)[0];
-                    int gp = inverted_power_curve(1, 20000, 1, .2, r1)[0];
+                    int hp = romData[byteToUse + 1] + (256 * romData[byteToUse + 2]);
+                    int power = romData[byteToUse + 5] + (256 * romData[byteToUse + 6]);
+                    int guard = romData[byteToUse + 7] + (256 * romData[byteToUse + 8]);
+                    int magic = romData[byteToUse + 9];
+                    int speed = romData[byteToUse + 10];
+                    if ((bossOrder.Contains(lnI) && trkBossXP.Value == 37) || (!bossOrder.Contains(lnI) && trkMonsterXP.Value == 37))
+                    {
+                        hp = inverted_power_curve(1, 25000, 1, .2, r1)[0];
+                        int mp = inverted_power_curve(0, 5000, 1, .2, r1)[0];
+                        power = inverted_power_curve(1, 3000, 1, .2, r1)[0];
+                        guard = inverted_power_curve(1, 1200, 1, .2, r1)[0];
+                        magic = inverted_power_curve(1, 255, 1, .2, r1)[0];
+                        speed = inverted_power_curve(1, 255, 1, .2, r1)[0];
+                        int gp = inverted_power_curve(1, 20000, 1, .2, r1)[0];
 
-                    romData[byteToUse + 1] = (byte)(hp % 256);
-                    romData[byteToUse + 2] = (byte)(hp / 256);
-                    romData[byteToUse + 3] = (byte)(mp % 256);
-                    romData[byteToUse + 4] = (byte)(mp / 256);
-                    romData[byteToUse + 5] = (byte)(power % 256);
-                    romData[byteToUse + 6] = (byte)(power / 256);
-                    romData[byteToUse + 7] = (byte)(guard % 256);
-                    romData[byteToUse + 8] = (byte)(guard / 256);
-                    romData[byteToUse + 9] = (byte)(magic);
-                    romData[byteToUse + 10] = (byte)(speed);
-                    romData[byteToUse + 34] = (byte)(gp % 256);
-                    romData[byteToUse + 35] = (byte)(gp / 256);
+                        romData[byteToUse + 1] = (byte)(hp % 256);
+                        romData[byteToUse + 2] = (byte)(hp / 256);
+                        romData[byteToUse + 3] = (byte)(mp % 256);
+                        romData[byteToUse + 4] = (byte)(mp / 256);
+                        romData[byteToUse + 5] = (byte)(power % 256);
+                        romData[byteToUse + 6] = (byte)(power / 256);
+                        romData[byteToUse + 7] = (byte)(guard % 256);
+                        romData[byteToUse + 8] = (byte)(guard / 256);
+                        romData[byteToUse + 9] = (byte)(magic);
+                        romData[byteToUse + 10] = (byte)(speed);
+                        romData[byteToUse + 34] = (byte)(gp % 256);
+                        romData[byteToUse + 35] = (byte)(gp / 256);
+                    }
+
                     scores[lnI].score = ((long)hp < 10 ? 1 : (long)hp / 10) *
                                         ((long)power < 10 ? 1 : (long)power / 10) *
                                         ((long)guard < 10 ? 1 : (long)guard / 10) *
@@ -2546,7 +2624,8 @@ namespace _7thSagaRando
                 }
                 monsterRanking = newRanking.ToArray();
             }
-            else
+
+            if (trkMonsterStats.Value <= 35 || trkBossStats.Value <= 35)
             {
                 for (int lnI = 0; lnI < 90; lnI++)
                 {
@@ -2554,26 +2633,46 @@ namespace _7thSagaRando
                     // romData[byteToUse] == 0x46 || - Let's experiment randomizing Gorsia and see how it goes.
                     if (romData[byteToUse] == 0x00) continue; // Do not randomize blank monsters. 
 
-                    statAdjust(r1, byteToUse + 1, 2, trkMonsterStats.Value / 5, 1.0, chkMonsterStatMin.Checked);
-                    statAdjust(r1, byteToUse + 3, 2, trkMonsterStats.Value / 5, 1.0, chkMonsterStatMin.Checked);
-                    statAdjust(r1, byteToUse + 5, 2, trkMonsterStats.Value / 5, 0.5, chkMonsterStatMin.Checked);
-                    statAdjust(r1, byteToUse + 7, 2, trkMonsterStats.Value / 5, 0.5, chkMonsterStatMin.Checked);
-                    statAdjust(r1, byteToUse + 9, 1, trkMonsterStats.Value / 5, 0.25, chkMonsterStatMin.Checked);
-                    statAdjust(r1, byteToUse + 10, 1, trkMonsterStats.Value / 5, 0.25, chkMonsterStatMin.Checked);
-                    statAdjust(r1, byteToUse + 27, 1, trkMonsterStats.Value / 5, 0.5, chkMonsterStatMin.Checked, 100);
-                    statAdjust(r1, byteToUse + 28, 1, trkMonsterStats.Value / 5, 0.5, chkMonsterStatMin.Checked, 100);
-                    statAdjust(r1, byteToUse + 29, 1, trkMonsterStats.Value / 5, 0.5, chkMonsterStatMin.Checked, 100);
-                    statAdjust(r1, byteToUse + 30, 1, trkMonsterStats.Value / 5, 0.5, chkMonsterStatMin.Checked, 100);
-                    statAdjust(r1, byteToUse + 31, 1, trkMonsterStats.Value / 5, 0.5, chkMonsterStatMin.Checked, 100);
-                    statAdjust(r1, byteToUse + 32, 1, trkMonsterStats.Value / 5, 0.5, chkMonsterStatMin.Checked, 100);
-                    statAdjust(r1, byteToUse + 33, 1, trkMonsterStats.Value / 5, 0.5, chkMonsterStatMin.Checked, 100);
-                    //statAdjust(r1, byteToUse + 34, 2, trkMonsterXP.Value / 5, 1.0, chkMonsterStatMin.Checked);
+                    if (!bossOrder.Contains(lnI) && trkMonsterXP.Value <= 35)
+                    {
+                        statAdjust(r1, byteToUse + 1, 2, trkMonsterStats.Value / 5, 1.0, chkMonsterStatMin.Checked);
+                        statAdjust(r1, byteToUse + 3, 2, trkMonsterStats.Value / 5, 1.0, chkMonsterStatMin.Checked);
+                        statAdjust(r1, byteToUse + 5, 2, trkMonsterStats.Value / 5, 0.5, chkMonsterStatMin.Checked);
+                        statAdjust(r1, byteToUse + 7, 2, trkMonsterStats.Value / 5, 0.5, chkMonsterStatMin.Checked);
+                        statAdjust(r1, byteToUse + 9, 1, trkMonsterStats.Value / 5, 0.25, chkMonsterStatMin.Checked);
+                        statAdjust(r1, byteToUse + 10, 1, trkMonsterStats.Value / 5, 0.25, chkMonsterStatMin.Checked);
+                        statAdjust(r1, byteToUse + 27, 1, trkMonsterStats.Value / 5, 0.5, chkMonsterStatMin.Checked, 100);
+                        statAdjust(r1, byteToUse + 28, 1, trkMonsterStats.Value / 5, 0.5, chkMonsterStatMin.Checked, 100);
+                        statAdjust(r1, byteToUse + 29, 1, trkMonsterStats.Value / 5, 0.5, chkMonsterStatMin.Checked, 100);
+                        statAdjust(r1, byteToUse + 30, 1, trkMonsterStats.Value / 5, 0.5, chkMonsterStatMin.Checked, 100);
+                        statAdjust(r1, byteToUse + 31, 1, trkMonsterStats.Value / 5, 0.5, chkMonsterStatMin.Checked, 100);
+                        statAdjust(r1, byteToUse + 32, 1, trkMonsterStats.Value / 5, 0.5, chkMonsterStatMin.Checked, 100);
+                        statAdjust(r1, byteToUse + 33, 1, trkMonsterStats.Value / 5, 0.5, chkMonsterStatMin.Checked, 100);
+                    }
+
+                    if (bossOrder.Contains(lnI) && trkBossXP.Value <= 35)
+                    {
+                        statAdjust(r1, byteToUse + 1, 2, trkBossStats.Value / 5, 1.0, chkBossStatMin.Checked);
+                        statAdjust(r1, byteToUse + 3, 2, trkBossStats.Value / 5, 1.0, chkBossStatMin.Checked);
+                        statAdjust(r1, byteToUse + 5, 2, trkBossStats.Value / 5, 0.5, chkBossStatMin.Checked);
+                        statAdjust(r1, byteToUse + 7, 2, trkBossStats.Value / 5, 0.5, chkBossStatMin.Checked);
+                        statAdjust(r1, byteToUse + 9, 1, trkBossStats.Value / 5, 0.25, chkBossStatMin.Checked);
+                        statAdjust(r1, byteToUse + 10, 1, trkBossStats.Value / 5, 0.25, chkBossStatMin.Checked);
+                        statAdjust(r1, byteToUse + 27, 1, trkBossStats.Value / 5, 0.5, chkBossStatMin.Checked, 100);
+                        statAdjust(r1, byteToUse + 28, 1, trkBossStats.Value / 5, 0.5, chkBossStatMin.Checked, 100);
+                        statAdjust(r1, byteToUse + 29, 1, trkBossStats.Value / 5, 0.5, chkBossStatMin.Checked, 100);
+                        statAdjust(r1, byteToUse + 30, 1, trkBossStats.Value / 5, 0.5, chkBossStatMin.Checked, 100);
+                        statAdjust(r1, byteToUse + 31, 1, trkBossStats.Value / 5, 0.5, chkBossStatMin.Checked, 100);
+                        statAdjust(r1, byteToUse + 32, 1, trkBossStats.Value / 5, 0.5, chkBossStatMin.Checked, 100);
+                        statAdjust(r1, byteToUse + 33, 1, trkBossStats.Value / 5, 0.5, chkBossStatMin.Checked, 100);
+                    }
 
                     if (chk9999Defense.Checked)
                     {
                         romData[byteToUse + 8] = 0x27;
                         romData[byteToUse + 7] = 0x0f;
                     }
+                    // If Guard >= 768, then Magic is limited to 150.
                     if (romData[byteToUse + 8] >= 0x03)
                         romData[byteToUse + 9] = (byte)(romData[byteToUse + 9] > 150 ? 150 : romData[byteToUse + 9]);
                 }
