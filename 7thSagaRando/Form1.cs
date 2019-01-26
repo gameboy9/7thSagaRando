@@ -512,7 +512,7 @@ namespace _7thSagaRando
                 romData[0x4a136 + lnI] = romPlugin[lnI];
 
             byte minimum = (byte)(trkSeedMin.Value >= 16 ? r1.Next() % 16 : trkSeedMin.Value);
-            byte range = (byte)(trkSeedRange.Value >= 16 ? r1.Next() % (16 - minimum) : trkSeedRange.Value + minimum >= 16 ? 16 - minimum : trkSeedRange.Value);
+            byte range = (byte)(trkSeedRange.Value >= 16 ? r1.Next() % (16 - minimum) : trkSeedRange.Value + minimum >= 16 ? 16 - minimum : trkSeedRange.Value + 1);
 
             romPlugin = new byte[]
             {
@@ -835,9 +835,9 @@ namespace _7thSagaRando
                 int limit3 = 200000 / (trkExperience.Value * 20 / 100);
                 int limit4 = 2000000 / (trkExperience.Value * 20 / 100);
                 int[] xpChart1 = inverted_power_curve(1, limit1, 10, 0.5, r1);
-                int[] xpChart2 = inverted_power_curve(limit1, limit2, 10, 0.5, r1);
-                int[] xpChart3 = inverted_power_curve(limit2, limit3, 10, 0.5, r1);
-                int[] xpChart4 = inverted_power_curve(limit3, limit4, 49, 0.5, r1);
+                int[] xpChart2 = inverted_power_curve(xpChart1[9], limit2, 10, 0.5, r1);
+                int[] xpChart3 = inverted_power_curve(xpChart2[9], limit3, 10, 0.5, r1);
+                int[] xpChart4 = inverted_power_curve(xpChart3[9], limit4, 49, 0.5, r1);
                 int[] xpChart = new int[79];
                 Array.Copy(xpChart1, xpChart, xpChart1.Length);
                 Array.Copy(xpChart2, 0, xpChart, 10, xpChart2.Length);
@@ -1002,7 +1002,11 @@ namespace _7thSagaRando
 
         private void noXPSplitting()
         {
-            romData[0x281d2] = romData[0x281d3] = romData[0x281bf] = romData[0x281c0] = romData[0x281c1] = romData[0x281c2] = 0xea;
+            romData[0x281d2] = romData[0x281d3] = 
+                romData[0x281bf] = romData[0x281c0] = romData[0x281c1] = romData[0x281c2] =
+                romData[0x281dd] = romData[0x281de] = romData[0x281df] = romData[0x281e0] =
+                romData[0x281f0] = romData[0x281f1] =
+                0xea;
         }
 
         private void apprenticeFightAdjustment(Random r1)
@@ -2510,7 +2514,11 @@ namespace _7thSagaRando
                     for (int lnI = 0; lnI < 90; lnI++)
                     {
                         int byteToUse = 0x72f4 + (42 * lnI);
-                        if (bossOrder.Contains(lnI) || romData[byteToUse + 0] == 0x00) continue;
+                        if (bossOrder.Contains(lnI) || romData[byteToUse + 0] == 0x00)
+                        {
+                            scores[lnI].score = 9999999999999;
+                            continue;
+                        }
 
                         int hp = inverted_power_curve(1, 2000, 1, .5, r1)[0];
                         int mp = inverted_power_curve(0, 200, 1, .5, r1)[0];
@@ -2557,9 +2565,9 @@ namespace _7thSagaRando
                 romData[noodleByte + 3] = 0;
                 romData[noodleByte + 4] = 0;
                 romData[noodleByte + 5] = 5;
-                romData[noodleByte + 6] = 5;
+                romData[noodleByte + 6] = 0;
                 romData[noodleByte + 7] = 5;
-                romData[noodleByte + 8] = 5;
+                romData[noodleByte + 8] = 0;
                 romData[noodleByte + 9] = 5;
                 romData[noodleByte + 10] = 5;
                 int newXP = inverted_power_curve(20, 200, 1, .5, r1)[0];
@@ -2583,7 +2591,7 @@ namespace _7thSagaRando
                     int guard = romData[byteToUse + 7] + (256 * romData[byteToUse + 8]);
                     int magic = romData[byteToUse + 9];
                     int speed = romData[byteToUse + 10];
-                    if ((bossOrder.Contains(lnI) && trkBossXP.Value == 37) || (!bossOrder.Contains(lnI) && trkMonsterXP.Value == 37))
+                    if ((bossOrder.Contains(lnI) && trkBossStats.Value == 37) || (!bossOrder.Contains(lnI) && trkMonsterStats.Value == 37))
                     {
                         hp = inverted_power_curve(1, 25000, 1, .2, r1)[0];
                         int mp = inverted_power_curve(0, 5000, 1, .2, r1)[0];
@@ -2633,7 +2641,7 @@ namespace _7thSagaRando
                     // romData[byteToUse] == 0x46 || - Let's experiment randomizing Gorsia and see how it goes.
                     if (romData[byteToUse] == 0x00) continue; // Do not randomize blank monsters. 
 
-                    if (!bossOrder.Contains(lnI) && trkMonsterXP.Value <= 35)
+                    if (!bossOrder.Contains(lnI) && trkMonsterStats.Value <= 35)
                     {
                         statAdjust(r1, byteToUse + 1, 2, trkMonsterStats.Value / 5, 1.0, chkMonsterStatMin.Checked);
                         statAdjust(r1, byteToUse + 3, 2, trkMonsterStats.Value / 5, 1.0, chkMonsterStatMin.Checked);
@@ -2650,7 +2658,7 @@ namespace _7thSagaRando
                         statAdjust(r1, byteToUse + 33, 1, trkMonsterStats.Value / 5, 0.5, chkMonsterStatMin.Checked, 100);
                     }
 
-                    if (bossOrder.Contains(lnI) && trkBossXP.Value <= 35)
+                    if (bossOrder.Contains(lnI) && trkBossStats.Value <= 35)
                     {
                         statAdjust(r1, byteToUse + 1, 2, trkBossStats.Value / 5, 1.0, chkBossStatMin.Checked);
                         statAdjust(r1, byteToUse + 3, 2, trkBossStats.Value / 5, 1.0, chkBossStatMin.Checked);
@@ -2732,8 +2740,12 @@ namespace _7thSagaRando
             {
                 for (int lnI = 0; lnI < 61; lnI++)
                 {
+                    if (lnI == 0x23)
+                    {
+                        var asdf = 1234;
+                    }
                     int byteToUse = 0x7018 + (12 * lnI);
-                    statAdjust(r1, byteToUse + 3, 2, trkSpellCosts.Value / 5, 1.0, chkSpellCostsMin.Checked);
+                    statAdjust(r1, byteToUse + 3, 1, trkSpellCosts.Value / 5, 1.0, chkSpellCostsMin.Checked);
                 }
             }
         }
@@ -2754,13 +2766,16 @@ namespace _7thSagaRando
             {
                 for (int lnI = 0; lnI < 61; lnI++)
                 {
+                    // Skip HEAL 3.
+                    if (lnI == 0x1a) continue;
+
                     int byteToUse = 0x7018 + (12 * lnI);
                     int power = romData[byteToUse + 0] + (256 * romData[byteToUse + 1]);
                     power *= (trkMagicPowerBoost.Value / 5);
                     romData[byteToUse + 0] = (byte)(power % 256);
                     romData[byteToUse + 1] = (byte)(power / 256);
 
-                    statAdjust(r1, byteToUse, 2, trkSpellPowers.Value / 5, 1.0, chkSpellPowersMin.Checked);
+                    statAdjust(r1, byteToUse, 2, trkSpellPowers.Value / 5, 1.0, chkSpellPowersMin.Checked, lnI == 0x18 || lnI == 0x19 || lnI == 0x1a ? 999 : 65535);
                 }
             }
         }
@@ -3637,18 +3652,18 @@ namespace _7thSagaRando
 
         private void cmdPresetTraditional_Click(object sender, EventArgs e)
         {
-            txtFlags.Text = "XPV0085k6P42ZZZUUUUUUUU22";
+            txtFlags.Text = "XRV00815k5PS2ZZZUUUUUUUUUU31";
             //determineChecks(null, null); (this is called by default due to the above line.  Keep this line here for the record)
         }
 
         private void cmdPresetSeedOnly_Click(object sender, EventArgs e)
         {
-            txtFlags.Text = "1v@WQE5I92145ZA77K5555087";
+            txtFlags.Text = "XR@00805k92I45ZZ555555555587";
         }
 
         private void cmdPresetSuperspeedrun_Click(object sender, EventArgs e)
         {
-            txtFlags.Text = "0PV000000020ZZK00U0000022";
+            txtFlags.Text = "XRV0000000OL0ZZ5000000000031";
         }
     }
 }
