@@ -120,7 +120,7 @@
             this.tabMonsters = new System.Windows.Forms.TabPage();
             this.cboMonsterMovement = new System.Windows.Forms.ComboBox();
             this.label24 = new System.Windows.Forms.Label();
-            this.cboDropContinuation = new System.Windows.Forms.ComboBox();
+            this.cboMinDropChance = new System.Windows.Forms.ComboBox();
             this.label12 = new System.Windows.Forms.Label();
             this.cboDropFrequency = new System.Windows.Forms.ComboBox();
             this.label10 = new System.Windows.Forms.Label();
@@ -1161,7 +1161,7 @@
             // 
             this.tabMonsters.Controls.Add(this.cboMonsterMovement);
             this.tabMonsters.Controls.Add(this.label24);
-            this.tabMonsters.Controls.Add(this.cboDropContinuation);
+            this.tabMonsters.Controls.Add(this.cboMinDropChance);
             this.tabMonsters.Controls.Add(this.label12);
             this.tabMonsters.Controls.Add(this.cboDropFrequency);
             this.tabMonsters.Controls.Add(this.label10);
@@ -1207,32 +1207,33 @@
             this.label24.TabIndex = 251;
             this.label24.Text = "Monster movement:";
             // 
-            // cboDropContinuation
+            // cboMinDropChance
             // 
-            this.cboDropContinuation.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cboDropContinuation.FormattingEnabled = true;
-            this.cboDropContinuation.Items.AddRange(new object[] {
-            "100%",
-            "90%",
-            "75%",
-            "67%",
-            "50%",
-            "25%",
-            "0%"});
-            this.cboDropContinuation.Location = new System.Drawing.Point(153, 109);
-            this.cboDropContinuation.Name = "cboDropContinuation";
-            this.cboDropContinuation.Size = new System.Drawing.Size(247, 21);
-            this.cboDropContinuation.TabIndex = 234;
-            this.cboDropContinuation.SelectedIndexChanged += new System.EventHandler(this.determineFlags);
+            this.cboMinDropChance.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cboMinDropChance.FormattingEnabled = true;
+            this.cboMinDropChance.Items.AddRange(new object[] {
+            "0/16",
+            "1/16",
+            "2/16",
+            "4/16",
+            "6/16",
+            "8/16",
+            "12/16",
+            "16/16"});
+            this.cboMinDropChance.Location = new System.Drawing.Point(153, 109);
+            this.cboMinDropChance.Name = "cboMinDropChance";
+            this.cboMinDropChance.Size = new System.Drawing.Size(247, 21);
+            this.cboMinDropChance.TabIndex = 234;
+            this.cboMinDropChance.SelectedIndexChanged += new System.EventHandler(this.determineFlags);
             // 
             // label12
             // 
             this.label12.AutoSize = true;
             this.label12.Location = new System.Drawing.Point(3, 112);
             this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(133, 13);
+            this.label12.Size = new System.Drawing.Size(114, 13);
             this.label12.TabIndex = 233;
-            this.label12.Text = "Drop continuation chance:";
+            this.label12.Text = "Minimum drop chance:";
             // 
             // cboDropFrequency
             // 
@@ -1999,7 +2000,7 @@
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.CheckBox chkElnardStats;
         private System.Windows.Forms.CheckBox chkNoXPMonsters;
-        private System.Windows.Forms.ComboBox cboDropContinuation;
+        private System.Windows.Forms.ComboBox cboMinDropChance;
         private System.Windows.Forms.Label label12;
         private System.Windows.Forms.CheckBox chkLevel1Spells;
         private System.Windows.Forms.CheckBox chkHeroSameSpells;

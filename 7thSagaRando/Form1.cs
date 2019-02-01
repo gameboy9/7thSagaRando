@@ -166,7 +166,7 @@ namespace _7thSagaRando
             flags += convertIntToChar(cboTreasures.SelectedIndex + (cboMonsterDrops.SelectedIndex * 8));
             flags += convertIntToChar(cboStores.SelectedIndex + (cboInteraction.SelectedIndex * 4));
             flags += convertIntToChar(cboEquipment.SelectedIndex + (cboDropFrequency.SelectedIndex * 8));
-            flags += convertIntToChar(cboDropContinuation.SelectedIndex + (cboMonsterMovement.SelectedIndex * 8));
+            flags += convertIntToChar(cboMinDropChance.SelectedIndex + (cboMonsterMovement.SelectedIndex * 8));
             flags += convertIntToChar(cboSpellLearning.SelectedIndex);
             flags += convertIntToChar(trkExperience.Value);
             flags += convertIntToChar(trkGold.Value);
@@ -203,7 +203,7 @@ namespace _7thSagaRando
                 cboStores.SelectedIndex = cboTreasures.SelectedIndex = cboInteraction.SelectedIndex = cboEquipment.SelectedIndex = cboSpellLearning.SelectedIndex = 0;
                 cboMonsterZones.SelectedIndex = cboMonsterPatterns.SelectedIndex = cboMonsterDrops.SelectedIndex = 0;
                 cboDropFrequency.SelectedIndex = 3;
-                cboDropContinuation.SelectedIndex = 4;
+                cboMinDropChance.SelectedIndex = 4;
                 chkShowInitStats.Checked = true;
                 chkShowLevelUpStats.Checked = true;
                 chkShowStatGains.Checked = true;
@@ -231,7 +231,7 @@ namespace _7thSagaRando
             cboEquipment.SelectedIndex = convertChartoInt(Convert.ToChar(flags.Substring(10, 1))) % 8;
             cboDropFrequency.SelectedIndex = convertChartoInt(Convert.ToChar(flags.Substring(10, 1))) / 8;
 
-            cboDropContinuation.SelectedIndex = convertChartoInt(Convert.ToChar(flags.Substring(11, 1))) % 8;
+            cboMinDropChance.SelectedIndex = convertChartoInt(Convert.ToChar(flags.Substring(11, 1))) % 8;
             cboMonsterMovement.SelectedIndex = convertChartoInt(Convert.ToChar(flags.Substring(11, 1))) / 8;
 
             cboSpellLearning.SelectedIndex = convertChartoInt(Convert.ToChar(flags.Substring(12, 1)));
@@ -1036,7 +1036,8 @@ namespace _7thSagaRando
                 romData[0xbd61] = 0x7f; // Prevent stat boosts when hero level > 10.  That's cheating.
             }
 
-            romData[0xca59] = 0xe9; // Force apprentice to be your level MINUS 1 instead of your level PLUS 1.
+            // Force apprentice to be equal to your level instead of plus 1.
+            romData[0xca59] = romData[0xca5a] = 0xea; 
             romData[0x24852] = 0xea; // None of that doubling of MP either.  Sorry, that's cheating.
 
             // Randomize Patrof apprentice to be 1-10 levels better than you... unless you have free rune on, then make it 1-20 levels better than you.
@@ -1788,7 +1789,7 @@ namespace _7thSagaRando
 
                 for (int lnJ = 0; lnJ < 16; lnJ++)
                 {
-                        if (lnI <= 4 && cboMonsterDrops.SelectedIndex == 5)
+                    if (lnI <= 4 && cboMonsterDrops.SelectedIndex == 5)
                     {
                         if (lnI == 1)
                             romData[byteToUse + lnJ] = (commonItems[r1.Next() % commonItems.Length]);
@@ -1810,12 +1811,14 @@ namespace _7thSagaRando
                             romData[byteToUse + lnJ] = (equipItems[r1.Next() % equipItems.Length]);
                     } else
                     {
-                        if (lnJ == 0 || r1.Next() % 100 < (cboDropContinuation.SelectedIndex == 0 ? 999 :
-                                                           cboDropContinuation.SelectedIndex == 1 ? 90 :
-                                                           cboDropContinuation.SelectedIndex == 2 ? 75 :
-                                                           cboDropContinuation.SelectedIndex == 3 ? 67 :
-                                                           cboDropContinuation.SelectedIndex == 4 ? 50 :
-                                                           cboDropContinuation.SelectedIndex == 5 ? 25 : 0))
+                        int minDropChance = cboMinDropChance.SelectedIndex == 0 ? -1 :
+                                            cboMinDropChance.SelectedIndex == 1 ? 0 :
+                                            cboMinDropChance.SelectedIndex == 2 ? 1 :
+                                            cboMinDropChance.SelectedIndex == 3 ? 3 :
+                                            cboMinDropChance.SelectedIndex == 4 ? 5 :
+                                            cboMinDropChance.SelectedIndex == 5 ? 7 :
+                                            cboMinDropChance.SelectedIndex == 6 ? 11 : 15;
+                        if (lnJ <= minDropChance || r1.Next() % 100 < 50)
                         {
                             if (cboMonsterDrops.SelectedIndex == 5)
                             {
@@ -2788,7 +2791,7 @@ namespace _7thSagaRando
             double guard = ScaleValueDouble(1, trkHeroStats.Value / 5, 1.0, r1, chkHeroStatMin.Checked);
             double magic = ScaleValueDouble(1, trkHeroStats.Value / 5, 1.0, r1, chkHeroStatMin.Checked);
             double speed = ScaleValueDouble(1, trkHeroStats.Value / 5, 1.0, r1, chkHeroStatMin.Checked);
-            double xp = ScaleValueDouble(1, trkHeroStats.Value / 5, 0.5, r1, chkHeroStatMin.Checked);
+            double xp = chkNoXPMonsters.Checked ? 0 : ScaleValueDouble(1, trkHeroStats.Value / 5, 0.5, r1, chkHeroStatMin.Checked);
 
             double hp2 = ScaleValueDouble(1, trkHeroGrowth.Value / 5, 0.5, r1, chkHeroGrowthMin.Checked);
             double mp2 = ScaleValueDouble(1, trkHeroGrowth.Value / 5, 0.5, r1, chkHeroGrowthMin.Checked);
@@ -2805,7 +2808,7 @@ namespace _7thSagaRando
                 guard = inverted_power_curve(0, 50, 1, 0.25, r1)[0];
                 magic = inverted_power_curve(0, 30, 1, 0.25, r1)[0];
                 speed = inverted_power_curve(0, 30, 1, 0.25, r1)[0];
-                xp = inverted_power_curve(0, 255, 1, 0.5, r1)[0];
+                xp = chkNoXPMonsters.Checked ? 0 : inverted_power_curve(0, 255, 1, 0.5, r1)[0];
             }
 
             if (trkHeroStats.Value == 37 && chkSameRando.Checked)
@@ -2833,7 +2836,8 @@ namespace _7thSagaRando
                         romData[byteToUse + 6] = (byte)magic;
                         romData[byteToUse + 7] = (byte)speed;
                         romData[byteToUse + 17] = (byte)xp;
-                    } else
+                    }
+                    else
                     {
                         romData[byteToUse] = (byte)inverted_power_curve(3, 150, 1, 0.33, r1)[0];
                         romData[byteToUse + 2] = (byte)inverted_power_curve(2, 115, 1, 0.33, r1)[0];
@@ -2841,9 +2845,10 @@ namespace _7thSagaRando
                         romData[byteToUse + 5] = (byte)inverted_power_curve(0, 50, 1, 0.25, r1)[0];
                         romData[byteToUse + 6] = (byte)inverted_power_curve(0, 30, 1, 0.25, r1)[0];
                         romData[byteToUse + 7] = (byte)inverted_power_curve(0, 30, 1, 0.25, r1)[0];
-                        romData[byteToUse + 17] = (byte)inverted_power_curve(0, 255, 1, 0.5, r1)[0];
+                        romData[byteToUse + 17] = (byte)(chkNoXPMonsters.Checked ? 0 : inverted_power_curve(0, 255, 1, 0.5, r1)[0]);
                     }
-                } else
+                }
+                else
                 {
                     if (chkSameRando.Checked)
                     {
@@ -2855,7 +2860,7 @@ namespace _7thSagaRando
                             romData[byteToUse + 5] = (byte)(Math.Max(0, 4.6 * guard)); // Starting Guard
                             romData[byteToUse + 6] = (byte)(Math.Max(0, 3.1 * magic)); // Starting Magic
                             romData[byteToUse + 7] = (byte)(Math.Max(0, 3.6 * speed)); // Starting Speed
-                            romData[byteToUse + 17] = (byte)(Math.Max(0, 21.3 * xp)); // Starting Experience
+                            romData[byteToUse + 17] = (byte)(chkNoXPMonsters.Checked ? 0 : Math.Max(0, 21.3 * xp)); // Starting Experience
                         }
                         else
                         {
@@ -2865,9 +2870,10 @@ namespace _7thSagaRando
                             romData[byteToUse + 5] = (byte)(Math.Max(0, romData[byteToUse + 5] * guard)); // Starting Guard
                             romData[byteToUse + 6] = (byte)(Math.Max(0, romData[byteToUse + 6] * magic)); // Starting Magic
                             romData[byteToUse + 7] = (byte)(Math.Max(0, romData[byteToUse + 7] * speed)); // Starting Speed
-                            romData[byteToUse + 17] = (byte)(Math.Max(0, romData[byteToUse + 17] * xp)); // Starting Experience
+                            romData[byteToUse + 17] = (byte)(chkNoXPMonsters.Checked ? 0 : Math.Max(0, romData[byteToUse + 17] * xp)); // Starting Experience
                         }
-                    } else
+                    }
+                    else
                     {
                         if (chkHeroSameStats.Checked)
                         {
@@ -2877,7 +2883,7 @@ namespace _7thSagaRando
                             romData[byteToUse + 5] = (byte)(ScaleValue(4.6, trkHeroStats.Value / 5, 1.0, r1, chkHeroStatMin.Checked)); // Starting Guard
                             romData[byteToUse + 6] = (byte)(ScaleValue(3.1, trkHeroStats.Value / 5, 1.0, r1, chkHeroStatMin.Checked)); // Starting Magic
                             romData[byteToUse + 7] = (byte)(ScaleValue(3.6, trkHeroStats.Value / 5, 1.0, r1, chkHeroStatMin.Checked)); // Starting Speed
-                            romData[byteToUse + 17] = (byte)(ScaleValue(21.3, trkHeroGrowth.Value / 5, 0.5, r1, chkHeroGrowthMin.Checked)); // Starting Experience
+                            romData[byteToUse + 17] = (byte)(chkNoXPMonsters.Checked ? 0 : ScaleValue(21.3, trkHeroGrowth.Value / 5, 0.5, r1, chkHeroGrowthMin.Checked)); // Starting Experience
                         }
                         else
                         {
@@ -2887,7 +2893,10 @@ namespace _7thSagaRando
                             statAdjust(r1, byteToUse + 5, 1, trkHeroStats.Value / 5, 1.0, chkHeroStatMin.Checked); // Starting Guard
                             statAdjust(r1, byteToUse + 6, 1, trkHeroStats.Value / 5, 1.0, chkHeroStatMin.Checked); // Starting Magic
                             statAdjust(r1, byteToUse + 7, 1, trkHeroStats.Value / 5, 1.0, chkHeroStatMin.Checked); // Starting Speed
-                            statAdjust(r1, byteToUse + 17, 1, trkHeroGrowth.Value / 5, 1.0, chkHeroGrowthMin.Checked); // Starting Experience
+                            if (chkNoXPMonsters.Checked)
+                                romData[byteToUse + 17] = 0;
+                            else
+                                statAdjust(r1, byteToUse + 17, 1, trkHeroGrowth.Value / 5, 1.0, chkHeroGrowthMin.Checked); // Starting Experience
                         }
                     }
                 }
