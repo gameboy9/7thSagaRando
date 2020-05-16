@@ -415,7 +415,7 @@ namespace _7thSagaRando
             else if (trkBossXP.Value == 37)
                 lblBossXP.Text = "!@#$%?";
             else
-                lblBossXP.Text = (trkBossXP.Value == 5 ? "100%" : (chkXPMin.Checked ? 100 : (500 / trkBossXP.Value)) + "-" + (trkBossXP.Value * 20).ToString() + "%");
+                lblBossXP.Text = (trkBossXP.Value == 5 ? "100%" : (chkBossXPMin.Checked ? 100 : (500 / trkBossXP.Value)) + "-" + (trkBossXP.Value * 20).ToString() + "%");
             determineFlags(null, null);
         }
 
@@ -480,6 +480,10 @@ namespace _7thSagaRando
                     romData[0x39a6] = 0x00;
                 //}
             }
+
+            // Make a consistent, but random, bookshelf search.  (regarding flight to Melmond)
+            romData[0x1d104] = 0xa9;
+            romData[0x1d105] = (byte)(r1.Next() % 10);
 
             adjustExperienceTable(r1);
             modifyCredits();
@@ -1574,16 +1578,19 @@ namespace _7thSagaRando
             // Shorten SARO speech
             textToHex(0x6f646, "Good job!  *GORSIA's*@curse on the *Runes*@is lifted.", new byte[] { 0xf6, 0x01, 0xf6, 0x03, 0xf6, 0x01, 0xf6, 0x6a });
 
-            // All the old runes at once
-            //textToHex(0x0, "", new byte[] { 0xff, 0x52, 0xf4, 0xc6 });
+			// Remove the pronoun of the beginning of the past
+			textToHex(0x6C5D8, "Hmmmmm...", new byte[] { 0xF3, 0xFF, 0x26, 0xc6, 0xc6 });
 
-            // Inn
-            //romPlugin = new byte[] { 0x28, 0x47, 0x47, 0x5a, 0x0d, 0x82, 0x8c, 0x82, 0x0d, 0x26, 0xfc, 0x00, 0x00, 0x00, 0x00, 0xc6, 0x0d, 0xf9 };
-            //for (int lnI = 0; lnI < romPlugin.Length; lnI++)
-            //    romData[0x6058b + lnI] = romPlugin[lnI];
-        }
+			// All the old runes at once
+			//textToHex(0x0, "", new byte[] { 0xff, 0x52, 0xf4, 0xc6 });
 
-        private int textToHex(int startAddress, string text, byte[] extra = null, bool complete = true)
+			// Inn
+			//romPlugin = new byte[] { 0x28, 0x47, 0x47, 0x5a, 0x0d, 0x82, 0x8c, 0x82, 0x0d, 0x26, 0xfc, 0x00, 0x00, 0x00, 0x00, 0xc6, 0x0d, 0xf9 };
+			//for (int lnI = 0; lnI < romPlugin.Length; lnI++)
+			//    romData[0x6058b + lnI] = romPlugin[lnI];
+		}
+
+		private int textToHex(int startAddress, string text, byte[] extra = null, bool complete = true)
         {
             char[] chars = text.ToCharArray();
             int lnI = 0;
@@ -2018,7 +2025,8 @@ namespace _7thSagaRando
                     romData[byteToUse] = rareItems[r1.Next() % rareItems.Length];
                 else if (itemGet < 85 || cboTreasures.SelectedIndex == 4)
                     romData[byteToUse] = weapons[r1.Next() % weapons.Length];
-                else if (itemGet < 95 || cboTreasures.SelectedIndex == 5)
+				// Last two conditions:  No tricks in Melenam since they relock the doors and you can't get out.            
+				else if ((itemGet < 95 || cboTreasures.SelectedIndex == 5) && byteToUse <= 0x8c0d && byteToUse >= 0x8c19)
                     romData[byteToUse] = monsters[r1.Next() % monsters.Length];
                 else
                     romData[byteToUse] = 0x00;
@@ -3589,6 +3597,7 @@ namespace _7thSagaRando
                     if (links[lnI] == 0xff)
                         continue;
 
+
                     int byteToUse = 0x57f0f + (lnI * 6);
                     int byteToUse2 = 0x58360 + (links[lnI] * 11);
 
@@ -3693,6 +3702,22 @@ namespace _7thSagaRando
         private void cmdPresetSuperspeedrun_Click(object sender, EventArgs e)
         {
             txtFlags.Text = "XRV0000000OL0ZZ5000000000031";
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            loadRom();
+            using (StreamWriter swMap = new StreamWriter("warp.txt"))
+            {
+                for (int y = 0; y < 1024; y++)
+                {
+                    int byteToUse = 0x158000 + (12 * y);
+                    string output1 = "";
+                    for (int x = 0; x < 12; x++)
+                        output1 += romData[byteToUse + x].ToString("X2") + " ";
+                    swMap.WriteLine(output1);
+                }
+            }
         }
     }
 }
