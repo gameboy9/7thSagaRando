@@ -62,6 +62,8 @@
 			this.chkDoubleWalk = new System.Windows.Forms.CheckBox();
 			this.chkSpeedHacks = new System.Windows.Forms.CheckBox();
 			this.tabScaling = new System.Windows.Forms.TabPage();
+			this.chkShuffleStatGains = new System.Windows.Forms.CheckBox();
+			this.chkShuffleStartStats = new System.Windows.Forms.CheckBox();
 			this.chkNoXPMonsters = new System.Windows.Forms.CheckBox();
 			this.chkElnardStats = new System.Windows.Forms.CheckBox();
 			this.trkSpellCosts = new System.Windows.Forms.TrackBar();
@@ -170,6 +172,7 @@
 			this.cmdPresetSeedOnly = new System.Windows.Forms.Button();
 			this.cmdPresetTraditional = new System.Windows.Forms.Button();
 			this.button3 = new System.Windows.Forms.Button();
+			this.chkTimeScaling = new System.Windows.Forms.CheckBox();
 			this.tabSpeedups.SuspendLayout();
 			this.tabScaling.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.trkSpellCosts)).BeginInit();
@@ -199,7 +202,7 @@
 			// cmdRandomize
 			// 
 			this.cmdRandomize.Location = new System.Drawing.Point(801, 449);
-			this.cmdRandomize.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+			this.cmdRandomize.Margin = new System.Windows.Forms.Padding(4);
 			this.cmdRandomize.Name = "cmdRandomize";
 			this.cmdRandomize.Size = new System.Drawing.Size(128, 28);
 			this.cmdRandomize.TabIndex = 123;
@@ -220,7 +223,7 @@
 			// txtFlags
 			// 
 			this.txtFlags.Location = new System.Drawing.Point(439, 134);
-			this.txtFlags.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+			this.txtFlags.Margin = new System.Windows.Forms.Padding(4);
 			this.txtFlags.Name = "txtFlags";
 			this.txtFlags.Size = new System.Drawing.Size(265, 22);
 			this.txtFlags.TabIndex = 105;
@@ -229,7 +232,7 @@
 			// btnNewSeed
 			// 
 			this.btnNewSeed.Location = new System.Drawing.Point(248, 134);
-			this.btnNewSeed.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+			this.btnNewSeed.Margin = new System.Windows.Forms.Padding(4);
 			this.btnNewSeed.Name = "btnNewSeed";
 			this.btnNewSeed.Size = new System.Drawing.Size(115, 28);
 			this.btnNewSeed.TabIndex = 97;
@@ -250,7 +253,7 @@
 			// txtSeed
 			// 
 			this.txtSeed.Location = new System.Drawing.Point(92, 137);
-			this.txtSeed.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+			this.txtSeed.Margin = new System.Windows.Forms.Padding(4);
 			this.txtSeed.Name = "txtSeed";
 			this.txtSeed.Size = new System.Drawing.Size(132, 22);
 			this.txtSeed.TabIndex = 96;
@@ -258,7 +261,7 @@
 			// btnCompareBrowse
 			// 
 			this.btnCompareBrowse.Location = new System.Drawing.Point(611, 41);
-			this.btnCompareBrowse.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+			this.btnCompareBrowse.Margin = new System.Windows.Forms.Padding(4);
 			this.btnCompareBrowse.Name = "btnCompareBrowse";
 			this.btnCompareBrowse.Size = new System.Drawing.Size(100, 28);
 			this.btnCompareBrowse.TabIndex = 94;
@@ -278,7 +281,7 @@
 			// txtCompare
 			// 
 			this.txtCompare.Location = new System.Drawing.Point(176, 43);
-			this.txtCompare.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+			this.txtCompare.Margin = new System.Windows.Forms.Padding(4);
 			this.txtCompare.Name = "txtCompare";
 			this.txtCompare.Size = new System.Drawing.Size(425, 22);
 			this.txtCompare.TabIndex = 93;
@@ -286,7 +289,7 @@
 			// btnCompare
 			// 
 			this.btnCompare.Location = new System.Drawing.Point(611, 76);
-			this.btnCompare.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+			this.btnCompare.Margin = new System.Windows.Forms.Padding(4);
 			this.btnCompare.Name = "btnCompare";
 			this.btnCompare.Size = new System.Drawing.Size(100, 28);
 			this.btnCompare.TabIndex = 95;
@@ -336,7 +339,7 @@
 			// btnBrowse
 			// 
 			this.btnBrowse.Location = new System.Drawing.Point(611, 9);
-			this.btnBrowse.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+			this.btnBrowse.Margin = new System.Windows.Forms.Padding(4);
 			this.btnBrowse.Name = "btnBrowse";
 			this.btnBrowse.Size = new System.Drawing.Size(100, 28);
 			this.btnBrowse.TabIndex = 92;
@@ -357,7 +360,7 @@
 			// txtFileName
 			// 
 			this.txtFileName.Location = new System.Drawing.Point(176, 11);
-			this.txtFileName.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+			this.txtFileName.Margin = new System.Windows.Forms.Padding(4);
 			this.txtFileName.Name = "txtFileName";
 			this.txtFileName.Size = new System.Drawing.Size(425, 22);
 			this.txtFileName.TabIndex = 91;
@@ -374,7 +377,7 @@
 			// button1
 			// 
 			this.button1.Location = new System.Drawing.Point(693, 449);
-			this.button1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+			this.button1.Margin = new System.Windows.Forms.Padding(4);
 			this.button1.Name = "button1";
 			this.button1.Size = new System.Drawing.Size(100, 28);
 			this.button1.TabIndex = 148;
@@ -386,7 +389,7 @@
 			// cmdGuide
 			// 
 			this.cmdGuide.Location = new System.Drawing.Point(801, 492);
-			this.cmdGuide.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+			this.cmdGuide.Margin = new System.Windows.Forms.Padding(4);
 			this.cmdGuide.Name = "cmdGuide";
 			this.cmdGuide.Size = new System.Drawing.Size(128, 28);
 			this.cmdGuide.TabIndex = 150;
@@ -397,7 +400,7 @@
 			// button2
 			// 
 			this.button2.Location = new System.Drawing.Point(693, 492);
-			this.button2.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+			this.button2.Margin = new System.Windows.Forms.Padding(4);
 			this.button2.Name = "button2";
 			this.button2.Size = new System.Drawing.Size(100, 28);
 			this.button2.TabIndex = 151;
@@ -420,7 +423,7 @@
 			this.tabSpeedups.Controls.Add(this.chkDoubleWalk);
 			this.tabSpeedups.Controls.Add(this.chkSpeedHacks);
 			this.tabSpeedups.Location = new System.Drawing.Point(4, 25);
-			this.tabSpeedups.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+			this.tabSpeedups.Margin = new System.Windows.Forms.Padding(4);
 			this.tabSpeedups.Name = "tabSpeedups";
 			this.tabSpeedups.Size = new System.Drawing.Size(907, 247);
 			this.tabSpeedups.TabIndex = 2;
@@ -431,7 +434,7 @@
 			// 
 			this.chkBrushAirship1.AutoSize = true;
 			this.chkBrushAirship1.Location = new System.Drawing.Point(8, 128);
-			this.chkBrushAirship1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+			this.chkBrushAirship1.Margin = new System.Windows.Forms.Padding(4);
 			this.chkBrushAirship1.Name = "chkBrushAirship1";
 			this.chkBrushAirship1.Size = new System.Drawing.Size(206, 21);
 			this.chkBrushAirship1.TabIndex = 182;
@@ -443,7 +446,7 @@
 			// 
 			this.chkWindRune5.AutoSize = true;
 			this.chkWindRune5.Location = new System.Drawing.Point(439, 156);
-			this.chkWindRune5.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+			this.chkWindRune5.Margin = new System.Windows.Forms.Padding(4);
 			this.chkWindRune5.Name = "chkWindRune5";
 			this.chkWindRune5.Size = new System.Drawing.Size(148, 21);
 			this.chkWindRune5.TabIndex = 155;
@@ -455,7 +458,7 @@
 			// 
 			this.chkWindRune4.AutoSize = true;
 			this.chkWindRune4.Location = new System.Drawing.Point(439, 128);
-			this.chkWindRune4.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+			this.chkWindRune4.Margin = new System.Windows.Forms.Padding(4);
 			this.chkWindRune4.Name = "chkWindRune4";
 			this.chkWindRune4.Size = new System.Drawing.Size(175, 21);
 			this.chkWindRune4.TabIndex = 154;
@@ -467,7 +470,7 @@
 			// 
 			this.chkWindRune3.AutoSize = true;
 			this.chkWindRune3.Location = new System.Drawing.Point(439, 100);
-			this.chkWindRune3.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+			this.chkWindRune3.Margin = new System.Windows.Forms.Padding(4);
 			this.chkWindRune3.Name = "chkWindRune3";
 			this.chkWindRune3.Size = new System.Drawing.Size(112, 21);
 			this.chkWindRune3.TabIndex = 153;
@@ -479,7 +482,7 @@
 			// 
 			this.chkWindRune2.AutoSize = true;
 			this.chkWindRune2.Location = new System.Drawing.Point(439, 71);
-			this.chkWindRune2.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+			this.chkWindRune2.Margin = new System.Windows.Forms.Padding(4);
 			this.chkWindRune2.Name = "chkWindRune2";
 			this.chkWindRune2.Size = new System.Drawing.Size(139, 21);
 			this.chkWindRune2.TabIndex = 152;
@@ -501,7 +504,7 @@
 			// 
 			this.chkRemoveTriggers.AutoSize = true;
 			this.chkRemoveTriggers.Location = new System.Drawing.Point(8, 100);
-			this.chkRemoveTriggers.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+			this.chkRemoveTriggers.Margin = new System.Windows.Forms.Padding(4);
 			this.chkRemoveTriggers.Name = "chkRemoveTriggers";
 			this.chkRemoveTriggers.Size = new System.Drawing.Size(337, 21);
 			this.chkRemoveTriggers.TabIndex = 150;
@@ -513,7 +516,7 @@
 			// 
 			this.chkWindRune1.AutoSize = true;
 			this.chkWindRune1.Location = new System.Drawing.Point(439, 43);
-			this.chkWindRune1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+			this.chkWindRune1.Margin = new System.Windows.Forms.Padding(4);
 			this.chkWindRune1.Name = "chkWindRune1";
 			this.chkWindRune1.Size = new System.Drawing.Size(106, 21);
 			this.chkWindRune1.TabIndex = 149;
@@ -525,7 +528,7 @@
 			// 
 			this.chkShowStatGains.AutoSize = true;
 			this.chkShowStatGains.Location = new System.Drawing.Point(8, 71);
-			this.chkShowStatGains.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+			this.chkShowStatGains.Margin = new System.Windows.Forms.Padding(4);
 			this.chkShowStatGains.Name = "chkShowStatGains";
 			this.chkShowStatGains.Size = new System.Drawing.Size(202, 21);
 			this.chkShowStatGains.TabIndex = 148;
@@ -538,7 +541,7 @@
 			this.chkDoubleWalk.AutoSize = true;
 			this.chkDoubleWalk.ForeColor = System.Drawing.Color.ForestGreen;
 			this.chkDoubleWalk.Location = new System.Drawing.Point(8, 15);
-			this.chkDoubleWalk.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+			this.chkDoubleWalk.Margin = new System.Windows.Forms.Padding(4);
 			this.chkDoubleWalk.Name = "chkDoubleWalk";
 			this.chkDoubleWalk.Size = new System.Drawing.Size(281, 21);
 			this.chkDoubleWalk.TabIndex = 147;
@@ -550,7 +553,7 @@
 			// 
 			this.chkSpeedHacks.AutoSize = true;
 			this.chkSpeedHacks.Location = new System.Drawing.Point(8, 43);
-			this.chkSpeedHacks.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+			this.chkSpeedHacks.Margin = new System.Windows.Forms.Padding(4);
 			this.chkSpeedHacks.Name = "chkSpeedHacks";
 			this.chkSpeedHacks.Size = new System.Drawing.Size(177, 21);
 			this.chkSpeedHacks.TabIndex = 146;
@@ -560,6 +563,8 @@
 			// 
 			// tabScaling
 			// 
+			this.tabScaling.Controls.Add(this.chkShuffleStatGains);
+			this.tabScaling.Controls.Add(this.chkShuffleStartStats);
 			this.tabScaling.Controls.Add(this.chkNoXPMonsters);
 			this.tabScaling.Controls.Add(this.chkElnardStats);
 			this.tabScaling.Controls.Add(this.trkSpellCosts);
@@ -589,20 +594,44 @@
 			this.tabScaling.Controls.Add(this.trkHeroStats);
 			this.tabScaling.Controls.Add(this.trkGoldReq);
 			this.tabScaling.Location = new System.Drawing.Point(4, 25);
-			this.tabScaling.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+			this.tabScaling.Margin = new System.Windows.Forms.Padding(4);
 			this.tabScaling.Name = "tabScaling";
-			this.tabScaling.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+			this.tabScaling.Padding = new System.Windows.Forms.Padding(4);
 			this.tabScaling.Size = new System.Drawing.Size(907, 247);
 			this.tabScaling.TabIndex = 1;
 			this.tabScaling.Text = "Scaling";
 			this.tabScaling.UseVisualStyleBackColor = true;
 			// 
+			// chkShuffleStatGains
+			// 
+			this.chkShuffleStatGains.AutoSize = true;
+			this.chkShuffleStatGains.Location = new System.Drawing.Point(609, 108);
+			this.chkShuffleStatGains.Margin = new System.Windows.Forms.Padding(4);
+			this.chkShuffleStatGains.Name = "chkShuffleStatGains";
+			this.chkShuffleStatGains.Size = new System.Drawing.Size(172, 21);
+			this.chkShuffleStatGains.TabIndex = 226;
+			this.chkShuffleStatGains.Text = "Shuffle hero stat gains";
+			this.chkShuffleStatGains.UseVisualStyleBackColor = true;
+			this.chkShuffleStatGains.CheckedChanged += new System.EventHandler(this.determineFlags);
+			// 
+			// chkShuffleStartStats
+			// 
+			this.chkShuffleStartStats.AutoSize = true;
+			this.chkShuffleStartStats.Location = new System.Drawing.Point(609, 76);
+			this.chkShuffleStartStats.Margin = new System.Windows.Forms.Padding(4);
+			this.chkShuffleStartStats.Name = "chkShuffleStartStats";
+			this.chkShuffleStartStats.Size = new System.Drawing.Size(192, 21);
+			this.chkShuffleStartStats.TabIndex = 225;
+			this.chkShuffleStartStats.Text = "Shuffle starting hero stats";
+			this.chkShuffleStartStats.UseVisualStyleBackColor = true;
+			this.chkShuffleStartStats.CheckedChanged += new System.EventHandler(this.determineFlags);
+			// 
 			// chkNoXPMonsters
 			// 
 			this.chkNoXPMonsters.AutoSize = true;
 			this.chkNoXPMonsters.ForeColor = System.Drawing.Color.DarkRed;
-			this.chkNoXPMonsters.Location = new System.Drawing.Point(609, 140);
-			this.chkNoXPMonsters.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+			this.chkNoXPMonsters.Location = new System.Drawing.Point(609, 172);
+			this.chkNoXPMonsters.Margin = new System.Windows.Forms.Padding(4);
 			this.chkNoXPMonsters.Name = "chkNoXPMonsters";
 			this.chkNoXPMonsters.Size = new System.Drawing.Size(183, 21);
 			this.chkNoXPMonsters.TabIndex = 224;
@@ -614,8 +643,8 @@
 			// 
 			this.chkElnardStats.AutoSize = true;
 			this.chkElnardStats.ForeColor = System.Drawing.Color.ForestGreen;
-			this.chkElnardStats.Location = new System.Drawing.Point(609, 108);
-			this.chkElnardStats.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+			this.chkElnardStats.Location = new System.Drawing.Point(609, 140);
+			this.chkElnardStats.Margin = new System.Windows.Forms.Padding(4);
 			this.chkElnardStats.Name = "chkElnardStats";
 			this.chkElnardStats.Size = new System.Drawing.Size(282, 21);
 			this.chkElnardStats.TabIndex = 223;
@@ -626,7 +655,7 @@
 			// trkSpellCosts
 			// 
 			this.trkSpellCosts.Location = new System.Drawing.Point(176, 167);
-			this.trkSpellCosts.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+			this.trkSpellCosts.Margin = new System.Windows.Forms.Padding(4);
 			this.trkSpellCosts.Maximum = 36;
 			this.trkSpellCosts.Minimum = 5;
 			this.trkSpellCosts.Name = "trkSpellCosts";
@@ -640,7 +669,7 @@
 			// 
 			this.chkSpellCostsMin.AutoSize = true;
 			this.chkSpellCostsMin.Location = new System.Drawing.Point(487, 172);
-			this.chkSpellCostsMin.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+			this.chkSpellCostsMin.Margin = new System.Windows.Forms.Padding(4);
 			this.chkSpellCostsMin.Name = "chkSpellCostsMin";
 			this.chkSpellCostsMin.Size = new System.Drawing.Size(92, 21);
 			this.chkSpellCostsMin.TabIndex = 222;
@@ -671,8 +700,8 @@
 			// chkHeroSameStats
 			// 
 			this.chkHeroSameStats.AutoSize = true;
-			this.chkHeroSameStats.Location = new System.Drawing.Point(609, 44);
-			this.chkHeroSameStats.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+			this.chkHeroSameStats.Location = new System.Drawing.Point(609, 12);
+			this.chkHeroSameStats.Margin = new System.Windows.Forms.Padding(4);
 			this.chkHeroSameStats.Name = "chkHeroSameStats";
 			this.chkHeroSameStats.Size = new System.Drawing.Size(265, 21);
 			this.chkHeroSameStats.TabIndex = 218;
@@ -683,8 +712,8 @@
 			// chkSameRando
 			// 
 			this.chkSameRando.AutoSize = true;
-			this.chkSameRando.Location = new System.Drawing.Point(609, 76);
-			this.chkSameRando.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+			this.chkSameRando.Location = new System.Drawing.Point(609, 44);
+			this.chkSameRando.Margin = new System.Windows.Forms.Padding(4);
 			this.chkSameRando.Name = "chkSameRando";
 			this.chkSameRando.Size = new System.Drawing.Size(255, 21);
 			this.chkSameRando.TabIndex = 217;
@@ -695,7 +724,7 @@
 			// trkSpellPowers
 			// 
 			this.trkSpellPowers.Location = new System.Drawing.Point(176, 135);
-			this.trkSpellPowers.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+			this.trkSpellPowers.Margin = new System.Windows.Forms.Padding(4);
 			this.trkSpellPowers.Maximum = 36;
 			this.trkSpellPowers.Minimum = 5;
 			this.trkSpellPowers.Name = "trkSpellPowers";
@@ -709,7 +738,7 @@
 			// 
 			this.chkSpellPowersMin.AutoSize = true;
 			this.chkSpellPowersMin.Location = new System.Drawing.Point(487, 140);
-			this.chkSpellPowersMin.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+			this.chkSpellPowersMin.Margin = new System.Windows.Forms.Padding(4);
 			this.chkSpellPowersMin.Name = "chkSpellPowersMin";
 			this.chkSpellPowersMin.Size = new System.Drawing.Size(92, 21);
 			this.chkSpellPowersMin.TabIndex = 175;
@@ -721,7 +750,7 @@
 			// 
 			this.chkEquipMin.AutoSize = true;
 			this.chkEquipMin.Location = new System.Drawing.Point(487, 108);
-			this.chkEquipMin.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+			this.chkEquipMin.Margin = new System.Windows.Forms.Padding(4);
 			this.chkEquipMin.Name = "chkEquipMin";
 			this.chkEquipMin.Size = new System.Drawing.Size(92, 21);
 			this.chkEquipMin.TabIndex = 174;
@@ -733,7 +762,7 @@
 			// 
 			this.chkHeroStatMin.AutoSize = true;
 			this.chkHeroStatMin.Location = new System.Drawing.Point(487, 44);
-			this.chkHeroStatMin.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+			this.chkHeroStatMin.Margin = new System.Windows.Forms.Padding(4);
 			this.chkHeroStatMin.Name = "chkHeroStatMin";
 			this.chkHeroStatMin.Size = new System.Drawing.Size(92, 21);
 			this.chkHeroStatMin.TabIndex = 172;
@@ -745,7 +774,7 @@
 			// 
 			this.chkGoldMin.AutoSize = true;
 			this.chkGoldMin.Location = new System.Drawing.Point(487, 12);
-			this.chkGoldMin.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+			this.chkGoldMin.Margin = new System.Windows.Forms.Padding(4);
 			this.chkGoldMin.Name = "chkGoldMin";
 			this.chkGoldMin.Size = new System.Drawing.Size(92, 21);
 			this.chkGoldMin.TabIndex = 171;
@@ -816,7 +845,7 @@
 			// trkEquipPowers
 			// 
 			this.trkEquipPowers.Location = new System.Drawing.Point(176, 103);
-			this.trkEquipPowers.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+			this.trkEquipPowers.Margin = new System.Windows.Forms.Padding(4);
 			this.trkEquipPowers.Maximum = 36;
 			this.trkEquipPowers.Minimum = 5;
 			this.trkEquipPowers.Name = "trkEquipPowers";
@@ -850,7 +879,7 @@
 			// 
 			this.chkHeroGrowthMin.AutoSize = true;
 			this.chkHeroGrowthMin.Location = new System.Drawing.Point(487, 76);
-			this.chkHeroGrowthMin.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+			this.chkHeroGrowthMin.Margin = new System.Windows.Forms.Padding(4);
 			this.chkHeroGrowthMin.Name = "chkHeroGrowthMin";
 			this.chkHeroGrowthMin.Size = new System.Drawing.Size(92, 21);
 			this.chkHeroGrowthMin.TabIndex = 179;
@@ -881,7 +910,7 @@
 			// trkHeroGrowth
 			// 
 			this.trkHeroGrowth.Location = new System.Drawing.Point(176, 71);
-			this.trkHeroGrowth.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+			this.trkHeroGrowth.Margin = new System.Windows.Forms.Padding(4);
 			this.trkHeroGrowth.Maximum = 36;
 			this.trkHeroGrowth.Minimum = 5;
 			this.trkHeroGrowth.Name = "trkHeroGrowth";
@@ -894,7 +923,7 @@
 			// trkHeroStats
 			// 
 			this.trkHeroStats.Location = new System.Drawing.Point(176, 39);
-			this.trkHeroStats.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+			this.trkHeroStats.Margin = new System.Windows.Forms.Padding(4);
 			this.trkHeroStats.Maximum = 36;
 			this.trkHeroStats.Minimum = 5;
 			this.trkHeroStats.Name = "trkHeroStats";
@@ -907,7 +936,7 @@
 			// trkGoldReq
 			// 
 			this.trkGoldReq.Location = new System.Drawing.Point(176, 7);
-			this.trkGoldReq.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+			this.trkGoldReq.Margin = new System.Windows.Forms.Padding(4);
 			this.trkGoldReq.Maximum = 36;
 			this.trkGoldReq.Minimum = 5;
 			this.trkGoldReq.Name = "trkGoldReq";
@@ -934,7 +963,7 @@
 			this.tabBoosts.Controls.Add(this.lblExpBoost);
 			this.tabBoosts.Controls.Add(this.trkExperience);
 			this.tabBoosts.Location = new System.Drawing.Point(4, 25);
-			this.tabBoosts.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+			this.tabBoosts.Margin = new System.Windows.Forms.Padding(4);
 			this.tabBoosts.Name = "tabBoosts";
 			this.tabBoosts.Size = new System.Drawing.Size(907, 247);
 			this.tabBoosts.TabIndex = 4;
@@ -944,7 +973,7 @@
 			// trkSeedRange
 			// 
 			this.trkSeedRange.Location = new System.Drawing.Point(187, 143);
-			this.trkSeedRange.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+			this.trkSeedRange.Margin = new System.Windows.Forms.Padding(4);
 			this.trkSeedRange.Maximum = 17;
 			this.trkSeedRange.Name = "trkSeedRange";
 			this.trkSeedRange.Size = new System.Drawing.Size(212, 56);
@@ -966,7 +995,7 @@
 			// trkSeedMin
 			// 
 			this.trkSeedMin.Location = new System.Drawing.Point(187, 111);
-			this.trkSeedMin.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+			this.trkSeedMin.Margin = new System.Windows.Forms.Padding(4);
 			this.trkSeedMin.Maximum = 17;
 			this.trkSeedMin.Name = "trkSeedMin";
 			this.trkSeedMin.Size = new System.Drawing.Size(212, 56);
@@ -998,7 +1027,7 @@
 			// trkMagicPowerBoost
 			// 
 			this.trkMagicPowerBoost.Location = new System.Drawing.Point(187, 74);
-			this.trkMagicPowerBoost.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+			this.trkMagicPowerBoost.Margin = new System.Windows.Forms.Padding(4);
 			this.trkMagicPowerBoost.Maximum = 35;
 			this.trkMagicPowerBoost.Minimum = 5;
 			this.trkMagicPowerBoost.Name = "trkMagicPowerBoost";
@@ -1031,7 +1060,7 @@
 			// trkGold
 			// 
 			this.trkGold.Location = new System.Drawing.Point(187, 42);
-			this.trkGold.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+			this.trkGold.Margin = new System.Windows.Forms.Padding(4);
 			this.trkGold.Maximum = 35;
 			this.trkGold.Minimum = 5;
 			this.trkGold.Name = "trkGold";
@@ -1084,7 +1113,7 @@
 			// trkExperience
 			// 
 			this.trkExperience.Location = new System.Drawing.Point(187, 10);
-			this.trkExperience.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+			this.trkExperience.Margin = new System.Windows.Forms.Padding(4);
 			this.trkExperience.Maximum = 35;
 			this.trkExperience.Minimum = 5;
 			this.trkExperience.Name = "trkExperience";
@@ -1108,7 +1137,7 @@
 			this.tabAdjustments.Controls.Add(this.label6);
 			this.tabAdjustments.Controls.Add(this.chkPostBoneRandom);
 			this.tabAdjustments.Location = new System.Drawing.Point(4, 25);
-			this.tabAdjustments.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+			this.tabAdjustments.Margin = new System.Windows.Forms.Padding(4);
 			this.tabAdjustments.Name = "tabAdjustments";
 			this.tabAdjustments.Size = new System.Drawing.Size(907, 247);
 			this.tabAdjustments.TabIndex = 3;
@@ -1120,7 +1149,7 @@
 			this.chkGrimeRequired.AutoSize = true;
 			this.chkGrimeRequired.ForeColor = System.Drawing.Color.SaddleBrown;
 			this.chkGrimeRequired.Location = new System.Drawing.Point(15, 156);
-			this.chkGrimeRequired.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+			this.chkGrimeRequired.Margin = new System.Windows.Forms.Padding(4);
 			this.chkGrimeRequired.Name = "chkGrimeRequired";
 			this.chkGrimeRequired.Size = new System.Drawing.Size(209, 21);
 			this.chkGrimeRequired.TabIndex = 188;
@@ -1132,7 +1161,7 @@
 			// 
 			this.chkShowInitStats.AutoSize = true;
 			this.chkShowInitStats.Location = new System.Drawing.Point(367, 100);
-			this.chkShowInitStats.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+			this.chkShowInitStats.Margin = new System.Windows.Forms.Padding(4);
 			this.chkShowInitStats.Name = "chkShowInitStats";
 			this.chkShowInitStats.Size = new System.Drawing.Size(186, 21);
 			this.chkShowInitStats.TabIndex = 187;
@@ -1144,7 +1173,7 @@
 			// 
 			this.chkShowLevelUpStats.AutoSize = true;
 			this.chkShowLevelUpStats.Location = new System.Drawing.Point(367, 128);
-			this.chkShowLevelUpStats.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+			this.chkShowLevelUpStats.Margin = new System.Windows.Forms.Padding(4);
 			this.chkShowLevelUpStats.Name = "chkShowLevelUpStats";
 			this.chkShowLevelUpStats.Size = new System.Drawing.Size(203, 21);
 			this.chkShowLevelUpStats.TabIndex = 186;
@@ -1157,7 +1186,7 @@
 			this.chkVacuumBoss.AutoSize = true;
 			this.chkVacuumBoss.ForeColor = System.Drawing.Color.ForestGreen;
 			this.chkVacuumBoss.Location = new System.Drawing.Point(367, 71);
-			this.chkVacuumBoss.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+			this.chkVacuumBoss.Margin = new System.Windows.Forms.Padding(4);
 			this.chkVacuumBoss.Name = "chkVacuumBoss";
 			this.chkVacuumBoss.Size = new System.Drawing.Size(237, 21);
 			this.chkVacuumBoss.TabIndex = 179;
@@ -1169,7 +1198,7 @@
 			// 
 			this.chkDebuffBoss.AutoSize = true;
 			this.chkDebuffBoss.Location = new System.Drawing.Point(367, 43);
-			this.chkDebuffBoss.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+			this.chkDebuffBoss.Margin = new System.Windows.Forms.Padding(4);
 			this.chkDebuffBoss.Name = "chkDebuffBoss";
 			this.chkDebuffBoss.Size = new System.Drawing.Size(395, 21);
 			this.chkDebuffBoss.TabIndex = 178;
@@ -1182,7 +1211,7 @@
 			this.chkFullXP.AutoSize = true;
 			this.chkFullXP.ForeColor = System.Drawing.Color.ForestGreen;
 			this.chkFullXP.Location = new System.Drawing.Point(367, 15);
-			this.chkFullXP.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+			this.chkFullXP.Margin = new System.Windows.Forms.Padding(4);
 			this.chkFullXP.Name = "chkFullXP";
 			this.chkFullXP.Size = new System.Drawing.Size(163, 21);
 			this.chkFullXP.TabIndex = 177;
@@ -1194,7 +1223,7 @@
 			// 
 			this.chkPostBoneGrime.AutoSize = true;
 			this.chkPostBoneGrime.Location = new System.Drawing.Point(15, 128);
-			this.chkPostBoneGrime.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+			this.chkPostBoneGrime.Margin = new System.Windows.Forms.Padding(4);
 			this.chkPostBoneGrime.Name = "chkPostBoneGrime";
 			this.chkPostBoneGrime.Size = new System.Drawing.Size(196, 21);
 			this.chkPostBoneGrime.TabIndex = 154;
@@ -1206,7 +1235,7 @@
 			// 
 			this.chkPostBoneRemote.AutoSize = true;
 			this.chkPostBoneRemote.Location = new System.Drawing.Point(15, 100);
-			this.chkPostBoneRemote.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+			this.chkPostBoneRemote.Margin = new System.Windows.Forms.Padding(4);
 			this.chkPostBoneRemote.Name = "chkPostBoneRemote";
 			this.chkPostBoneRemote.Size = new System.Drawing.Size(171, 21);
 			this.chkPostBoneRemote.TabIndex = 153;
@@ -1218,7 +1247,7 @@
 			// 
 			this.chkPostBonePandam.AutoSize = true;
 			this.chkPostBonePandam.Location = new System.Drawing.Point(15, 71);
-			this.chkPostBonePandam.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+			this.chkPostBonePandam.Margin = new System.Windows.Forms.Padding(4);
 			this.chkPostBonePandam.Name = "chkPostBonePandam";
 			this.chkPostBonePandam.Size = new System.Drawing.Size(137, 21);
 			this.chkPostBonePandam.TabIndex = 152;
@@ -1240,7 +1269,7 @@
 			// 
 			this.chkPostBoneRandom.AutoSize = true;
 			this.chkPostBoneRandom.Location = new System.Drawing.Point(15, 43);
-			this.chkPostBoneRandom.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+			this.chkPostBoneRandom.Margin = new System.Windows.Forms.Padding(4);
 			this.chkPostBoneRandom.Name = "chkPostBoneRandom";
 			this.chkPostBoneRandom.Size = new System.Drawing.Size(207, 21);
 			this.chkPostBoneRandom.TabIndex = 150;
@@ -1265,7 +1294,7 @@
 			this.tabMonsters.Controls.Add(this.chkNoEncounters);
 			this.tabMonsters.Controls.Add(this.chk9999Defense);
 			this.tabMonsters.Location = new System.Drawing.Point(4, 25);
-			this.tabMonsters.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+			this.tabMonsters.Margin = new System.Windows.Forms.Padding(4);
 			this.tabMonsters.Name = "tabMonsters";
 			this.tabMonsters.Size = new System.Drawing.Size(907, 247);
 			this.tabMonsters.TabIndex = 5;
@@ -1285,7 +1314,7 @@
             "1/8",
             "1/5000+"});
 			this.cboMonsterMovement.Location = new System.Drawing.Point(204, 165);
-			this.cboMonsterMovement.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+			this.cboMonsterMovement.Margin = new System.Windows.Forms.Padding(4);
 			this.cboMonsterMovement.Name = "cboMonsterMovement";
 			this.cboMonsterMovement.Size = new System.Drawing.Size(328, 24);
 			this.cboMonsterMovement.TabIndex = 252;
@@ -1315,7 +1344,7 @@
             "12/16",
             "16/16"});
 			this.cboMinDropChance.Location = new System.Drawing.Point(204, 134);
-			this.cboMinDropChance.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+			this.cboMinDropChance.Margin = new System.Windows.Forms.Padding(4);
 			this.cboMinDropChance.Name = "cboMinDropChance";
 			this.cboMinDropChance.Size = new System.Drawing.Size(328, 24);
 			this.cboMinDropChance.TabIndex = 234;
@@ -1344,7 +1373,7 @@
             "10%",
             "0% (includes Tricks!)"});
 			this.cboDropFrequency.Location = new System.Drawing.Point(204, 103);
-			this.cboDropFrequency.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+			this.cboDropFrequency.Margin = new System.Windows.Forms.Padding(4);
 			this.cboDropFrequency.Name = "cboDropFrequency";
 			this.cboDropFrequency.Size = new System.Drawing.Size(328, 24);
 			this.cboDropFrequency.TabIndex = 232;
@@ -1400,7 +1429,7 @@
             "Chaos",
             "!@#$%?"});
 			this.cboMonsterZones.Location = new System.Drawing.Point(204, 11);
-			this.cboMonsterZones.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+			this.cboMonsterZones.Margin = new System.Windows.Forms.Padding(4);
 			this.cboMonsterZones.Name = "cboMonsterZones";
 			this.cboMonsterZones.Size = new System.Drawing.Size(328, 24);
 			this.cboMonsterZones.TabIndex = 227;
@@ -1418,7 +1447,7 @@
             "Equipment only",
             "Complete randomization (Chaos)"});
 			this.cboMonsterDrops.Location = new System.Drawing.Point(204, 73);
-			this.cboMonsterDrops.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+			this.cboMonsterDrops.Margin = new System.Windows.Forms.Padding(4);
 			this.cboMonsterDrops.Name = "cboMonsterDrops";
 			this.cboMonsterDrops.Size = new System.Drawing.Size(328, 24);
 			this.cboMonsterDrops.TabIndex = 226;
@@ -1434,7 +1463,7 @@
             "All monsters learn no special moves",
             "All monsters must use special moves"});
 			this.cboMonsterPatterns.Location = new System.Drawing.Point(204, 42);
-			this.cboMonsterPatterns.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+			this.cboMonsterPatterns.Margin = new System.Windows.Forms.Padding(4);
 			this.cboMonsterPatterns.Name = "cboMonsterPatterns";
 			this.cboMonsterPatterns.Size = new System.Drawing.Size(328, 24);
 			this.cboMonsterPatterns.TabIndex = 214;
@@ -1445,7 +1474,7 @@
 			this.chkNoEncounters.AutoSize = true;
 			this.chkNoEncounters.ForeColor = System.Drawing.Color.DarkRed;
 			this.chkNoEncounters.Location = new System.Drawing.Point(565, 167);
-			this.chkNoEncounters.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+			this.chkNoEncounters.Margin = new System.Windows.Forms.Padding(4);
 			this.chkNoEncounters.Name = "chkNoEncounters";
 			this.chkNoEncounters.Size = new System.Drawing.Size(214, 21);
 			this.chkNoEncounters.TabIndex = 189;
@@ -1459,7 +1488,7 @@
 			this.chk9999Defense.AutoSize = true;
 			this.chk9999Defense.ForeColor = System.Drawing.Color.DarkRed;
 			this.chk9999Defense.Location = new System.Drawing.Point(565, 14);
-			this.chk9999Defense.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+			this.chk9999Defense.Margin = new System.Windows.Forms.Padding(4);
 			this.chk9999Defense.Name = "chk9999Defense";
 			this.chk9999Defense.Size = new System.Drawing.Size(233, 21);
 			this.chk9999Defense.TabIndex = 186;
@@ -1484,9 +1513,9 @@
 			this.tabRandom.Controls.Add(this.cboStores);
 			this.tabRandom.Controls.Add(this.chkLocations);
 			this.tabRandom.Location = new System.Drawing.Point(4, 25);
-			this.tabRandom.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+			this.tabRandom.Margin = new System.Windows.Forms.Padding(4);
 			this.tabRandom.Name = "tabRandom";
-			this.tabRandom.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+			this.tabRandom.Padding = new System.Windows.Forms.Padding(4);
 			this.tabRandom.Size = new System.Drawing.Size(907, 247);
 			this.tabRandom.TabIndex = 0;
 			this.tabRandom.Text = "Randomization";
@@ -1496,7 +1525,7 @@
 			// 
 			this.chkXPReq.AutoSize = true;
 			this.chkXPReq.Location = new System.Drawing.Point(12, 204);
-			this.chkXPReq.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+			this.chkXPReq.Margin = new System.Windows.Forms.Padding(4);
 			this.chkXPReq.Name = "chkXPReq";
 			this.chkXPReq.Size = new System.Drawing.Size(249, 21);
 			this.chkXPReq.TabIndex = 228;
@@ -1509,7 +1538,7 @@
 			this.chkHeroSameSpells.AutoSize = true;
 			this.chkHeroSameSpells.ForeColor = System.Drawing.Color.Black;
 			this.chkHeroSameSpells.Location = new System.Drawing.Point(623, 176);
-			this.chkHeroSameSpells.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+			this.chkHeroSameSpells.Margin = new System.Windows.Forms.Padding(4);
 			this.chkHeroSameSpells.Name = "chkHeroSameSpells";
 			this.chkHeroSameSpells.Size = new System.Drawing.Size(231, 21);
 			this.chkHeroSameSpells.TabIndex = 227;
@@ -1522,7 +1551,7 @@
 			this.chkLevel1Spells.AutoSize = true;
 			this.chkLevel1Spells.ForeColor = System.Drawing.Color.ForestGreen;
 			this.chkLevel1Spells.Location = new System.Drawing.Point(623, 143);
-			this.chkLevel1Spells.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+			this.chkLevel1Spells.Margin = new System.Windows.Forms.Padding(4);
 			this.chkLevel1Spells.Name = "chkLevel1Spells";
 			this.chkLevel1Spells.Size = new System.Drawing.Size(186, 21);
 			this.chkLevel1Spells.TabIndex = 226;
@@ -1543,7 +1572,7 @@
             "Monsters only (!)",
             "Complete randomization (CHAOS)"});
 			this.cboTreasures.Location = new System.Drawing.Point(151, 41);
-			this.cboTreasures.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+			this.cboTreasures.Margin = new System.Windows.Forms.Padding(4);
 			this.cboTreasures.Name = "cboTreasures";
 			this.cboTreasures.Size = new System.Drawing.Size(451, 24);
 			this.cboTreasures.TabIndex = 225;
@@ -1609,7 +1638,7 @@
             "All heroes join",
             "No heroes join"});
 			this.cboInteraction.Location = new System.Drawing.Point(151, 74);
-			this.cboInteraction.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+			this.cboInteraction.Margin = new System.Windows.Forms.Padding(4);
 			this.cboInteraction.Name = "cboInteraction";
 			this.cboInteraction.Size = new System.Drawing.Size(451, 24);
 			this.cboInteraction.TabIndex = 219;
@@ -1629,7 +1658,7 @@
             "0% equip chance for all heroes",
             "Random% chance for all heroes"});
 			this.cboEquipment.Location = new System.Drawing.Point(151, 107);
-			this.cboEquipment.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+			this.cboEquipment.Margin = new System.Windows.Forms.Padding(4);
 			this.cboEquipment.Name = "cboEquipment";
 			this.cboEquipment.Size = new System.Drawing.Size(451, 24);
 			this.cboEquipment.TabIndex = 218;
@@ -1664,7 +1693,7 @@
             "[0-16] randomized spells (constant to all heroes)",
             "[0-16] randomized spells (random to all heroes)"});
 			this.cboSpellLearning.Location = new System.Drawing.Point(151, 140);
-			this.cboSpellLearning.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+			this.cboSpellLearning.Margin = new System.Windows.Forms.Padding(4);
 			this.cboSpellLearning.Name = "cboSpellLearning";
 			this.cboSpellLearning.Size = new System.Drawing.Size(451, 24);
 			this.cboSpellLearning.TabIndex = 217;
@@ -1680,7 +1709,7 @@
             "Randomize; no rare items",
             "No items in stores"});
 			this.cboStores.Location = new System.Drawing.Point(151, 7);
-			this.cboStores.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+			this.cboStores.Margin = new System.Windows.Forms.Padding(4);
 			this.cboStores.Name = "cboStores";
 			this.cboStores.Size = new System.Drawing.Size(451, 24);
 			this.cboStores.TabIndex = 213;
@@ -1690,7 +1719,7 @@
 			// 
 			this.chkLocations.AutoSize = true;
 			this.chkLocations.Location = new System.Drawing.Point(12, 176);
-			this.chkLocations.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+			this.chkLocations.Margin = new System.Windows.Forms.Padding(4);
 			this.chkLocations.Name = "chkLocations";
 			this.chkLocations.Size = new System.Drawing.Size(161, 21);
 			this.chkLocations.TabIndex = 180;
@@ -1709,7 +1738,7 @@
 			this.tabControl1.Controls.Add(this.tabSpeedups);
 			this.tabControl1.Controls.Add(this.tabPresets);
 			this.tabControl1.Location = new System.Drawing.Point(20, 170);
-			this.tabControl1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+			this.tabControl1.Margin = new System.Windows.Forms.Padding(4);
 			this.tabControl1.Name = "tabControl1";
 			this.tabControl1.SelectedIndex = 0;
 			this.tabControl1.Size = new System.Drawing.Size(915, 276);
@@ -1717,6 +1746,7 @@
 			// 
 			// tabMonsterScaling
 			// 
+			this.tabMonsterScaling.Controls.Add(this.chkTimeScaling);
 			this.tabMonsterScaling.Controls.Add(this.chkBossStatMin);
 			this.tabMonsterScaling.Controls.Add(this.label22);
 			this.tabMonsterScaling.Controls.Add(this.lblBossStats);
@@ -1734,7 +1764,7 @@
 			this.tabMonsterScaling.Controls.Add(this.trkMonsterXP);
 			this.tabMonsterScaling.Controls.Add(this.trkMonsterStats);
 			this.tabMonsterScaling.Location = new System.Drawing.Point(4, 25);
-			this.tabMonsterScaling.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+			this.tabMonsterScaling.Margin = new System.Windows.Forms.Padding(4);
 			this.tabMonsterScaling.Name = "tabMonsterScaling";
 			this.tabMonsterScaling.Size = new System.Drawing.Size(907, 247);
 			this.tabMonsterScaling.TabIndex = 7;
@@ -1745,7 +1775,7 @@
 			// 
 			this.chkBossStatMin.AutoSize = true;
 			this.chkBossStatMin.Location = new System.Drawing.Point(515, 81);
-			this.chkBossStatMin.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+			this.chkBossStatMin.Margin = new System.Windows.Forms.Padding(4);
 			this.chkBossStatMin.Name = "chkBossStatMin";
 			this.chkBossStatMin.Size = new System.Drawing.Size(92, 21);
 			this.chkBossStatMin.TabIndex = 262;
@@ -1777,7 +1807,7 @@
 			// 
 			this.chkBossXPMin.AutoSize = true;
 			this.chkBossXPMin.Location = new System.Drawing.Point(515, 113);
-			this.chkBossXPMin.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+			this.chkBossXPMin.Margin = new System.Windows.Forms.Padding(4);
 			this.chkBossXPMin.Name = "chkBossXPMin";
 			this.chkBossXPMin.Size = new System.Drawing.Size(92, 21);
 			this.chkBossXPMin.TabIndex = 266;
@@ -1808,7 +1838,7 @@
 			// trkBossXP
 			// 
 			this.trkBossXP.Location = new System.Drawing.Point(204, 108);
-			this.trkBossXP.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+			this.trkBossXP.Margin = new System.Windows.Forms.Padding(4);
 			this.trkBossXP.Maximum = 37;
 			this.trkBossXP.Minimum = 5;
 			this.trkBossXP.Name = "trkBossXP";
@@ -1821,7 +1851,7 @@
 			// trkBossStats
 			// 
 			this.trkBossStats.Location = new System.Drawing.Point(204, 76);
-			this.trkBossStats.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+			this.trkBossStats.Margin = new System.Windows.Forms.Padding(4);
 			this.trkBossStats.Maximum = 37;
 			this.trkBossStats.Minimum = 5;
 			this.trkBossStats.Name = "trkBossStats";
@@ -1835,7 +1865,7 @@
 			// 
 			this.chkMonsterStatMin.AutoSize = true;
 			this.chkMonsterStatMin.Location = new System.Drawing.Point(515, 16);
-			this.chkMonsterStatMin.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+			this.chkMonsterStatMin.Margin = new System.Windows.Forms.Padding(4);
 			this.chkMonsterStatMin.Name = "chkMonsterStatMin";
 			this.chkMonsterStatMin.Size = new System.Drawing.Size(92, 21);
 			this.chkMonsterStatMin.TabIndex = 254;
@@ -1867,7 +1897,7 @@
 			// 
 			this.chkXPMin.AutoSize = true;
 			this.chkXPMin.Location = new System.Drawing.Point(515, 48);
-			this.chkXPMin.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+			this.chkXPMin.Margin = new System.Windows.Forms.Padding(4);
 			this.chkXPMin.Name = "chkXPMin";
 			this.chkXPMin.Size = new System.Drawing.Size(92, 21);
 			this.chkXPMin.TabIndex = 258;
@@ -1898,7 +1928,7 @@
 			// trkMonsterXP
 			// 
 			this.trkMonsterXP.Location = new System.Drawing.Point(204, 43);
-			this.trkMonsterXP.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+			this.trkMonsterXP.Margin = new System.Windows.Forms.Padding(4);
 			this.trkMonsterXP.Maximum = 37;
 			this.trkMonsterXP.Minimum = 5;
 			this.trkMonsterXP.Name = "trkMonsterXP";
@@ -1911,7 +1941,7 @@
 			// trkMonsterStats
 			// 
 			this.trkMonsterStats.Location = new System.Drawing.Point(204, 11);
-			this.trkMonsterStats.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+			this.trkMonsterStats.Margin = new System.Windows.Forms.Padding(4);
 			this.trkMonsterStats.Maximum = 37;
 			this.trkMonsterStats.Minimum = 5;
 			this.trkMonsterStats.Name = "trkMonsterStats";
@@ -1927,7 +1957,7 @@
 			this.tabPresets.Controls.Add(this.cmdPresetSeedOnly);
 			this.tabPresets.Controls.Add(this.cmdPresetTraditional);
 			this.tabPresets.Location = new System.Drawing.Point(4, 25);
-			this.tabPresets.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+			this.tabPresets.Margin = new System.Windows.Forms.Padding(4);
 			this.tabPresets.Name = "tabPresets";
 			this.tabPresets.Size = new System.Drawing.Size(907, 247);
 			this.tabPresets.TabIndex = 6;
@@ -1937,7 +1967,7 @@
 			// cmdPresetSuperspeedrun
 			// 
 			this.cmdPresetSuperspeedrun.Location = new System.Drawing.Point(4, 82);
-			this.cmdPresetSuperspeedrun.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+			this.cmdPresetSuperspeedrun.Margin = new System.Windows.Forms.Padding(4);
 			this.cmdPresetSuperspeedrun.Name = "cmdPresetSuperspeedrun";
 			this.cmdPresetSuperspeedrun.Size = new System.Drawing.Size(144, 32);
 			this.cmdPresetSuperspeedrun.TabIndex = 2;
@@ -1948,7 +1978,7 @@
 			// cmdPresetSeedOnly
 			// 
 			this.cmdPresetSeedOnly.Location = new System.Drawing.Point(4, 43);
-			this.cmdPresetSeedOnly.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+			this.cmdPresetSeedOnly.Margin = new System.Windows.Forms.Padding(4);
 			this.cmdPresetSeedOnly.Name = "cmdPresetSeedOnly";
 			this.cmdPresetSeedOnly.Size = new System.Drawing.Size(144, 32);
 			this.cmdPresetSeedOnly.TabIndex = 1;
@@ -1959,7 +1989,7 @@
 			// cmdPresetTraditional
 			// 
 			this.cmdPresetTraditional.Location = new System.Drawing.Point(4, 4);
-			this.cmdPresetTraditional.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+			this.cmdPresetTraditional.Margin = new System.Windows.Forms.Padding(4);
 			this.cmdPresetTraditional.Name = "cmdPresetTraditional";
 			this.cmdPresetTraditional.Size = new System.Drawing.Size(144, 32);
 			this.cmdPresetTraditional.TabIndex = 0;
@@ -1970,7 +2000,7 @@
 			// button3
 			// 
 			this.button3.Location = new System.Drawing.Point(585, 492);
-			this.button3.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+			this.button3.Margin = new System.Windows.Forms.Padding(4);
 			this.button3.Name = "button3";
 			this.button3.Size = new System.Drawing.Size(100, 28);
 			this.button3.TabIndex = 152;
@@ -1978,6 +2008,18 @@
 			this.button3.UseVisualStyleBackColor = true;
 			this.button3.Visible = false;
 			this.button3.Click += new System.EventHandler(this.button3_Click);
+			// 
+			// chkTimeScaling
+			// 
+			this.chkTimeScaling.AutoSize = true;
+			this.chkTimeScaling.Location = new System.Drawing.Point(629, 46);
+			this.chkTimeScaling.Margin = new System.Windows.Forms.Padding(4);
+			this.chkTimeScaling.Name = "chkTimeScaling";
+			this.chkTimeScaling.Size = new System.Drawing.Size(111, 21);
+			this.chkTimeScaling.TabIndex = 267;
+			this.chkTimeScaling.Text = "Time Scaling";
+			this.chkTimeScaling.UseVisualStyleBackColor = true;
+			this.chkTimeScaling.CheckedChanged += new System.EventHandler(this.determineFlags);
 			// 
 			// Form1
 			// 
@@ -2007,9 +2049,9 @@
 			this.Controls.Add(this.btnBrowse);
 			this.Controls.Add(this.lblRomImage);
 			this.Controls.Add(this.txtFileName);
-			this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+			this.Margin = new System.Windows.Forms.Padding(4);
 			this.Name = "Form1";
-			this.Text = "7th Saga Randomizer Version 3.4";
+			this.Text = "7th Saga Randomizer Version 3.5";
 			this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);
 			this.Load += new System.EventHandler(this.Form1_Load);
 			this.tabSpeedups.ResumeLayout(false);
@@ -2191,6 +2233,9 @@
         private System.Windows.Forms.Label lblSeedRange;
         private System.Windows.Forms.Label label21;
         private System.Windows.Forms.Button button3;
-    }
+		private System.Windows.Forms.CheckBox chkShuffleStatGains;
+		private System.Windows.Forms.CheckBox chkShuffleStartStats;
+		private System.Windows.Forms.CheckBox chkTimeScaling;
+	}
 }
 

@@ -161,7 +161,7 @@ namespace _7thSagaRando
             flags += convertIntToChar(checkboxesToNumber(new CheckBox[] { chkWindRune1, chkWindRune2, chkWindRune3, chkWindRune4, chkWindRune5, chkHeroSameSpells }));
             flags += convertIntToChar(checkboxesToNumber(new CheckBox[] { chkGoldMin, chkHeroStatMin, chkMonsterStatMin, chkEquipMin, chkSpellPowersMin, chkHeroGrowthMin }));
             flags += convertIntToChar(checkboxesToNumber(new CheckBox[] { chkXPMin, chkHeroSameStats, chkSameRando, chkLocations, chk9999Defense, chkNoEncounters }));
-            flags += convertIntToChar(checkboxesToNumber(new CheckBox[] { chkXPReq, chkBossStatMin, chkBossXPMin }));
+            flags += convertIntToChar(checkboxesToNumber(new CheckBox[] { chkXPReq, chkBossStatMin, chkBossXPMin, chkShuffleStartStats, chkShuffleStatGains, chkTimeScaling }));
             flags += convertIntToChar(cboMonsterZones.SelectedIndex + (cboMonsterPatterns.SelectedIndex * 4));
             flags += convertIntToChar(cboTreasures.SelectedIndex + (cboMonsterDrops.SelectedIndex * 8));
             flags += convertIntToChar(cboStores.SelectedIndex + (cboInteraction.SelectedIndex * 4));
@@ -217,7 +217,7 @@ namespace _7thSagaRando
             numberToCheckboxes(convertChartoInt(Convert.ToChar(flags.Substring(3, 1))), new CheckBox[] { chkWindRune1, chkWindRune2, chkWindRune3, chkWindRune4, chkWindRune5, chkHeroSameSpells });
             numberToCheckboxes(convertChartoInt(Convert.ToChar(flags.Substring(4, 1))), new CheckBox[] { chkGoldMin, chkHeroStatMin, chkMonsterStatMin, chkEquipMin, chkSpellPowersMin, chkHeroGrowthMin });
             numberToCheckboxes(convertChartoInt(Convert.ToChar(flags.Substring(5, 1))), new CheckBox[] { chkXPMin, chkHeroSameStats, chkSameRando, chkLocations, chk9999Defense, chkNoEncounters });
-            numberToCheckboxes(convertChartoInt(Convert.ToChar(flags.Substring(6, 1))), new CheckBox[] { chkXPReq, chkBossStatMin, chkBossXPMin });
+            numberToCheckboxes(convertChartoInt(Convert.ToChar(flags.Substring(6, 1))), new CheckBox[] { chkXPReq, chkBossStatMin, chkBossXPMin, chkShuffleStartStats, chkShuffleStatGains, chkTimeScaling });
 
             cboMonsterZones.SelectedIndex = convertChartoInt(Convert.ToChar(flags.Substring(7, 1))) % 4;
             cboMonsterPatterns.SelectedIndex = (convertChartoInt(Convert.ToChar(flags.Substring(7, 1))) % 16) / 4;
@@ -868,6 +868,44 @@ namespace _7thSagaRando
                     romData[byteToUse + 1] = (byte)((newXP / 256) % 256);
                     romData[byteToUse + 2] = (byte)(newXP / 65536);
                 }
+            }
+
+            if (chkTimeScaling.Checked)
+            {
+                byte[] romPlugin =
+                {
+                    0x20, 0xe0, 0xf6,
+                    0xea
+                };
+
+                for (int lnI = 0; lnI < romPlugin.Length; lnI++)
+                    romData[0x28119 + lnI] = romPlugin[lnI];
+
+
+                romPlugin = new byte[]
+                {
+                    0xb7, 0x53, // Load GP earned by monster
+                    0xe2, 0x20, // 8 bit mode
+                    0x6d, 0x17, 0x05, // Add minutes played
+                    0xc2, 0x20, // 16 bit mode
+                    0x85, 0x40, // Store to $0040
+                    0xe2, 0x20, // 8 bit mode
+                    0xad, 0x18, 0x05, // Load hours played
+                    0x8d, 0x02, 0x42, // First multiplier
+                    0xa9, 0x3c, // Load 60 to LDA
+                    0x8d, 0x03, 0x42, // Second multiplier
+                    0xea, 0xea, 0xea, 0xea, // NOPs to allow multiplication to take effect
+
+                    0xc2, 0x20, // 16 bit mode
+                    0xa5, 0x40, // Load from $0040
+                    0x6d, 0x16, 0x42, // Add the multiplication result
+                    0x85, 0x40, // Store to $0040
+                    0x60 // Return from subroutine
+                };
+
+                    for (int lnI = 0; lnI < romPlugin.Length; lnI++)
+                        romData[0x2f6e0 + lnI] = romPlugin[lnI];
+
             }
         }
 
@@ -2845,6 +2883,38 @@ namespace _7thSagaRando
                 guard2 = inverted_power_curve(1, 20, 1, 0.33, r1)[0];
                 magic2 = inverted_power_curve(1, 15, 1, 0.33, r1)[0];
                 speed2 = inverted_power_curve(1, 15, 1, 0.33, r1)[0];
+            }
+
+            if (chkShuffleStartStats.Checked)
+            {
+                for (int lnI = 0; lnI < 3000; lnI++)
+                {
+                    int firstHero = r1.Next() % 7;
+                    int secondHero = r1.Next() % 7;
+                    int statToShuffle = r1.Next() % 7;
+
+                    int byteToUse1 = 0x623f + (18 * firstHero) + (statToShuffle == 0 ? 0 : statToShuffle == 1 ? 2 : statToShuffle == 2 ? 4 : statToShuffle == 3 ? 5 : statToShuffle == 4 ? 6 : statToShuffle == 5 ? 7 : 17);
+                    int byteToUse2 = 0x623f + (18 * secondHero) + (statToShuffle == 0 ? 0 : statToShuffle == 1 ? 2 : statToShuffle == 2 ? 4 : statToShuffle == 3 ? 5 : statToShuffle == 4 ? 6 : statToShuffle == 5 ? 7 : 17);
+                    byte tempStat = romData[byteToUse1];
+                    romData[byteToUse1] = romData[byteToUse2];
+                    romData[byteToUse2] = tempStat;
+                }
+            }
+
+            if (chkShuffleStatGains.Checked)
+            {
+                for (int lnI = 0; lnI < 3000; lnI++)
+                {
+                    int firstHero = r1.Next() % 7;
+                    int secondHero = r1.Next() % 7;
+                    int statToShuffle = r1.Next() % 6;
+
+                    int byteToUse1 = 0x623f + (18 * firstHero) + (statToShuffle == 0 ? 8 : statToShuffle == 1 ? 9 : statToShuffle == 2 ? 10 : statToShuffle == 3 ? 11 : statToShuffle == 4 ? 12 : 13);
+                    int byteToUse2 = 0x623f + (18 * secondHero) + (statToShuffle == 0 ? 8 : statToShuffle == 1 ? 9 : statToShuffle == 2 ? 10 : statToShuffle == 3 ? 11 : statToShuffle == 4 ? 12 : 13);
+                    byte tempStat = romData[byteToUse1];
+                    romData[byteToUse1] = romData[byteToUse2];
+                    romData[byteToUse2] = tempStat;
+                }
             }
 
             for (int lnI = 0; lnI < 7; lnI++)
