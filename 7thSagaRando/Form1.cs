@@ -201,7 +201,7 @@ namespace _7thSagaRando
             if (txtFlags.Text.Length != 28)
             {
                 cboStores.SelectedIndex = cboTreasures.SelectedIndex = cboInteraction.SelectedIndex = cboEquipment.SelectedIndex = cboSpellLearning.SelectedIndex = 0;
-                cboMonsterZones.SelectedIndex = cboMonsterPatterns.SelectedIndex = cboMonsterDrops.SelectedIndex = 0;
+                cboMonsterZones.SelectedIndex = cboMonsterPatterns.SelectedIndex = cboMonsterDrops.SelectedIndex = cboMonsterMovement.SelectedIndex = 0;
                 cboDropFrequency.SelectedIndex = 3;
                 cboMinDropChance.SelectedIndex = 4;
                 chkShowInitStats.Checked = true;
@@ -1270,7 +1270,7 @@ namespace _7thSagaRando
         {
             // Pison
             string[] randomCharacters = { "The Dragonlord", "A slime", "The Fun Police", "Chaos", "Malroth", "Necrosaro", "Baramos", "Zoma", "Ganon", "Zelda", "Link", "A wizzrobe", "Wario", "Mario", "Luigi", "Bowser", "A goomba",
-                "An imp", "Zeromus", "Golbez", "DK Cecil", "Kefka", "Phantom Train", "Ultros", "DR. FAIL", "Sephiroth", "Kamil", "Valsu", "Lux", "Wilme", "Lejes", "Olvan", "Esuna" };
+                "An imp", "Zeromus", "Golbez", "DK Cecil", "Kefka", "Phantom Train", "Ultros", "DR. FAIL", "Sephiroth", "Kamil", "Valsu", "Lux", "Wilme", "Lejes", "Olvan", "Esuna", "theseawolf1" };
             int chosen = r1.Next() % randomCharacters.Length;
             string theChosenOne = randomCharacters[chosen];
 
@@ -1391,6 +1391,10 @@ namespace _7thSagaRando
                     line1 = "*Sephiroth* became a@seven-winged angel!";
                     line2 = "When I saw that,@I turned tail@and ran away!";
                     line3 = "I wasn't going@to beat that monster,@but I can defeat you!";
+                    break;
+                case 26:
+                    line1 = "*theseawolf1* decided to play a different rando.";
+                    line2 = "Some rando about telling people good luck@we're all counting on you.";
                     break;
                 default:
                     line1 = "I don't know what@happened to *" + theChosenOne + "*.";
@@ -2063,8 +2067,8 @@ namespace _7thSagaRando
                     romData[byteToUse] = rareItems[r1.Next() % rareItems.Length];
                 else if (itemGet < 85 || cboTreasures.SelectedIndex == 4)
                     romData[byteToUse] = weapons[r1.Next() % weapons.Length];
-				// Last two conditions:  No tricks in Melenam since they relock the doors and you can't get out.            
-				else if ((itemGet < 95 || cboTreasures.SelectedIndex == 5) && byteToUse <= 0x8c0d && byteToUse >= 0x8c19)
+                // Last two conditions:  No tricks in Melenam since they relock the doors and you can't get out.            
+                else if ((itemGet < 95 || cboTreasures.SelectedIndex == 5) && !(byteToUse > 0x8c0d && byteToUse < 0x8c19))
                     romData[byteToUse] = monsters[r1.Next() % monsters.Length];
                 else
                     romData[byteToUse] = 0x00;
